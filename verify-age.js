@@ -9,32 +9,6 @@ function taseavGetCookie(cname) {
     }
     return false;
 }
-function taseavHasAge(){
-  if(taseavGetCookie('dob')){
-    return true;
-  }
-  else{
-    return false;
-  }
-}
-function taseavGetAge() {
-    var birthday = new Date(taseavGetCookie('dob'));
-    var ageDifMs = Date.now() - birthday.getTime();
-    var ageDate = new Date(ageDifMs);
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
-}
-function taseavIsAboveAge(ageToCheck){
-  if(!ageToCheck){
-    ageToCheck = 21;
-  };
-  var age = taseavGetAge();
-  if(age < ageToCheck){
-    return false;
-  }
-  else{
-    return true;
-  }
-}
 function taseavAgeForm(){
   var result;
   result =  "<div class='taseav-age-verify'>";
