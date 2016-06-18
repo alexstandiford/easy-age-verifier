@@ -1,5 +1,5 @@
-tasCurrDate = new Date();
-function tasGetCookie(cname) {
+taseavCurrDate = new Date();
+function taseavGetCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
     for(var i=0; i<ca.length; i++) {
@@ -9,25 +9,25 @@ function tasGetCookie(cname) {
     }
     return false;
 }
-function tasHasAge(){
-  if(tasGetCookie('dob')){
+function taseavHasAge(){
+  if(taseavGetCookie('dob')){
     return true;
   }
   else{
     return false;
   }
 }
-function tasGetAge() {
-    var birthday = new Date(tasGetCookie('dob'));
+function taseavGetAge() {
+    var birthday = new Date(taseavGetCookie('dob'));
     var ageDifMs = Date.now() - birthday.getTime();
     var ageDate = new Date(ageDifMs);
     return Math.abs(ageDate.getUTCFullYear() - 1970);
 }
-function tasIsAboveAge(ageToCheck){
+function taseavIsAboveAge(ageToCheck){
   if(!ageToCheck){
     ageToCheck = 21;
   };
-  var age = tasGetAge();
+  var age = taseavGetAge();
   if(age < ageToCheck){
     return false;
   }
@@ -35,9 +35,9 @@ function tasIsAboveAge(ageToCheck){
     return true;
   }
 }
-function ageForm(){
+function taseavAgeForm(){
   var result;
-  result =  "<div class='age-verify'>";
+  result =  "<div class='taseav-age-verify'>";
   result +=   "<form>";
   result +=   "<h2>Verify Your Age to Continue</h2>";
   result +=     "<div class='month'>";
@@ -50,17 +50,17 @@ function ageForm(){
   result +=     "</div>";
   result +=     "<div class='year'>";
   result +=     "<label>Year</label>";
-  result +=     "<input name='year' type='number' min='1900' max='"+ tasCurrDate.getFullYear() +"' required>";
+  result +=     "<input name='year' type='number' min='1900' max='"+ taseavCurrDate.getFullYear() +"' required>";
   result +=     "</div>";
   result +=     "<input type='submit'>";
   result +=   "</form>";
   result +=  "</div>";
   return result;
 }
-function storeAge(){
-  var month = jQuery('.age-verify input[name="month"]').val();
-  var day = jQuery('.age-verify input[name="day"]').val();
-  var year = jQuery('.age-verify input[name="year"]').val();
+function taseavStoreAge(){
+  var month = jQuery('.taseav-age-verify input[name="month"]').val();
+  var day = jQuery('.taseav-age-verify input[name="day"]').val();
+  var year = jQuery('.taseav-age-verify input[name="year"]').val();
   if(month < 10){
     month = "0" + month;
   }
@@ -70,26 +70,26 @@ function storeAge(){
   document.cookie="dob=" + year + "-" + month + "-" + day;
 }
 function confirmAge(){
-  if(tasIsAboveAge() == false){
+  if(taseavIsAboveAge() == false){
     history.back();
   }
   else{
-    jQuery('.age-verify').remove();
+    jQuery('.taseav-age-verify').remove();
   }
 }
 
 jQuery(document).ready(function(){
-  if(!tasHasAge() || tasIsAboveAge() === false){
-    jQuery("html").append(ageForm());
-    jQuery(".age-verify form").submit(function(e) {
+  if(!taseavHasAge() || taseavIsAboveAge() === false){
+    jQuery("html").append(taseavAgeForm());
+    jQuery(".taseav-age-verify form").submit(function(e) {
       e.preventDefault();
     });
     //Disables mouse-wheel when gallery is open
-    jQuery(".age-verify").bind("mousewheel", function() {
+    jQuery(".taseav-age-verify").bind("mousewheel", function() {
          return false;
     });
-    jQuery('.age-verify').submit(function(){
-      storeAge();
+    jQuery('.taseav-age-verify').submit(function(){
+      taseavStoreAge();
       confirmAge();
   });
   }
