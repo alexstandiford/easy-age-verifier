@@ -10,8 +10,12 @@ Author URI:  http://www.alexstandiford.com
 class taseav{
   
   public function __construct(){
-    $this->dob = $_COOKIE['dob'];
+    $this->dob = $_COOKIE['taseavdob'];
     $this->minAge = '21';
+    $this->underageMessage = apply_filters('underage_message','Sorry! You must be '.$this->minAge.' To visit this website.');
+    $this->formTitle = apply_filters('form_title','Verify Your Age to Continue');
+    $this->wrapperClass = apply_filters('wrapper_class','taseav-age-verify');
+    $this->formClass = apply_filters('form_class','taseav-verify-form');
   }
   
   public function isOfAge(){
@@ -43,6 +47,7 @@ class taseav{
     foreach($this as $var => $value){
       $result = array_merge($result,[$var => $value]);
     }
+    $result['isOfAge'] = $this->isOfAge();
     return $result;
   }
   
