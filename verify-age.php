@@ -7,16 +7,19 @@ Author:      Alex Standiford
 Author URI:  http://www.alexstandiford.com
 */
 
+require_once(plugin_dir_path(__FILE__).'settings.php');
+
 class taseav{
   
   public function __construct(){
+    $options = get_option('eav_options');
     $this->dob = $_COOKIE['taseavdob'];
-    $this->minAge = '21';
-    $this->underageMessage = apply_filters('underage_message','Sorry! You must be '.$this->minAge.' To visit this website.');
-    $this->formTitle = apply_filters('form_title','Verify Your Age to Continue');
-    $this->wrapperClass = apply_filters('wrapper_class','taseav-age-verify');
-    $this->formClass = apply_filters('form_class','taseav-verify-form');
-    $this->debug = false;
+    $this->minAge = $options['eav_minimum_age'];
+    $this->underageMessage = $options['eav_underage_message'];
+    $this->formTitle = $options['eav_form_title'];
+    $this->wrapperClass = $options['eav_wrapper_class'];
+    $this->formClass = $options['eav_form_class'];
+    $this->debug = $options['eav_debug'];
   }
   
   public function isOfAge(){
