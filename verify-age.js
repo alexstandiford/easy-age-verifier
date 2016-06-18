@@ -9,20 +9,22 @@ function taseavGetCookie(cname) {
     }
     return false;
 }
+
+//The actual form
 function taseavAgeForm(){
   var result;
-  result =  "<div class='taseav-age-verify'>";
-  result +=   "<form>";
-  result +=   "<h2>Verify Your Age to Continue</h2>";
-  result +=     "<div class='month'>";
+  result =  "<div class='" + taseavData.wrapperClass + "'>";
+  result +=   "<form class='" + taseavData.formClass + "'>";
+  result +=   "<h2>" + taseavData.formTitle + "</h2>";
+  result +=     "<div class='taseav-month'>";
   result +=     "<label>Month</label>";
   result +=     "<input name='month' type='number' min='1' max='12' required>";
   result +=     "</div>";
-  result +=     "<div class='day'>";
+  result +=     "<div class='taseav-day'>";
   result +=     "<label>Day</label>";
   result +=     "<input name='day' type='number' min='1' max='31' required>";
   result +=     "</div>";
-  result +=     "<div class='year'>";
+  result +=     "<div class='taseav-year'>";
   result +=     "<label>Year</label>";
   result +=     "<input name='year' type='number' min='1900' max='"+ taseavCurrDate.getFullYear() +"' required>";
   result +=     "</div>";
@@ -31,6 +33,8 @@ function taseavAgeForm(){
   result +=  "</div>";
   return result;
 }
+
+//Stores the age into a cookie
 function taseavStoreAge(){
   var month = jQuery('.taseav-age-verify input[name="month"]').val();
   var day = jQuery('.taseav-age-verify input[name="day"]').val();
@@ -41,7 +45,8 @@ function taseavStoreAge(){
   if(day < 10){
     day = "0" + day;
   }
-  document.cookie="dob=" + year + "-" + month + "-" + day;
+  var result = "taseavdob=" + year + "-" + month + "-" + day;
+  document.cookie = result;
 }
 function confirmAge(){
   if(taseavIsAboveAge() == false){
@@ -53,7 +58,6 @@ function confirmAge(){
 }
 
 jQuery(document).ready(function(){
-  if(!taseavHasAge() || taseavIsAboveAge() === false){
     jQuery("html").append(taseavAgeForm());
     jQuery(".taseav-age-verify form").submit(function(e) {
       e.preventDefault();
@@ -66,5 +70,4 @@ jQuery(document).ready(function(){
       taseavStoreAge();
       confirmAge();
   });
-  }
 })
