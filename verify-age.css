@@ -1,4 +1,4 @@
-.age-verify {
+.taseav-age-verify {
     width: 100%;
     height: 100%;
     position: fixed;
@@ -7,7 +7,7 @@
     left: 0;
 }
 
-.age-verify form {
+.taseav-age-verify form {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -16,49 +16,49 @@
     width:90%;
 }
 
-.age-verify input{
+.taseav-age-verify input{
   width:calc(100% - 24px);
   padding:10px;
   border-radius:5px;
 }
 
-.age-verify div{
+.taseav-age-verify div{
   margin-bottom:20px;
   max-width:100%;
   float:left;
 }
 
-.age-verify .month{
+.taseav-age-verify .month{
     width:24%;
 }
 
-.age-verify .day{
+.taseav-age-verify .day{
     width:24%;
 }
 
-.age-verify .year{
+.taseav-age-verify .year{
     width:50%;
 }
 
-.age-verify div:nth-of-type(2){
+.taseav-age-verify div:nth-of-type(2){
     margin-left:1%;
     margin-right:1%;
 }
 
-.age-verify input[type="submit"]{
+.taseav-age-verify input[type="submit"]{
     clear:both;
     width:100%;
 }
 
-.age-verify{
+.taseav-age-verify{
   color:white;
 }
 
-.age-verify label{
+.taseav-age-verify label{
   color:white;
 }
 
-.age-verify h2{
+.taseav-age-verify h2{
   font-size:30px;
   text-align:center;
   color:white;
