@@ -1,4 +1,18 @@
+//For the max value of the input in the age form
 taseavCurrDate = new Date();
+if(taseavData.debug == true){
+  var taseavDebugLog = [];
+}
+
+function taseavDebug(log){
+  if(taseavData.debug == true){
+    console.log(log);
+    taseavDebugLog.push(log);
+  }
+  return
+}
+
+//Gets the cookie that was just stored
 function taseavGetCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
