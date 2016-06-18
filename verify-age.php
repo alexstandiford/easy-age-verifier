@@ -16,6 +16,7 @@ class taseav{
     $this->formTitle = apply_filters('form_title','Verify Your Age to Continue');
     $this->wrapperClass = apply_filters('wrapper_class','taseav-age-verify');
     $this->formClass = apply_filters('form_class','taseav-verify-form');
+    $this->debug = false;
   }
   
   public function isOfAge(){
