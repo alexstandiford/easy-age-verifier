@@ -29,15 +29,15 @@
   float:left;
 }
 
-.taseav-age-verify .month{
+.taseav-age-verify .taseav-month{
     width:24%;
 }
 
-.taseav-age-verify .day{
+.taseav-age-verify .taseav-day{
     width:24%;
 }
 
-.taseav-age-verify .year{
+.taseav-age-verify .taseav-year{
     width:50%;
 }
 
