@@ -61,12 +61,45 @@ function taseavStoreAge(){
   }
   var result = "taseavdob=" + year + "-" + month + "-" + day;
   document.cookie = result;
+  taseavDebug('Age stored as a cookie. Value = ' + result);
 }
+
+function taseavGetAge() {
+    taseavDebug('Evaluated Date of Birth: ' +taseavGetCookie('taseavdob'));
+    var birthday = new Date(taseavGetCookie('taseavdob'));
+    var ageDifMs = Date.now() - birthday.getTime();
+    var ageDate = new Date(ageDifMs);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+}
+
+function taseavIsAboveAge(ageToCheck){
+  if(!ageToCheck){
+    taseavDebug('Getting minimum age to check...')
+    ageToCheck = taseavData.minAge;
+    taseavDebug('Age to check: ' + taseavData.minAge);
+  };
+  taseavDebug('Getting evaluated age to check against...')
+  var age = taseavGetAge();
+  taseavDebug('Age checked: ' + age);
+  if(age < ageToCheck){
+    return false;
+  }
+  else{
+    return true;
+  }
+}
+
 function confirmAge(){
   if(taseavIsAboveAge() == false){
+    taseavDebug('User is underage. Displaying message "' + taseavData.underageMessage + '"');
+    alert(taseavData.underageMessage);
+    if(taseavData.debug == true){
+      alert(taseavDebugLog.join('\n \n'));
+    }
     history.back();
   }
   else{
+    taseavDebug('User is older than the min age of ' + taseavData.minAge +'. Removing age verify overlay.');
     jQuery('.taseav-age-verify').remove();
   }
 }
@@ -83,5 +116,6 @@ jQuery(document).ready(function(){
     jQuery('.taseav-age-verify').submit(function(){
       taseavStoreAge();
       confirmAge();
+      taseavDebug(taseavData);
   });
 })
