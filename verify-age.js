@@ -27,7 +27,7 @@ function taseavGetCookie(cname) {
 //The actual form
 function taseavAgeForm(){
   var result;
-  result =  "<div class='" + taseavData.wrapperClass + "'>";
+  result =  "<div id='taseav-age-verify' class='" + taseavData.wrapperClass + "'>";
   result +=   "<form class='" + taseavData.formClass + "'>";
   result +=   "<h2>" + taseavData.formTitle + "</h2>";
   result +=     "<div class='taseav-month'>";
@@ -50,9 +50,9 @@ function taseavAgeForm(){
 
 //Stores the age into a cookie
 function taseavStoreAge(){
-  var month = jQuery('.taseav-age-verify input[name="month"]').val();
-  var day = jQuery('.taseav-age-verify input[name="day"]').val();
-  var year = jQuery('.taseav-age-verify input[name="year"]').val();
+  var month = jQuery('#taseav-age-verify input[name="month"]').val();
+  var day = jQuery('#taseav-age-verify input[name="day"]').val();
+  var year = jQuery('#taseav-age-verify input[name="year"]').val();
   if(month < 10){
     month = "0" + month;
   }
@@ -100,20 +100,20 @@ function confirmAge(){
   }
   else{
     taseavDebug('User is older than the min age of ' + taseavData.minAge +'. Removing age verify overlay.');
-    jQuery('.taseav-age-verify').remove();
+    jQuery('#taseav-age-verify').remove();
   }
 }
 
 jQuery(document).ready(function(){
     jQuery("html").append(taseavAgeForm());
-    jQuery(".taseav-age-verify form").submit(function(e) {
+    jQuery("#taseav-age-verify form").submit(function(e) {
       e.preventDefault();
     });
     //Disables mouse-wheel when gallery is open
-    jQuery(".taseav-age-verify").bind("mousewheel", function() {
+    jQuery("#taseav-age-verify").bind("mousewheel", function() {
          return false;
     });
-    jQuery('.taseav-age-verify').submit(function(){
+    jQuery('#taseav-age-verify').submit(function(){
       taseavStoreAge();
       confirmAge();
       taseavDebug(taseavData);
