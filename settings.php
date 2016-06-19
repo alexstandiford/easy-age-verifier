@@ -1,4 +1,7 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 class eavSettings{
   /**
    * Holds the values to be used in the fields callbacks
