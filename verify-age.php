@@ -16,11 +16,11 @@ class taseav{
   public function __construct(){
     $options = get_option('eav_options');
     $this->dob = $_COOKIE['taseavdob'];
-    $this->minAge = $options['eav_minimum_age'];
-    $this->underageMessage = $options['eav_underage_message'];
-    $this->formTitle = $options['eav_form_title'];
-    $this->wrapperClass = $options['eav_wrapper_class'];
-    $this->formClass = $options['eav_form_class'];
+    $this->minAge = $options['eav_minimum_age'] != '' ? $options['eav_minimum_age'] : apply_filters('eav_default_age',21);
+    $this->underageMessage = $options['eav_underage_message'] != '' ? $options['eav_underage_message'] : apply_filters('eav_default_underage_message','Sorry! You must be '.$this->options['eav_minimum_age'].' To visit this website.');
+    $this->formTitle = $options['eav_form_title'] != '' ? $options['eav_form_title'] : apply_filters('eav_default_form_title','Verify Your Age to Continue');
+    $this->wrapperClass = $options['eav_wrapper_class'] != '' ? $options['eav_wrapper_class'] : apply_filters('eav_default_wrapper_class','taseav-age-verify');
+    $this->formClass = $options['eav_form_class'] != '' ? $options['eav_form_class'] : apply_filters('eav_default_wrapper_class','taseav-verify-form');
     $this->debug = $options['eav_debug'];
   }
   
