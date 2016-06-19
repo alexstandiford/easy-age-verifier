@@ -127,35 +127,35 @@ class eavSettings{
   public function minimum_age_callback(){
     printf(
       '<input type="number" id="eav_minimum_age" name="eav_options[eav_minimum_age]" value="%s" />',
-      $this->options['eav_minimum_age'] = '' && $this->options['eav_minimum_age'] != 0 ? esc_attr( $this->options['eav_minimum_age']) : apply_filters('eav_default_age',21)
+      $this->options['eav_minimum_age'] != '' && $this->options['eav_minimum_age'] != 0 ? esc_attr( $this->options['eav_minimum_age']) : apply_filters('eav_default_age',21)
     );
   }
   
   public function underage_message_callback(){
     printf(
       '<input type="text" id="eav_underage_message" name="eav_options[eav_underage_message]" value="%s" />',
-      $this->options['eav_underage_message'] = '' ? esc_attr( $this->options['eav_underage_message']) : apply_filters('eav_default_underage_message','Sorry! You must be '.$this->options['eav_minimum_age'].' To visit this website.')
+      $this->options['eav_underage_message'] != '' ? esc_attr( $this->options['eav_underage_message']) : apply_filters('eav_default_underage_message','Sorry! You must be '.$this->options['eav_minimum_age'].' To visit this website.')
     );
   }
   
   public function form_title_callback(){
     printf(
       '<input type="text" id="eav_form_title" name="eav_options[eav_form_title]" value="%s" />',
-      $this->options['eav_form_title'] = '' ? esc_attr( $this->options['eav_form_title']) : apply_filters('eav_default_form_title','Verify Your Age to Continue')
+      $this->options['eav_form_title'] != '' ? esc_attr( $this->options['eav_form_title']) : apply_filters('eav_default_form_title','Verify Your Age to Continue')
     );
   }
   
   public function wrapper_class_callback(){
     printf(
       '<input type="text" id="eav_wrapper_class" name="eav_options[eav_wrapper_class]" value="%s" />',
-      $this->options['eav_wrapper_class'] = '' ? esc_attr( $this->options['eav_wrapper_class']) : apply_filters('eav_default_wrapper_class','taseav-age-verify')
+      $this->options['eav_wrapper_class'] != '' ? esc_attr( $this->options['eav_wrapper_class']) : apply_filters('eav_default_wrapper_class','taseav-age-verify')
     );
   }
   
   public function form_class_callback(){
     printf(
       '<input type="text" id="eav_form_class" name="eav_options[eav_form_class]" value="%s" />',
-      $this->options['eav_form_class'] = '' ? esc_attr( $this->options['eav_form_class']) : apply_filters('eav_default_wrapper_class','taseav-verify-form')
+      $this->options['eav_form_class'] != '' ? esc_attr( $this->options['eav_form_class']) : apply_filters('eav_default_wrapper_class','taseav-verify-form')
     );
   }
   
