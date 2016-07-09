@@ -2,6 +2,17 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/*--- CUSTOM STYLES FOR SETTINGS PAGES ---*/
+function eav_admin_styles_init(){
+  $styles = [
+    'eav-settings.css'
+  ];
+  foreach($styles as $style){
+    wp_enqueue_style($style,plugin_dir_url(__FILE__).$style);
+  }
+}
+add_action('admin_enqueue_scripts','eav_admin_styles_init');
+
 class eavSettings{
   /**
    * Holds the values to be used in the fields callbacks
