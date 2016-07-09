@@ -48,8 +48,8 @@ class eavSettings{
     // Set class property
     $this->options = get_option( 'eav_options' );
     ?>
-    <div class="wrap">
-      <h2>Easy Age Verifer</h2>           
+    <h2>Easy Age Verifer</h2>           
+    <div class="eav-wrapper">
       <form method="post" action="options.php">
       <?php
         // This prints out all hidden setting fields
@@ -58,6 +58,9 @@ class eavSettings{
         submit_button(); 
       ?>
       </form>
+    <div class="eav-admin-sidebar">
+      <?php do_action('eav_settings_sidebar');?>
+    </div>
     </div>
     <?php
   }
