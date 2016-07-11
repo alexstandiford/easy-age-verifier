@@ -2,7 +2,7 @@
 /*
 Plugin Name: Verify Age
 Description: Verify that your visitors are of age.
-Version:     1.0
+Version:     1.1
 Author:      Alex Standiford
 Author URI:  http://www.alexstandiford.com
 */
