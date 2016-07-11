@@ -29,7 +29,9 @@ __Features__
 
 == Frequently Asked Questions ==
 
-This plugin is brand-new, and I haven't figured out what questions people have yet. If you have a question, please ask in the support forum.
+= My Form Isn't Showing Up! =
+
+The form will not display if you are logged in, or if you have confirmed your age in the last 24 hours. To force the form to display, open your website in incognito mode (Chrome) or in a new private window (Firefox). That will get around it.
 
 == Screenshots ==
 
