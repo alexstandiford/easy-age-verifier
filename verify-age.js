@@ -105,7 +105,7 @@ function confirmAge(){
 }
 
 jQuery(document).ready(function(){
-    jQuery("html").append(taseavAgeForm());
+    jQuery("body").append(taseavAgeForm());
     jQuery("#taseav-age-verify form").submit(function(e) {
       e.preventDefault();
     });
