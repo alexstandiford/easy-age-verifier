@@ -43,3 +43,9 @@ The form will not display if you are logged in, or if you have confirmed your ag
 
 = 1.00 =
 * Initial Launch.  Hooray!
+
+= 1.10 =
+* Added a fix that caused IE 11 to not load properly
+* Added an option to change the button value in the settings page
+* Added several hooks to the form
+* The form will no longer display for logged-in users.
