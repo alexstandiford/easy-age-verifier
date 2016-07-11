@@ -120,6 +120,14 @@ class eavSettings{
       'eav-settings-admin', // Page
       'eav_options_id' // Section           
     );      
+     
+    add_settings_field(
+      'eav_button_value', // ID
+      'Button Text', // Title 
+      array( $this, 'button_value_callback' ), // Callback
+      'eav-settings-admin', // Page
+      'eav_options_id' // Section           
+    );      
    
     add_settings_field(
       'eav_debug', // ID
@@ -173,6 +181,13 @@ class eavSettings{
     printf(
       '<input type="text" id="eav_form_class" name="eav_options[eav_form_class]" value="%s" />',
       $this->options['eav_form_class'] != '' ? esc_attr( $this->options['eav_form_class']) : apply_filters('eav_default_wrapper_class','taseav-verify-form')
+    );
+  }
+    
+  public function button_value_callback(){
+    printf(
+      '<input type="text" id="eav_form_class" name="eav_options[eav_button_value]" value="%s" />',
+      $this->options['eav_button_value'] != '' ? esc_attr( $this->options['eav_button_value']) : apply_filters('eav_default_button_value','Submit')
     );
   }
   
