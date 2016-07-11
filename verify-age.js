@@ -42,7 +42,7 @@ function taseavAgeForm(){
   result +=     "<label>Year</label>";
   result +=     "<input name='year' type='number' min='1900' max='"+ taseavCurrDate.getFullYear() +"' required>";
   result +=     "</div>";
-  result +=     "<input type='submit'>";
+  result +=     "<input type='submit' value='submit'>";
   result +=   "</form>";
   result +=  "</div>";
   return result;
