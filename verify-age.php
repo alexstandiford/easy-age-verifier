@@ -21,7 +21,18 @@ class taseav{
     $this->formTitle = $options['eav_form_title'] != '' ? $options['eav_form_title'] : apply_filters('eav_default_form_title','Verify Your Age to Continue');
     $this->wrapperClass = $options['eav_wrapper_class'] != '' ? $options['eav_wrapper_class'] : apply_filters('eav_default_wrapper_class','taseav-age-verify');
     $this->formClass = $options['eav_form_class'] != '' ? $options['eav_form_class'] : apply_filters('eav_default_wrapper_class','taseav-verify-form');
+    $this->buttonValue = $options['eav_button_value'] != '' ? $options['eav_button_value'] : apply_filters('eav_default_button_value','Submit');
     $this->debug = $options['eav_debug'];
+    $this->beforeForm = apply_filters('eav_before_form','');
+    $this->afterForm = apply_filters('eav_after_form','');
+    $this->monthClass = apply_filters('eav_month_class','taseav-month');
+    $this->dayClass = apply_filters('eav_day_class','taseav-day');
+    $this->yearClass = apply_filters('eav_year_class','taseav-year');
+    $this->minYear = apply_filters('eav_min_year','1900');
+    $this->beforeYear = apply_filters('eav_before_year','');
+    $this->beforeDay = apply_filters('eav_before_day','');
+    $this->beforeMonth = apply_filters('eav_before_month','');
+    $this->beforeButton = apply_filters('eav_before_button','');
   }
   
   public function isOfAge(){
