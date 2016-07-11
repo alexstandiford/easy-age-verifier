@@ -28,22 +28,28 @@ function taseavGetCookie(cname) {
 function taseavAgeForm(){
   var result;
   result =  "<div id='taseav-age-verify' class='" + taseavData.wrapperClass + "'>";
+  result +=   taseavData.beforeForm;
   result +=   "<form class='" + taseavData.formClass + "'>";
   result +=   "<h2>" + taseavData.formTitle + "</h2>";
-  result +=     "<div class='taseav-month'>";
+  result +=     taseavData.beforeMonth;
+  result +=     "<div class='" + taseavData.monthClass + "'>";
   result +=     "<label>Month</label>";
   result +=     "<input name='month' type='number' min='1' max='12' required>";
   result +=     "</div>";
-  result +=     "<div class='taseav-day'>";
+  result +=     taseavData.beforeDay;
+  result +=     "<div class='" + taseavData.dayClass + "'>";
   result +=     "<label>Day</label>";
   result +=     "<input name='day' type='number' min='1' max='31' required>";
   result +=     "</div>";
-  result +=     "<div class='taseav-year'>";
+  result +=     taseavData.beforeYear;
+  result +=     "<div class='" + taseavData.yearClass + "'>";
   result +=     "<label>Year</label>";
-  result +=     "<input name='year' type='number' min='1900' max='"+ taseavCurrDate.getFullYear() +"' required>";
+  result +=     "<input name='year' type='number' min='" + taseavData.minYear + "' max='"+ taseavCurrDate.getFullYear() +"' required>";
   result +=     "</div>";
-  result +=     "<input type='submit' value='submit'>";
+  result +=     taseavData.beforeButton;
+  result +=     "<input type='submit' value='" + taseavData.buttonValue + "'>";
   result +=   "</form>";
+  result +=   taseavData.afterForm;
   result +=  "</div>";
   return result;
 }
