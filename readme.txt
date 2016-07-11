@@ -4,7 +4,7 @@ Donate link: http://www.easybeerlister.com/recommends/donate
 Tags: beer, beers, brewery, untappd, age verification, bar, bars, restaurant, brewer, craft beer, craft bar
 Requires at least: 3.0.1
 Tested up to: 4.5
-Stable tag: 1.0
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,7 +29,9 @@ __Features__
 
 == Frequently Asked Questions ==
 
-This plugin is brand-new, and I haven't figured out what questions people have yet. If you have a question, please ask in the support forum.
+= My Form Isn't Showing Up! =
+
+The form will not display if you are logged in, or if you have confirmed your age in the last 24 hours. To force the form to display, open your website in incognito mode (Chrome) or in a new private window (Firefox). That will get around it.
 
 == Screenshots ==
 
@@ -41,3 +43,9 @@ This plugin is brand-new, and I haven't figured out what questions people have y
 
 = 1.00 =
 * Initial Launch.  Hooray!
+
+= 1.10 =
+* Added a fix that caused IE 11 to not load properly
+* Added an option to change the button value in the settings page
+* Added several hooks to the form
+* The form will no longer display for logged-in users.

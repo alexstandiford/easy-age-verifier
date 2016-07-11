@@ -35,3 +35,37 @@ Easy Age Verifier has a few filters that allow theme developers to customize def
 * **eav_form_class**
   * Sets the default form class.
   * Default: taseav-form-class
+* **eav_before_form**
+  * Adds html before the form
+  * Default: null
+* **eav_after_form**
+  * Adds html after the form
+  * Default: null
+* **eav_month_class**
+  * Replaces the default month class
+  * Default: taseav-month
+* **eav_day_class**
+  * Replaces the default day class
+  * Default: taseav-day
+* **eav_year_class**
+  * Replaces the default year class
+  * Default: taseav-year
+* **eav_min_year**
+  * Replaces the default minimum year value
+  * Default: 1900
+* **eav_before_year**
+  * Adds html before the year div
+  * Default: null
+* **eav_before_day**
+  * Adds html before the day div
+  * Default: null
+* **eav_before_month**
+  * Adds html before the month div
+  * Default: null
+* **eav_before_button**
+  * Adds html before the submit button
+  * Default: null
+* **eav_button_value**
+  * Replaces the default button text
+  * Default: Submit
+    
