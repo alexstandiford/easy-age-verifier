@@ -75,7 +75,7 @@ function taseav_init(){
   //Calls the data to pass to the JS file
   $pass_data = new taseav();
   //Checks to see if the date of birth is above the desired age
-  if($pass_data->isOfAge() == false){
+  if($pass_data->isOfAge() == false && !is_user_logged_in()){
     //Calls jQuery beforehand as verify-age depends on it
     wp_enqueue_script('jquery');
 
