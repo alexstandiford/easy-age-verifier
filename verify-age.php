@@ -49,12 +49,17 @@ class taseav{
   
   public function age(){
     if(isset($this->dob)){
-    //explode the date to get month, day and year
-    $birthDate = explode("-", $this->dob);
-    //get age from date or birthdate
-    $age = (date("Ymd", date("U", mktime(0, 0, 0, $birthDate[2], $birthDate[0], $birthDate[1]))) > date("Ymd")
-         ? ((date("Y") - $birthDate[0]) - 1)
-         : (date("Y") - $birthDate[0]));
+      if(($this->dob == 'overAge' || $this->dob == 'underAge')){
+        $age = $this->dob;
+      }
+      else{
+        //explode the date to get month, day and year
+        $birthDate = explode("-", $this->dob);
+        //get age from date or birthdate
+        $age = (date("Ymd", date("U", mktime(0, 0, 0, $birthDate[2], $birthDate[0], $birthDate[1]))) > date("Ymd")
+             ? ((date("Y") - $birthDate[0]) - 1)
+             : (date("Y") - $birthDate[0]));
+      }
     return $age;
     }
     else{
