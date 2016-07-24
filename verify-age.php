@@ -22,7 +22,10 @@ class taseav{
     $this->wrapperClass = $options['eav_wrapper_class'] != '' ? $options['eav_wrapper_class'] : apply_filters('eav_default_wrapper_class','taseav-age-verify');
     $this->formClass = $options['eav_form_class'] != '' ? $options['eav_form_class'] : apply_filters('eav_default_wrapper_class','taseav-verify-form');
     $this->buttonValue = $options['eav_button_value'] != '' ? $options['eav_button_value'] : apply_filters('eav_default_button_value','Submit');
+    $this->overAge = $options['eav_over_age_value'] != '' ? $options['eav_over_age_value'] : apply_filters('eav_over_age_value',"I am ".$this->minAge." or older.");
+    $this->underAge = $options['eav_under_age_value'] != '' ? $options['eav_under_age_value'] : apply_filters('eav_under_age_value',"I am under ".$this->minAge);
     $this->debug = $options['eav_debug'];
+    $this->formType = $options['eav_form_type'] == null ? 'eav_enter_age' : $options['eav_form_type'];
     $this->beforeForm = apply_filters('eav_before_form','');
     $this->afterForm = apply_filters('eav_after_form','');
     $this->monthClass = apply_filters('eav_month_class','taseav-month');
