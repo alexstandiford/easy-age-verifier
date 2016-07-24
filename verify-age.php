@@ -39,7 +39,7 @@ class taseav{
   }
   
   public function isOfAge(){
-    if($this->age() >= $this->minAge && $this->age() !== false){
+    if($this->age() >= $this->minAge && $this->age() !== false && $this->age() != 'underAge'){
       return true;
     }
     else{
