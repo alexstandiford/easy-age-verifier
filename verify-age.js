@@ -99,15 +99,23 @@ function taseavGetAge() {
 }
 
 function taseavIsAboveAge(ageToCheck){
-  if(!ageToCheck){
+  if(!ageToCheck && taseavData.formType != 'eav_confirm_age'){
     taseavDebug('Getting minimum age to check...')
     ageToCheck = taseavData.minAge;
     taseavDebug('Age to check: ' + taseavData.minAge);
   };
-  taseavDebug('Getting evaluated age to check against...')
-  var age = taseavGetAge();
-  taseavDebug('Age checked: ' + age);
-  if(age < ageToCheck){
+  if(taseavData.formType == 'eav_confirm_age'){
+    taseavDebug('Getting confirm age value...')
+    var age = taseavGetCookie('taseavdob');
+    taseavDebug('Confirm Age value = ' + age);
+  }
+  else{
+    taseavDebug('Getting evaluated age to check against...')
+    var age = taseavGetAge();
+    taseavDebug('Age checked: ' + age);
+  }
+  if(age < ageToCheck || age == 'underAge'){
+    taseavDebug('The user claimed their age as under age.');
     return false;
   }
   else{
