@@ -147,9 +147,15 @@ jQuery(document).ready(function(){
     jQuery("#taseav-age-verify").bind("mousewheel", function() {
          return false;
     });
+  if(taseavData.formType == 'eav_confirm_age'){
+    jQuery("form input[type=submit]").click(function() {
+      jQuery("input[type=submit]", jQuery(this).parents("form")).removeAttr("selected");
+      jQuery(this).attr("selected", "true");
+    });
+  }
     jQuery('#taseav-age-verify').submit(function(){
       taseavStoreAge();
       confirmAge();
       taseavDebug(taseavData);
-  });
+    });
 })
