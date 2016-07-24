@@ -49,18 +49,18 @@ class eavSettings{
     $this->options = get_option( 'eav_options' );
     ?>
     <h2>Easy Age Verifer</h2>           
-    <div class="eav-wrapper">
-      <form method="post" action="options.php">
-      <?php
-        // This prints out all hidden setting fields
-        settings_fields( 'eav_options_group' );   
-        do_settings_sections( 'eav-settings-admin' );
-        submit_button(); 
-      ?>
-      </form>
-    <div class="eav-admin-sidebar">
-      <?php do_action('eav_settings_sidebar');?>
-    </div>
+      <div class="eav-wrapper">
+        <form method="post" action="options.php">
+        <?php
+          // This prints out all hidden setting fields
+          settings_fields( 'eav_options_group' );   
+          do_settings_sections( 'eav-settings-admin' );
+          submit_button(); 
+        ?>
+        </form>
+      <div class="eav-admin-sidebar">
+        <?php do_action('eav_settings_sidebar');?>
+      </div>
     </div>
     <?php
   }
@@ -128,6 +128,14 @@ class eavSettings{
       'eav-settings-admin', // Page
       'eav_options_id' // Section           
     );      
+     
+    add_settings_field(
+      'eav_form_type', // ID
+      'How will visitors will verify their age?', // Title 
+      array( $this, 'form_type_callback' ), // Callback
+      'eav-settings-admin', // Page
+      'eav_options_id' // Section           
+    );      
    
     add_settings_field(
       'eav_debug', // ID
@@ -154,6 +162,14 @@ class eavSettings{
       '<input type="number" id="eav_minimum_age" name="eav_options[eav_minimum_age]" value="%s" />',
       $this->options['eav_minimum_age'] != '' && $this->options['eav_minimum_age'] != 0 ? esc_attr( $this->options['eav_minimum_age']) : apply_filters('eav_default_age',21)
     );
+  }
+  
+  public function form_type_callback(){?>
+      <select id="eav_form_type" name="eav_options[eav_form_type]">
+        <option value="eav_enter_age" <?php selected($this->options['eav_form_type'], 'eav_enter_age');?>>Visitors Must Enter Their Date of Birth</option>
+        <option value="eav_confirm_age" <?php selected($this->options['eav_form_type'], 'eav_confirm_age');?>>Visitors Must Confirm They're Of Age (single button)</option>
+      </select>
+  <?php
   }
   
   public function underage_message_callback(){
