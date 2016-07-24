@@ -4,7 +4,7 @@ Donate link: http://www.easybeerlister.com/recommends/donate
 Tags: beer, beers, brewery, untappd, age verification, bar, bars, restaurant, brewer, craft beer, craft bar
 Requires at least: 3.0.1
 Tested up to: 4.5
-Stable tag: 1.1
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,6 +17,7 @@ Easy Age Verifier makes it easy for taprooms and bars to confirm their website v
 __Features__
 
 * Ask users to verify their age on page load. If the user is less than the age you specify (default is 21), then they will be removed from the website
+* Ask users to verify that they're above age by clicking a button, instead of forcing the user to enter their age.
 * Customize all items on the form, including the question asked, the message stated when they're underage, and the class each form item has.
 * Remembers if a visitor has verified their age in the past, and won't ask again until they close their web browser.
 
@@ -49,3 +50,6 @@ The form will not display if you are logged in, or if you have confirmed your ag
 * Added an option to change the button value in the settings page
 * Added several hooks to the form
 * The form will no longer display for logged-in users.
+
+= 1.20 =
+* Implemented an optional form type that allows users to specify that they are of age instead of forcing them to enter their date of birth.
