@@ -182,8 +182,8 @@ class eavSettings{
   
   public function form_type_callback(){?>
       <select id="eav_form_type" name="eav_options[eav_form_type]">
-        <option value="eav_enter_age" <?php selected($this->options['eav_form_type'], 'eav_enter_age');?>>Visitors Must Enter Their Date of Birth</option>
-        <option value="eav_confirm_age" <?php selected($this->options['eav_form_type'], 'eav_confirm_age');?>>Visitors Must Confirm They're Of Age (single button)</option>
+        <option value="eav_enter_age" <?php selected($this->options['eav_form_type'], 'eav_enter_age');?>>Enter Age Form (Visitors Must Enter Their Date of Birth)</option>
+        <option value="eav_confirm_age" <?php selected($this->options['eav_form_type'], 'eav_confirm_age');?>>Confirm Age Form (Visitors Must Confirm They're Of Age)</option>
       </select>
   <?php
   }
@@ -195,6 +195,20 @@ class eavSettings{
     );
   }
   
+  public function over_age_value_callback(){
+    printf(
+      '<input type="text" id="eav_over_age_value" name="eav_options[eav_over_age_value]" value="%s" />',
+      $this->options['eav_over_age_value'] != '' ? esc_attr( $this->options['eav_over_age_value']) : apply_filters('eav_over_age_value',"I am ".$this->options['eav_minimum_age']." or older.")
+    );
+  }
+  
+  public function under_age_value_callback(){
+    printf(
+      '<input type="text" id="eav_under_age_value" name="eav_options[eav_under_age_value]" value="%s" />',
+      $this->options['eav_under_age_value'] != '' ? esc_attr( $this->options['eav_under_age_value']) : apply_filters('under_age_value',"I am under ".$this->options['eav_minimum_age'])
+    );
+  }
+
   public function form_title_callback(){
     printf(
       '<input type="text" id="eav_form_title" name="eav_options[eav_form_title]" value="%s" />',
