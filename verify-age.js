@@ -70,18 +70,24 @@ function taseavAgeForm(){
 
 //Stores the age into a cookie
 function taseavStoreAge(){
-  var month = jQuery('#taseav-age-verify input[name="month"]').val();
-  var day = jQuery('#taseav-age-verify input[name="day"]').val();
-  var year = jQuery('#taseav-age-verify input[name="year"]').val();
-  if(month < 10){
-    month = "0" + month;
+  if(taseavData.formType == 'eav_enter_age'){
+    var month = jQuery('#taseav-age-verify input[name="month"]').val();
+    var day = jQuery('#taseav-age-verify input[name="day"]').val();
+    var year = jQuery('#taseav-age-verify input[name="year"]').val();
+    if(month < 10){
+      month = "0" + month;
+    }
+    if(day < 10){
+      day = "0" + day;
+    }
+    var result = "taseavdob=" + year + "-" + month + "-" + day;
   }
-  if(day < 10){
-    day = "0" + day;
+  if(taseavData.formType == 'eav_confirm_age'){
+    var age = jQuery('#taseav-age-verify input[selected="selected"]').attr('name');
+    var result = "taseavdob=" + age;
   }
-  var result = "taseavdob=" + year + "-" + month + "-" + day;
-  document.cookie = result;
-  taseavDebug('Age stored as a cookie. Value = ' + result);
+    document.cookie = result;
+    taseavDebug('Age stored as a cookie. Value = ' + result);
 }
 
 function taseavGetAge() {
