@@ -15,6 +15,14 @@ https://github.com/tstandiford/easy-age-verifier
 2. Activate the plugin through the 'Plugins' screen in WordPress
 3. (Optional) Configure the form, including minimum age, and all messaging for the form on settings>>>Easy Age Verifier
 
+## Form Types ##
+Easy Age Verifier comes with 2 different ways to verify your visitor is of age. The form that you wish to use can be customized on the Easy Age Verifier settings page.
+
+1. Enter Age Form (default)
+  * This form requires that the visitor enters their date of birth
+2. Confirm Age Form
+  * This form does not require that the visitor enter their date of birth. Instead, they simply click on one of two buttons, that says they're either of age, or they're not of age.
+
 ## Filters ##
 
 Easy Age Verifier has a few filters that allow theme developers to customize defaults for this plugin. Most of these can be overridden by the administrator under settings>>>Easy Age Verifier
@@ -28,9 +36,17 @@ Easy Age Verifier has a few filters that allow theme developers to customize def
 * **eav_default_form_title**
   * Sets the default content to display above the form.
   * Default: Verify Your Age to Continue
+* **eav_under_age_value**
+  * Sets the default content to display inside of the button that says the visitor is underage.
+    * This filter only applies to the confirm age form, not the enter age form.
+  * Default: I am under $age
+* **eav_over_age_value**
+  * Sets the default content to display inside of the button that says the visitor is of age.
+    * This filter only applies to the confirm age form, not the enter age form.
+  * Default: I am $age or older.
 * **eav_wrapper_class**
   * Sets the default wrapper class.
-  * **IMPORTANT:** If you override this class and do not update the CSS to display properly, this will prevent your form from displaying properly. This is intended for advanced users only.
+    * **IMPORTANT:** If you override this class and do not update the CSS to display properly, this will prevent your form from displaying properly. This is intended for advanced users only.
   * Default: taseav-age-verify
 * **eav_form_class**
   * Sets the default form class.

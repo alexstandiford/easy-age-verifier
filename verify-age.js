@@ -27,27 +27,41 @@ function taseavGetCookie(cname) {
 //The actual form
 function taseavAgeForm(){
   var result;
+  
+  //Starts the form
   result =  "<div id='taseav-age-verify' class='" + taseavData.wrapperClass + "'>";
   result +=   taseavData.beforeForm;
   result +=   "<form class='" + taseavData.formClass + "'>";
   result +=   "<h2>" + taseavData.formTitle + "</h2>";
-  result +=     taseavData.beforeMonth;
-  result +=     "<div class='" + taseavData.monthClass + "'>";
-  result +=     "<label>Month</label>";
-  result +=     "<input name='month' type='number' min='1' max='12' required>";
-  result +=     "</div>";
-  result +=     taseavData.beforeDay;
-  result +=     "<div class='" + taseavData.dayClass + "'>";
-  result +=     "<label>Day</label>";
-  result +=     "<input name='day' type='number' min='1' max='31' required>";
-  result +=     "</div>";
-  result +=     taseavData.beforeYear;
-  result +=     "<div class='" + taseavData.yearClass + "'>";
-  result +=     "<label>Year</label>";
-  result +=     "<input name='year' type='number' min='" + taseavData.minYear + "' max='"+ taseavCurrDate.getFullYear() +"' required>";
-  result +=     "</div>";
-  result +=     taseavData.beforeButton;
-  result +=     "<input type='submit' value='" + taseavData.buttonValue + "'>";
+  
+  //If the settings call to enter the age, do this
+  if(taseavData.formType == 'eav_enter_age'){
+    result +=     taseavData.beforeMonth;
+    result +=     "<div class='" + taseavData.monthClass + "'>";
+    result +=     "<label>Month</label>";
+    result +=     "<input name='month' type='number' min='1' max='12' required>";
+    result +=     "</div>";
+    result +=     taseavData.beforeDay;
+    result +=     "<div class='" + taseavData.dayClass + "'>";
+    result +=     "<label>Day</label>";
+    result +=     "<input name='day' type='number' min='1' max='31' required>";
+    result +=     "</div>";
+    result +=     taseavData.beforeYear;
+    result +=     "<div class='" + taseavData.yearClass + "'>";
+    result +=     "<label>Year</label>";
+    result +=     "<input name='year' type='number' min='" + taseavData.minYear + "' max='"+ taseavCurrDate.getFullYear() +"' required>";
+    result +=     "</div>";
+    result +=     taseavData.beforeButton;
+    result +=     "<input type='submit' value='" + taseavData.buttonValue + "'>";
+  }
+  
+  //If the settings call to simply verify the age, do this.
+  if(taseavData.formType == 'eav_confirm_age'){
+    result +=     "<input name='overAge' type='submit' value='" + taseavData.overAge + "'>";
+    result +=     "<input name='underAge' type='submit' value='" + taseavData.underAge + "'>";
+  }
+  
+  //Closes out the form
   result +=   "</form>";
   result +=   taseavData.afterForm;
   result +=  "</div>";
@@ -56,18 +70,24 @@ function taseavAgeForm(){
 
 //Stores the age into a cookie
 function taseavStoreAge(){
-  var month = jQuery('#taseav-age-verify input[name="month"]').val();
-  var day = jQuery('#taseav-age-verify input[name="day"]').val();
-  var year = jQuery('#taseav-age-verify input[name="year"]').val();
-  if(month < 10){
-    month = "0" + month;
+  if(taseavData.formType == 'eav_enter_age'){
+    var month = jQuery('#taseav-age-verify input[name="month"]').val();
+    var day = jQuery('#taseav-age-verify input[name="day"]').val();
+    var year = jQuery('#taseav-age-verify input[name="year"]').val();
+    if(month < 10){
+      month = "0" + month;
+    }
+    if(day < 10){
+      day = "0" + day;
+    }
+    var result = "taseavdob=" + year + "-" + month + "-" + day;
   }
-  if(day < 10){
-    day = "0" + day;
+  if(taseavData.formType == 'eav_confirm_age'){
+    var age = jQuery('#taseav-age-verify input[selected="selected"]').attr('name');
+    var result = "taseavdob=" + age;
   }
-  var result = "taseavdob=" + year + "-" + month + "-" + day;
-  document.cookie = result;
-  taseavDebug('Age stored as a cookie. Value = ' + result);
+    document.cookie = result;
+    taseavDebug('Age stored as a cookie. Value = ' + result);
 }
 
 function taseavGetAge() {
@@ -79,15 +99,23 @@ function taseavGetAge() {
 }
 
 function taseavIsAboveAge(ageToCheck){
-  if(!ageToCheck){
+  if(!ageToCheck && taseavData.formType != 'eav_confirm_age'){
     taseavDebug('Getting minimum age to check...')
     ageToCheck = taseavData.minAge;
     taseavDebug('Age to check: ' + taseavData.minAge);
   };
-  taseavDebug('Getting evaluated age to check against...')
-  var age = taseavGetAge();
-  taseavDebug('Age checked: ' + age);
-  if(age < ageToCheck){
+  if(taseavData.formType == 'eav_confirm_age'){
+    taseavDebug('Getting confirm age value...')
+    var age = taseavGetCookie('taseavdob');
+    taseavDebug('Confirm Age value = ' + age);
+  }
+  else{
+    taseavDebug('Getting evaluated age to check against...')
+    var age = taseavGetAge();
+    taseavDebug('Age checked: ' + age);
+  }
+  if(age < ageToCheck || age == 'underAge'){
+    taseavDebug('The user claimed their age as under age.');
     return false;
   }
   else{
@@ -119,9 +147,15 @@ jQuery(document).ready(function(){
     jQuery("#taseav-age-verify").bind("mousewheel", function() {
          return false;
     });
+  if(taseavData.formType == 'eav_confirm_age'){
+    jQuery("form input[type=submit]").click(function() {
+      jQuery("input[type=submit]", jQuery(this).parents("form")).removeAttr("selected");
+      jQuery(this).attr("selected", "true");
+    });
+  }
     jQuery('#taseav-age-verify').submit(function(){
       taseavStoreAge();
       confirmAge();
       taseavDebug(taseavData);
-  });
+    });
 })
