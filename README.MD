@@ -36,9 +36,17 @@ Easy Age Verifier has a few filters that allow theme developers to customize def
 * **eav_default_form_title**
   * Sets the default content to display above the form.
   * Default: Verify Your Age to Continue
+* **eav_under_age_value**
+  * Sets the default content to display inside of the button that says the visitor is underage.
+    * This filter only applies to the confirm age form, not the enter age form.
+  * Default: I am under $age
+* **eav_over_age_value**
+  * Sets the default content to display inside of the button that says the visitor is of age.
+    * This filter only applies to the confirm age form, not the enter age form.
+  * Default: I am $age or older.
 * **eav_wrapper_class**
   * Sets the default wrapper class.
-  * **IMPORTANT:** If you override this class and do not update the CSS to display properly, this will prevent your form from displaying properly. This is intended for advanced users only.
+    * **IMPORTANT:** If you override this class and do not update the CSS to display properly, this will prevent your form from displaying properly. This is intended for advanced users only.
   * Default: taseav-age-verify
 * **eav_form_class**
   * Sets the default form class.
