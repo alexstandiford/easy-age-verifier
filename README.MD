@@ -15,6 +15,14 @@ https://github.com/tstandiford/easy-age-verifier
 2. Activate the plugin through the 'Plugins' screen in WordPress
 3. (Optional) Configure the form, including minimum age, and all messaging for the form on settings>>>Easy Age Verifier
 
+## Form Types ##
+Easy Age Verifier comes with 2 different ways to verify your visitor is of age. The form that you wish to use can be customized on the Easy Age Verifier settings page.
+
+1. Enter Age Form (default)
+  * This form requires that the visitor enters their date of birth
+2. Confirm Age Form
+  * This form does not require that the visitor enter their date of birth. Instead, they simply click on one of two buttons, that says they're either of age, or they're not of age.
+
 ## Filters ##
 
 Easy Age Verifier has a few filters that allow theme developers to customize defaults for this plugin. Most of these can be overridden by the administrator under settings>>>Easy Age Verifier
