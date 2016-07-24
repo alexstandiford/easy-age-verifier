@@ -136,10 +136,26 @@ class eavSettings{
       'eav-settings-admin', // Page
       'eav_options_id' // Section           
     );      
-   
+     
+    add_settings_field(
+      'eav_over_age_value', // ID
+      'Over age button value<br><h5>Only applies to confirm age form.</h5>', // Title 
+      array( $this, 'over_age_value_callback' ), // Callback
+      'eav-settings-admin', // Page
+      'eav_options_id' // Section           
+    );      
+    
+    add_settings_field(
+      'eav_under_age_value', // ID
+      'Under age button value<br><h5>Only applies to confirm age form.</h5>', // Title 
+      array( $this, 'under_age_value_callback' ), // Callback
+      'eav-settings-admin', // Page
+      'eav_options_id' // Section           
+    );      
+    
     add_settings_field(
       'eav_debug', // ID
-      'Debug Mode', // Title 
+      'Debug Mode<br><h5>Debug Mode may help support solve your issue.</h5>', // Title 
       array( $this, 'debug_mode_callback' ), // Callback
       'eav-settings-admin', // Page
       'eav_options_id' // Section           
