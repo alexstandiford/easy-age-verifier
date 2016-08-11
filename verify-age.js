@@ -139,6 +139,7 @@ function confirmAge(){
 }
 
 jQuery(document).ready(function(){
+  if(taseavData.isOfAge == false && taseavData.loggedIn != true){
     jQuery("body").append(taseavAgeForm());
     jQuery("#taseav-age-verify form").submit(function(e) {
       e.preventDefault();
@@ -158,4 +159,5 @@ jQuery(document).ready(function(){
       confirmAge();
       taseavDebug(taseavData);
     });
+  };
 })
