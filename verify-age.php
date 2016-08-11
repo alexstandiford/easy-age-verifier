@@ -97,10 +97,10 @@ function taseav_init(){
     wp_localize_script('verify-age.js','taseavData',$pass_data->get());
 
     //Calls Age Verification Script
-    wp_enqueue_script('verify-age.js');
+    wp_enqueue_script('verify-age.js',[],'1.21');
 
     //Age Verification Style
-    wp_enqueue_style('verify-age.css',plugin_dir_url(__FILE__).'verify-age.css');
+    wp_enqueue_style('verify-age.css',plugin_dir_url(__FILE__).'verify-age.css',[],'1.21');
   }
 }
 add_action('wp_enqueue_scripts','taseav_init');
