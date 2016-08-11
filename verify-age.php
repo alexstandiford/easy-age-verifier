@@ -2,7 +2,7 @@
 /*
 Plugin Name: Verify Age
 Description: Verify that your visitors are of age.
-Version:     1.2
+Version:     1.21
 Author:      Alex Standiford
 Author URI:  http://www.alexstandiford.com
 */
@@ -36,13 +36,16 @@ class taseav{
     $this->beforeDay = apply_filters('eav_before_day','');
     $this->beforeMonth = apply_filters('eav_before_month','');
     $this->beforeButton = apply_filters('eav_before_button','');
+    $this->loggedIn = is_user_logged_in();
   }
   
   public function isOfAge(){
-    if($this->age() >= $this->minAge && $this->age() !== false && $this->age() != 'underAge'){
+    if($this->age() >= $this->minAge && $this->age() != false && $this->age() != 'underAge'){
+      $this->isOfAge = true;
       return true;
     }
     else{
+      $this->isOfAge = false;
       return false;
     }
   }
@@ -94,10 +97,10 @@ function taseav_init(){
     wp_localize_script('verify-age.js','taseavData',$pass_data->get());
 
     //Calls Age Verification Script
-    wp_enqueue_script('verify-age.js');
+    wp_enqueue_script('verify-age.js',[],'1.21');
 
     //Age Verification Style
-    wp_enqueue_style('verify-age.css',plugin_dir_url(__FILE__).'verify-age.css');
+    wp_enqueue_style('verify-age.css',plugin_dir_url(__FILE__).'verify-age.css',[],'1.21');
   }
 }
 add_action('wp_enqueue_scripts','taseav_init');
