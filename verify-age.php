@@ -36,13 +36,16 @@ class taseav{
     $this->beforeDay = apply_filters('eav_before_day','');
     $this->beforeMonth = apply_filters('eav_before_month','');
     $this->beforeButton = apply_filters('eav_before_button','');
+    $this->loggedIn = is_user_logged_in();
   }
   
   public function isOfAge(){
-    if($this->age() >= $this->minAge && $this->age() !== false && $this->age() != 'underAge'){
+    if($this->age() >= $this->minAge && $this->age() != false && $this->age() != 'underAge'){
+      $this->isOfAge = true;
       return true;
     }
     else{
+      $this->isOfAge = false;
       return false;
     }
   }
