@@ -51,6 +51,19 @@
     width:100%;
 }
 
+.taseav-age-verify input[name="overAge"],
+.taseav-age-verify input[name="underAge"]{
+    width:45%;
+}
+
+.taseav-age-verify input[name="overAge"]{
+    margin-right: 2.5%;
+}
+
+.taseav-age-verify input[name="underAge"]{
+    margin-left:2.5%;
+}
+
 .taseav-age-verify{
   color:white;
 }
