@@ -4,7 +4,7 @@ Donate link: http://www.easybeerlister.com/recommends/donate
 Tags: beer, beers, brewery, untappd, age verification, bar, bars, restaurant, brewer, craft beer, craft bar
 Requires at least: 3.0.1
 Tested up to: 4.5
-Stable tag: 1.2
+Stable tag: 1.21
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,3 +53,7 @@ The form will not display if you are logged in, or if you have confirmed your ag
 
 = 1.20 =
 * Implemented an optional form type that allows users to specify that they are of age instead of forcing them to enter their date of birth.
+
+= 1.21 =
+* Fixed a bug that caused the verification to occasionally pop up when it shouldn't. This was especially true for sites that use caching plugins.
+* Tweaked the CSS for the under/over pop up.
