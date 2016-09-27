@@ -49,7 +49,12 @@ class taseav{
       return false;
     }
   }
-  
+
+  public function custom_is_true(){
+    $result = apply_filters('eav_custom_modal_logic', true);
+    return $result;
+  }
+
   public function age(){
     if(isset($this->dob)){
       if(($this->dob == 'overAge' || $this->dob == 'underAge')){
@@ -86,21 +91,25 @@ function taseav_init(){
   //Calls the data to pass to the JS file
   $pass_data = new taseav();
   //Checks to see if the date of birth is above the desired age
+  //Also checks to see if the user is logged in.
   if($pass_data->isOfAge() == false && !is_user_logged_in()){
-    //Calls jQuery beforehand as verify-age depends on it
-    wp_enqueue_script('jquery');
+    //Checks to see if there are any custom overrides to the behavior of the modal
+    if($pass_data->custom_is_true()){
+      //Calls jQuery beforehand as verify-age depends on it
+      wp_enqueue_script('jquery');
 
-    //Registers the Age Verification Script
-    wp_register_script('verify-age.js',plugin_dir_url(__FILE__).'verify-age.js');
+      //Registers the Age Verification Script
+      wp_register_script('verify-age.js',plugin_dir_url(__FILE__).'verify-age.js');
 
-    //Adds PHP Variables to the script as an object
-    wp_localize_script('verify-age.js','taseavData',$pass_data->get());
+      //Adds PHP Variables to the script as an object
+      wp_localize_script('verify-age.js','taseavData',$pass_data->get());
 
-    //Calls Age Verification Script
-    wp_enqueue_script('verify-age.js',[],'1.21');
+      //Calls Age Verification Script
+      wp_enqueue_script('verify-age.js',[],'1.21');
 
-    //Age Verification Style
-    wp_enqueue_style('verify-age.css',plugin_dir_url(__FILE__).'verify-age.css',[],'1.21');
+      //Age Verification Style
+      wp_enqueue_style('verify-age.css',plugin_dir_url(__FILE__).'verify-age.css',[],'1.21');
+    }
   }
 }
 add_action('wp_enqueue_scripts','taseav_init');

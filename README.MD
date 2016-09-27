@@ -27,6 +27,10 @@ Easy Age Verifier comes with 2 different ways to verify your visitor is of age. 
 
 Easy Age Verifier has a few filters that allow theme developers to customize defaults for this plugin. Most of these can be overridden by the administrator under settings>>>Easy Age Verifier
 
+
+* **eav_custom_modal_logic**
+  * Allows developers to create custom functions to override when Easy Age Verifier attempts to verify a visitor's age
+  * Default: True
 * **eav_default_age**
   * Sets the default age to check against
   * Default: 21
