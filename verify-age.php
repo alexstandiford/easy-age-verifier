@@ -49,7 +49,12 @@ class taseav{
       return false;
     }
   }
-  
+
+  public function custom_is_true(){
+    $result = apply_filters('eav_custom_modal_logic', true);
+    return $result;
+  }
+
   public function age(){
     if(isset($this->dob)){
       if(($this->dob == 'overAge' || $this->dob == 'underAge')){
