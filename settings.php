@@ -86,17 +86,29 @@ class eavSettings{
   public function __construct(){
     add_action('admin_menu', array($this, 'add_plugin_page'));
     add_action('admin_init', array($this, 'page_init'));
-		$this->options = array(
-			new eavOption('minimum_age','Minimum Age',$this),
-			new eavOption('form_title','Form Title',$this),
-			new eavOption('underage_message','Underage Message',$this),
-			new eavOption('wrapper_class','Wrapper Class',$this),
-			new eavOption('form_class','Form Class',$this),
-			new eavOption('button_value','Button Text',$this),
-			new eavOption('form_type','How will visitors will verify their age?',$this),
-			new eavOption('over_age_value','Over age button value<br><h5>Only applies to confirm age form.</h5>',$this),
-			new eavOption('under_age_value','Under age button value<br><h5>Only applies to confirm age form.</h5>',$this),
-			new eavOption('debug','Debug Mode<br><h5>Debug Mode may help support solve your issue.</h5>',$this),
+		$this->tabs = array(
+			
+			//General Settings
+			'options_id' => new eavOptionTab('options_id','General Settings','General Age Verifier Options','eav_options_group','eav-settings-admin'),
+			
+			//Customize Verifier
+			'customize_verifier' => new eavOptionTab('customize_verifier','Verifier Display Settings','<h2>Warning! If you change these classes, your form may not work properly. This is intended for advanced users only.</h2>','eav_customize_verifier'),
+		);
+		$this->settings = array(
+			
+			//General Settings
+			new eavOption('minimum_age','Minimum Age',$this->tabs['options_id'],$this),
+			new eavOption('form_type','How will visitors will verify their age?',$this->tabs['options_id'],$this),
+			new eavOption('form_title','Form Title',$this->tabs['options_id'],$this),
+			new eavOption('underage_message','Underage Message',$this->tabs['options_id'],$this),
+			new eavOption('button_value','Button Text',$this->tabs['options_id'],$this),
+			new eavOption('over_age_value','Over age button value<br><h5>Only applies to confirm age form.</h5>',$this->tabs['options_id'],$this),
+			new eavOption('under_age_value','Under age button value<br><h5>Only applies to confirm age form.</h5>',$this->tabs['options_id'],$this),
+			new eavOption('debug','Debug Mode<br><h5>Debug Mode may help support solve your issue.</h5>',$this->tabs['options_id'],$this),
+			
+			//Customize Verifier
+			new eavOption('wrapper_class','Wrapper Class',$this->tabs['customize_verifier'],$this,'eav_customize_verifier'),
+			new eavOption('form_class','Form Class',$this->tabs['customize_verifier'],$this,'eav_customize_verifier'),
 		);
   }
 
