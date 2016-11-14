@@ -23,6 +23,52 @@ class eavOption{
 	}
 }
 
+class eavOptionTab{
+	public function __construct($ID,$tab_title,$description = null,$settings_field = null,$settings_section = null,$prefix = 'eav_'){
+		$this->ID = $prefix.strtolower($ID);
+		$this->settingsField = ($settings_field == null) ? $this->ID : $settings_field;
+		$this->settingsSection = ($settings_section == null) ? $this->ID : $settings_section;
+		$this->tabTitle = $tab_title;
+		$this->tab = $this->get_tab();
+		$this->description = $description;
+	}
+	
+	public function active_tab(){
+		if(isset($_GET['tab'])){
+    	$active_tab = $_GET['tab'];
+  	}
+		else{
+			$active_tab = 'options_id';
+		}
+		return $active_tab;
+	}
+	
+	public function is_active(){
+		$active_tab = $this->active_tab();
+
+		if($this->ID == $active_tab){
+			$result = true;
+		}
+		else{
+			$result = false;
+		}
+		return $result;
+	}
+	
+	private function get_tab(){
+		$active_tab = $this->active_tab();
+		$tab_class = 'nav-tab';
+
+		if($this->is_active()){
+			$tab_class .= ' nav-tab-active';
+		}
+		
+		$result = '<a href="?page=easy-age-verifier-settings&tab='.$this->ID.'" class="'.$tab_class.'">'.$this->tabTitle.'</a>';
+		return $result;
+	}
+	
+}
+
 class eavSettings{
   /**
    * Holds the values to be used in the fields callbacks
