@@ -4,9 +4,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /*--- CUSTOM STYLES FOR SETTINGS PAGES ---*/
 function eav_admin_styles_init(){
-  $styles = [
+  $styles = array(
     'eav-settings.css'
-  ];
+  );
   foreach($styles as $style){
     wp_enqueue_style($style,plugin_dir_url(__FILE__).$style);
   }
@@ -73,13 +73,13 @@ class eavSettings{
       'eav_options_group', // Option group
       'eav_options' // Option name
     );
-
+		
     add_settings_section(
       'eav_options_id', // ID
       'Easy Age Verifier Settings', // Title
       array( $this, 'print_section_info' ), // Callback
       'eav-settings-admin' // Page
-    );  
+    ); 
 
     add_settings_field(
       'eav_minimum_age', // ID
@@ -136,7 +136,7 @@ class eavSettings{
       'eav-settings-admin', // Page
       'eav_options_id' // Section           
     );      
-     
+
     add_settings_field(
       'eav_over_age_value', // ID
       'Over age button value<br><h5>Only applies to confirm age form.</h5>', // Title 
@@ -258,8 +258,8 @@ function eav_settings_sidebar_cta(){?>
 			<p>If you ever have <em>any</em> questions about WordPress, or need customizations to your website don't hesitate to send me a message.  I'll be happy to help you out in any way I can.</p>
 			<ul>
 				<li>Email: <a href="mailto:a@alexstandiford.com">a@alexstandiford.com</a></li>
-				<li><a href="http://www.twitter.com/alexstandiford" target="blank">Follow me on Twitter</a></li>
-				<li><a href="http://www.alexstandiford.com" target="blank">Visit my website</a></li>
+				<li><a href="http://www.twitter.com/fillyourtaproom" target="blank">Follow me on Twitter</a></li>
+				<li><a href="http://www.fillyourtaproom.com" target="blank">Visit my website</a></li>
 			</ul>
 		</div>
 		<div class="signup-form">	

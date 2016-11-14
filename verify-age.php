@@ -76,7 +76,7 @@ class taseav{
   }
   
   public function get(){
-    $result = [];
+    $result = array();
     foreach($this as $var => $value){
       $result = array_merge($result,[$var => $value]);
     }
@@ -99,16 +99,16 @@ function taseav_init(){
       wp_enqueue_script('jquery');
 
       //Registers the Age Verification Script
-      wp_register_script('verify-age.js',plugin_dir_url(__FILE__).'verify-age.js',[],time());
+      wp_register_script('verify-age.js',plugin_dir_url(__FILE__).'verify-age.js',array(),time());
 
       //Adds PHP Variables to the script as an object
       wp_localize_script('verify-age.js','taseavData',$pass_data->get());
 
       //Calls Age Verification Script
-      wp_enqueue_script('verify-age.js',[],time());
+      wp_enqueue_script('verify-age.js',array(),time());
 
       //Age Verification Style
-      wp_enqueue_style('verify-age.css',plugin_dir_url(__FILE__).'verify-age.css',[],'1.30');
+      wp_enqueue_style('verify-age.css',plugin_dir_url(__FILE__).'verify-age.css',array(),'1.30');
     }
   }
 }
