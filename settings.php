@@ -14,12 +14,17 @@ function eav_admin_styles_init(){
 add_action('admin_enqueue_scripts','eav_admin_styles_init');
 
 class eavOption{
-	public function __construct($ID,$title,$object,$callback = null,$page = null,$section = null,$prefix = 'eav_'){
+	public function __construct($ID,$title,$tab,$object = null,$page = null,$prefix='eav_'){
 		$this->ID = $prefix.$ID;
 		$this->title = $title;
-		$this->callback = ($callback == null) ? array($object,$this->ID.'_callback') : array($object,$callback);
+		if($object == null){
+			$this->callback = ($callback == null) ? $this->ID.'_callback' : $callback;
+		}
+		else{
+			$this->callback = ($callback == null) ? array($object,$this->ID.'_callback') : array($object,$callback);
+		}
 		$this->page = ($page == null) ? 'eav-settings-admin' : $page;
-		$this->section = ($section == null) ? 'eav_options_id' : $section;
+		$this->section = $tab->ID;
 	}
 }
 
