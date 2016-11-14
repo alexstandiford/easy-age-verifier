@@ -35,6 +35,18 @@ class eavSettings{
   public function __construct(){
     add_action('admin_menu', array($this, 'add_plugin_page'));
     add_action('admin_init', array($this, 'page_init'));
+		$this->options = array(
+			new eavOption('minimum_age','Minimum Age',$this),
+			new eavOption('form_title','Form Title',$this),
+			new eavOption('underage_message','Underage Message',$this),
+			new eavOption('wrapper_class','Wrapper Class',$this),
+			new eavOption('form_class','Form Class',$this),
+			new eavOption('button_value','Button Text',$this),
+			new eavOption('form_type','How will visitors will verify their age?',$this),
+			new eavOption('over_age_value','Over age button value<br><h5>Only applies to confirm age form.</h5>',$this),
+			new eavOption('under_age_value','Under age button value<br><h5>Only applies to confirm age form.</h5>',$this),
+			new eavOption('debug','Debug Mode<br><h5>Debug Mode may help support solve your issue.</h5>',$this),
+		);
   }
 
   /**
