@@ -133,14 +133,25 @@ class eavSettings{
     // Set class property
     $this->options = get_option( 'eav_options' );
     ?>
-    <h2>Easy Age Verifer</h2>           
+    <h2>Easy Age Verifer</h2>
+      <h2 class="nav-tab-wrapper">
+				<?php
+					foreach($this->tabs as $tab){
+						echo $tab->tab;
+					}
+				?>
+			</h2>          
       <div class="eav-wrapper">
         <form method="post" action="options.php">
         <?php
           // This prints out all hidden setting fields
-          settings_fields( 'eav_options_group' );   
-          do_settings_sections( 'eav-settings-admin' );
-          submit_button(); 
+					settings_fields('eav_options_group');   
+					foreach($this->tabs as $tab){
+						if($tab->is_active()){
+          		do_settings_sections($tab->settingsSection);
+						}
+					}
+          submit_button();
         ?>
         </form>
       <div class="eav-admin-sidebar">
@@ -153,20 +164,22 @@ class eavSettings{
   /**
    * Register and add settings
    */
-  public function page_init(){        
-    register_setting(
-      'eav_options_group', // Option group
-      'eav_options' // Option name
-    );
+  public function page_init(){
+			register_setting(
+				'eav_options_group', // Option group
+				'eav_options' // Option name
+			);
+			foreach($this->tabs as $tab){
+				add_settings_section(
+					$tab->ID, // ID
+					'', // Title
+					array( $this, 'print_section_info' ), // Callback
+					$tab->settingsSection // Page
+				);
+			}
 		
-    add_settings_section(
-      'eav_options_id', // ID
-      'Easy Age Verifier Settings', // Title
-      array( $this, 'print_section_info' ), // Callback
-      'eav-settings-admin' // Page
-    ); 
-		
-		foreach($this->options as $option){
+		//Loop through and build the options
+		foreach($this->settings as $option){
 			add_settings_field(
 				$option->ID,
 				$option->title,
@@ -181,7 +194,11 @@ class eavSettings{
    * Print the Section text
    */
   public function print_section_info(){
-    print 'Enter your settings below:';
+    foreach($this->tabs as $tab){
+			if($tab->is_active()){
+				echo $tab->description;
+			}
+		}
   }
 
   /** 
