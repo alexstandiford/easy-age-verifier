@@ -13,6 +13,16 @@ function eav_admin_styles_init(){
 }
 add_action('admin_enqueue_scripts','eav_admin_styles_init');
 
+class eavOption{
+	public function __construct($ID,$title,$object,$callback = null,$page = null,$section = null,$prefix = 'eav_'){
+		$this->ID = $prefix.$ID;
+		$this->title = $title;
+		$this->callback = ($callback == null) ? array($object,$this->ID.'_callback') : array($object,$callback);
+		$this->page = ($page == null) ? 'eav-settings-admin' : $page;
+		$this->section = ($section == null) ? 'eav_options_id' : $section;
+	}
+}
+
 class eavSettings{
   /**
    * Holds the values to be used in the fields callbacks
