@@ -108,22 +108,18 @@ class taseav{
 	* Returns a boolean
 	**/
   public function custom_is_true(){
-		$checks = array(true);
+		$checks = array('result' => true);
     $checks = apply_filters('eav_custom_modal_logic', $checks);
-		$result = true;
 		if(is_array($checks)){
 			foreach($checks as $check){
 				if($check == false){
-					$result = false;
+					$checks['result'] = false;
 					break;
 				}
 			}
 		}
-		elseif($checks == false){
-				$result = false;
-			}
 		
-    return $result;
+    return $checks;
   }
 
 	/**
