@@ -131,6 +131,7 @@ class eavSettings{
     // Set class property
     $this->options = get_option( 'eav_options' );
     ?>
+	<div class="wrap">
     <h2>Easy Age Verifer</h2>
       <h2 class="nav-tab-wrapper">
 				<?php
@@ -138,7 +139,8 @@ class eavSettings{
 						echo $tab->tab;
 					}
 				?>
-			</h2>          
+			</h2>
+     <h1>Easy Age Verifier Settings</h1>        
       <div class="eav-wrapper">
         <form method="post" action="options.php">
         <?php
@@ -156,6 +158,7 @@ class eavSettings{
         <?php do_action('eav_settings_sidebar');?>
       </div>
     </div>
+	</div>
     <?php
   }
 
