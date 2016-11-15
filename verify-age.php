@@ -37,7 +37,6 @@ class taseav{
     $this->beforeMonth = apply_filters('eav_before_month','');
     $this->beforeButton = apply_filters('eav_before_button','');
 		$this->template = apply_filters('eav_modal_template',$this->get_modal_template());
-//		$this->template = $this->get_modal_template();
     $this->loggedIn = is_user_logged_in();
   }
 	
@@ -109,8 +108,18 @@ class taseav{
 	* Returns a boolean
 	**/
   public function custom_is_true(){
-    $result = apply_filters('eav_custom_modal_logic', true);
-    return $result;
+		$checks = array('result' => true);
+    $checks = apply_filters('eav_custom_modal_logic', $checks);
+		if(is_array($checks)){
+			foreach($checks as $check){
+				if($check == false){
+					$checks['result'] = false;
+					break;
+				}
+			}
+		}
+		
+    return $checks;
   }
 
 	/**
@@ -159,8 +168,9 @@ function taseav_init(){
   //Checks to see if the date of birth is above the desired age
   //Also checks to see if the user is logged in.
   if($pass_data->isOfAge() == false && !is_user_logged_in()){
+		$custom_is_true = $pass_data->custom_is_true();
     //Checks to see if there are any custom overrides to the behavior of the modal
-    if($pass_data->custom_is_true()){
+    if($custom_is_true['result']){
       //Calls jQuery beforehand as verify-age depends on it
       wp_enqueue_script('jquery');
 
@@ -176,6 +186,13 @@ function taseav_init(){
       //Age Verification Style
       wp_enqueue_style('verify-age.css',plugin_dir_url(__FILE__).'verify-age.css',array(),'1.30');
     }
+		else{
+			if(is_array($custom_is_true)){
+				foreach($custom_is_true as $check_id => $boolean){
+					do_action($check_id.'_custom_is_false');
+				}
+			}
+		}
   }
 }
 add_action('wp_enqueue_scripts','taseav_init');
