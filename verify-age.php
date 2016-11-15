@@ -168,8 +168,9 @@ function taseav_init(){
   //Checks to see if the date of birth is above the desired age
   //Also checks to see if the user is logged in.
   if($pass_data->isOfAge() == false && !is_user_logged_in()){
+		$custom_is_true = $pass_data->custom_is_true();
     //Checks to see if there are any custom overrides to the behavior of the modal
-    if($pass_data->custom_is_true()){
+    if($custom_is_true['result']){
       //Calls jQuery beforehand as verify-age depends on it
       wp_enqueue_script('jquery');
 
@@ -186,7 +187,11 @@ function taseav_init(){
       wp_enqueue_style('verify-age.css',plugin_dir_url(__FILE__).'verify-age.css',array(),'1.30');
     }
 		else{
-			do_action('custom_is_false');
+			if(is_array($custom_is_true)){
+				foreach($custom_is_true as $check_id => $boolean){
+					do_action($check_id.'_custom_is_false');
+				}
+			}
 		}
   }
 }
