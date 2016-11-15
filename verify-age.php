@@ -37,7 +37,6 @@ class taseav{
     $this->beforeMonth = apply_filters('eav_before_month','');
     $this->beforeButton = apply_filters('eav_before_button','');
 		$this->template = apply_filters('eav_modal_template',$this->get_modal_template());
-//		$this->template = $this->get_modal_template();
     $this->loggedIn = is_user_logged_in();
   }
 	
@@ -109,7 +108,21 @@ class taseav{
 	* Returns a boolean
 	**/
   public function custom_is_true(){
-    $result = apply_filters('eav_custom_modal_logic', true);
+		$checks = array(true);
+    $checks = apply_filters('eav_custom_modal_logic', $checks);
+		$result = true;
+		if(is_array($checks)){
+			foreach($checks as $check){
+				if($check == false){
+					$result = false;
+					break;
+				}
+			}
+		}
+		elseif($checks == false){
+				$result = false;
+			}
+		
     return $result;
   }
 
