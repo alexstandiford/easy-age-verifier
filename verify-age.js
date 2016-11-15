@@ -96,7 +96,7 @@ function confirmAge(){
 
 jQuery(document).ready(function(){
   if(taseavData.isOfAge == false && taseavData.loggedIn != true){
-    jQuery("body").append(taseavAgeForm());
+    jQuery("body").append(taseavData.template);
     jQuery("#taseav-age-verify form").submit(function(e) {
       e.preventDefault();
     });
