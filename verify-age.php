@@ -38,6 +38,54 @@ class taseav{
     $this->beforeButton = apply_filters('eav_before_button','');
     $this->loggedIn = is_user_logged_in();
   }
+	
+	/**
+	* The default modal template. Can be replaced with eav_modal_template filter
+	* Returns HTML string
+	**/
+	public function get_modal_template(){
+		$result = '';
+
+		//Starts the form
+		$result =  "<div id='taseav-age-verify' class='" . $this->wrapperClass . "'>";
+		$result .=   $this->beforeForm;
+		$result .=   "<form class='" . $this->formClass . "'>";
+		$result .=   "<h2>" . $this->formTitle . "</h2>";
+
+		//If the settings call to enter the age, do this
+		if($this->formType == 'eav_enter_age'){
+			$result .=     $this->beforeMonth;
+			$result .=     "<div class='" . $this->monthClass . "'>";
+			$result .=     "<label>Month</label>";
+			$result .=     "<input name='month' type='number' min='1' max='12' required>";
+			$result .=     "</div>";
+			$result .=     $this->beforeDay;
+			$result .=     "<div class='" . $this->dayClass . "'>";
+			$result .=     "<label>Day</label>";
+			$result .=     "<input name='day' type='number' min='1' max='31' required>";
+			$result .=     "</div>";
+			$result .=     $this->beforeYear;
+			$result .=     "<div class='" . $this->yearClass . "'>";
+			$result .=     "<label>Year</label>";
+			$result .=     "<input name='year' type='number' min='" . $this->minYear . "' max='" . date("Y") . "' required>";
+			$result .=     "</div>";
+			$result .=     $this->beforeButton;
+			$result .=     "<input type='submit' value='" . $this->buttonValue . "'>";
+		}
+
+		//If the settings call to simply verify the age, do this.
+		if($this->formType == 'eav_confirm_age'){
+			$result .=     "<input name='overAge' type='submit' value='" . $this->overAge . "'>";
+			$result .=     "<input name='underAge' type='submit' value='" . $this->underAge . "'>";
+		}
+
+		//Closes out the form
+		$result .=   "</form>";
+		$result .=   $this->afterForm;
+		$result .=  "</div>";
+
+		return $result;
+	}
   
   public function isOfAge(){
     if($this->age() >= $this->minAge && $this->age() != false && $this->age() != 'underAge'){
