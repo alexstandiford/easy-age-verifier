@@ -43,7 +43,7 @@ class eavOptionTab{
     	$active_tab = $_GET['tab'];
   	}
 		else{
-			$active_tab = 'options_id';
+			$active_tab = 'eav_options_id';
 		}
 		return $active_tab;
 	}
@@ -61,9 +61,7 @@ class eavOptionTab{
 	}
 	
 	private function get_tab(){
-		$active_tab = $this->active_tab();
 		$tab_class = 'nav-tab';
-
 		if($this->is_active()){
 			$tab_class .= ' nav-tab-active';
 		}
