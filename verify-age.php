@@ -189,6 +189,9 @@ function taseav_init(){
       //Age Verification Style
       wp_enqueue_style('verify-age.css',plugin_dir_url(__FILE__).'verify-age.css',array(),'1.30');
     }
+		else{
+			do_action('custom_is_false');
+		}
   }
 }
 add_action('wp_enqueue_scripts','taseav_init');
