@@ -36,6 +36,8 @@ class taseav{
     $this->beforeDay = apply_filters('eav_before_day','');
     $this->beforeMonth = apply_filters('eav_before_month','');
     $this->beforeButton = apply_filters('eav_before_button','');
+		$this->template = apply_filters('eav_modal_template',$this->get_modal_template());
+//		$this->template = $this->get_modal_template();
     $this->loggedIn = is_user_logged_in();
   }
 	
@@ -87,6 +89,10 @@ class taseav{
 		return $result;
 	}
   
+	/**
+	* Checks if the visitor is of-age.
+	* Returns a boolean
+	**/
   public function isOfAge(){
     if($this->age() >= $this->minAge && $this->age() != false && $this->age() != 'underAge'){
       $this->isOfAge = true;
@@ -98,11 +104,19 @@ class taseav{
     }
   }
 
+	/**
+	* Allows developers to add custom logic for the modal popup
+	* Returns a boolean
+	**/
   public function custom_is_true(){
     $result = apply_filters('eav_custom_modal_logic', true);
     return $result;
   }
 
+	/**
+	* Calculates the age of the visitor
+	* Returns a number
+	**/
   public function age(){
     if(isset($this->dob)){
       if(($this->dob == 'overAge' || $this->dob == 'underAge')){
@@ -122,7 +136,11 @@ class taseav{
       return false;
     }
   }
-  
+ 
+	/**
+	* Grabs all of the object data to pass into the Javascript
+	* Returns an array
+	**/
   public function get(){
     $result = array();
     foreach($this as $var => $value){
