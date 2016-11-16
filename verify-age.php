@@ -1,10 +1,13 @@
 <?php
 /*
 Plugin Name: Verify Age
-Description: Verify that your visitors are of age.
-Version:     1.21
+Description: Easy Age Verifier makes it easy for websites to confirm their website visitors are of legal age.
+Version:     1.30
 Author:      Alex Standiford
 Author URI:  http://www.alexstandiford.com
+License:     GPL3
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
+Text Domain: easyageverifier
 */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -36,9 +39,62 @@ class taseav{
     $this->beforeDay = apply_filters('eav_before_day','');
     $this->beforeMonth = apply_filters('eav_before_month','');
     $this->beforeButton = apply_filters('eav_before_button','');
+		$this->template = apply_filters('eav_modal_template',$this->get_modal_template());
     $this->loggedIn = is_user_logged_in();
   }
+	
+	/**
+	* The default modal template. Can be replaced with eav_modal_template filter
+	* Returns HTML string
+	**/
+	public function get_modal_template(){
+		$result = '';
+
+		//Starts the form
+		$result =  "<div id='taseav-age-verify' class='" . $this->wrapperClass . "'>";
+		$result .=   $this->beforeForm;
+		$result .=   "<form class='" . $this->formClass . "'>";
+		$result .=   "<h2>" . $this->formTitle . "</h2>";
+
+		//If the settings call to enter the age, do this
+		if($this->formType == 'eav_enter_age'){
+			$result .=     $this->beforeMonth;
+			$result .=     "<div class='" . $this->monthClass . "'>";
+			$result .=     "<label>Month</label>";
+			$result .=     "<input name='month' type='number' min='1' max='12' required>";
+			$result .=     "</div>";
+			$result .=     $this->beforeDay;
+			$result .=     "<div class='" . $this->dayClass . "'>";
+			$result .=     "<label>Day</label>";
+			$result .=     "<input name='day' type='number' min='1' max='31' required>";
+			$result .=     "</div>";
+			$result .=     $this->beforeYear;
+			$result .=     "<div class='" . $this->yearClass . "'>";
+			$result .=     "<label>Year</label>";
+			$result .=     "<input name='year' type='number' min='" . $this->minYear . "' max='" . date("Y") . "' required>";
+			$result .=     "</div>";
+			$result .=     $this->beforeButton;
+			$result .=     "<input type='submit' value='" . $this->buttonValue . "'>";
+		}
+
+		//If the settings call to simply verify the age, do this.
+		if($this->formType == 'eav_confirm_age'){
+			$result .=     "<input name='overAge' type='submit' value='" . $this->overAge . "'>";
+			$result .=     "<input name='underAge' type='submit' value='" . $this->underAge . "'>";
+		}
+
+		//Closes out the form
+		$result .=   "</form>";
+		$result .=   $this->afterForm;
+		$result .=  "</div>";
+
+		return $result;
+	}
   
+	/**
+	* Checks if the visitor is of-age.
+	* Returns a boolean
+	**/
   public function isOfAge(){
     if($this->age() >= $this->minAge && $this->age() != false && $this->age() != 'underAge'){
       $this->isOfAge = true;
@@ -50,11 +106,29 @@ class taseav{
     }
   }
 
+	/**
+	* Allows developers to add custom logic for the modal popup
+	* Returns a boolean
+	**/
   public function custom_is_true(){
-    $result = apply_filters('eav_custom_modal_logic', true);
-    return $result;
+		$checks = array('result' => true);
+    $checks = apply_filters('eav_custom_modal_logic', $checks);
+		if(is_array($checks)){
+			foreach($checks as $check){
+				if($check == false){
+					$checks['result'] = false;
+					break;
+				}
+			}
+		}
+		
+    return $checks;
   }
 
+	/**
+	* Calculates the age of the visitor
+	* Returns a number
+	**/
   public function age(){
     if(isset($this->dob)){
       if(($this->dob == 'overAge' || $this->dob == 'underAge')){
@@ -74,9 +148,13 @@ class taseav{
       return false;
     }
   }
-  
+ 
+	/**
+	* Grabs all of the object data to pass into the Javascript
+	* Returns an array
+	**/
   public function get(){
-    $result = [];
+    $result = array();
     foreach($this as $var => $value){
       $result = array_merge($result,[$var => $value]);
     }
@@ -93,23 +171,31 @@ function taseav_init(){
   //Checks to see if the date of birth is above the desired age
   //Also checks to see if the user is logged in.
   if($pass_data->isOfAge() == false && !is_user_logged_in()){
+		$custom_is_true = $pass_data->custom_is_true();
     //Checks to see if there are any custom overrides to the behavior of the modal
-    if($pass_data->custom_is_true()){
+    if($custom_is_true['result']){
       //Calls jQuery beforehand as verify-age depends on it
       wp_enqueue_script('jquery');
 
       //Registers the Age Verification Script
-      wp_register_script('verify-age.js',plugin_dir_url(__FILE__).'verify-age.js');
+      wp_register_script('verify-age.js',plugin_dir_url(__FILE__).'verify-age.js',array(),time());
 
       //Adds PHP Variables to the script as an object
       wp_localize_script('verify-age.js','taseavData',$pass_data->get());
 
       //Calls Age Verification Script
-      wp_enqueue_script('verify-age.js',[],'1.21');
+      wp_enqueue_script('verify-age.js',array(),time());
 
       //Age Verification Style
-      wp_enqueue_style('verify-age.css',plugin_dir_url(__FILE__).'verify-age.css',[],'1.21');
+      wp_enqueue_style('verify-age.css',plugin_dir_url(__FILE__).'verify-age.css',array(),'1.30');
     }
+		else{
+			if(is_array($custom_is_true)){
+				foreach($custom_is_true as $check_id => $boolean){
+					do_action($check_id.'_custom_is_false');
+				}
+			}
+		}
   }
 }
 add_action('wp_enqueue_scripts','taseav_init');

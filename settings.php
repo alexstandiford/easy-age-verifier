@@ -4,14 +4,73 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 /*--- CUSTOM STYLES FOR SETTINGS PAGES ---*/
 function eav_admin_styles_init(){
-  $styles = [
+  $styles = array(
     'eav-settings.css'
-  ];
+  );
   foreach($styles as $style){
     wp_enqueue_style($style,plugin_dir_url(__FILE__).$style);
   }
 }
 add_action('admin_enqueue_scripts','eav_admin_styles_init');
+
+class eavOption{
+	public function __construct($ID,$title,$tab,$object = null,$page = null,$prefix='eav_'){
+		$this->ID = $prefix.$ID;
+		$this->title = __($title,'easyageverifier');
+		if($object == null){
+			$this->callback = ($callback == null) ? $this->ID.'_callback' : $callback;
+		}
+		else{
+			$this->callback = ($callback == null) ? array($object,$this->ID.'_callback') : array($object,$callback);
+		}
+		$this->page = ($page == null) ? 'eav-settings-admin' : $page;
+		$this->section = $tab->ID;
+	}
+}
+
+class eavOptionTab{
+	public function __construct($ID,$tab_title,$description = null,$settings_field = null,$settings_section = null,$prefix = 'eav_'){
+		$this->ID = $prefix.strtolower($ID);
+		$this->settingsField = ($settings_field == null) ? $this->ID : $settings_field;
+		$this->settingsSection = ($settings_section == null) ? $this->ID : $settings_section;
+		$this->tabTitle = __($tab_title,'easyageverifier');
+		$this->tab = $this->get_tab();
+		$this->description = __($description,'easyageverifier');
+	}
+	
+	public function active_tab(){
+		if(isset($_GET['tab'])){
+    	$active_tab = $_GET['tab'];
+  	}
+		else{
+			$active_tab = 'eav_options_id';
+		}
+		return $active_tab;
+	}
+	
+	public function is_active(){
+		$active_tab = $this->active_tab();
+
+		if($this->ID == $active_tab){
+			$result = true;
+		}
+		else{
+			$result = false;
+		}
+		return $result;
+	}
+	
+	private function get_tab(){
+		$tab_class = 'nav-tab';
+		if($this->is_active()){
+			$tab_class .= ' nav-tab-active';
+		}
+		
+		$result = '<a href="?page=easy-age-verifier-settings&tab='.$this->ID.'" class="'.$tab_class.'">'.$this->tabTitle.'</a>';
+		return $result;
+	}
+	
+}
 
 class eavSettings{
   /**
@@ -25,6 +84,30 @@ class eavSettings{
   public function __construct(){
     add_action('admin_menu', array($this, 'add_plugin_page'));
     add_action('admin_init', array($this, 'page_init'));
+		$this->tabs = array(
+			
+			//General Settings
+			'options_id' => new eavOptionTab('options_id',__('General Settings','easyageverifier'),__('General Age Verifier Options','easyageverifier'),'eav_options_group','eav-settings-admin'),
+			
+			//Customize Verifier
+			'customize_verifier' => new eavOptionTab('customize_verifier',__('Verifier Display Settings','easyageverifier'),__('<h2>Warning! If you change these classes, your form may not work properly. This is intended for advanced users only.</h2>','easyageverifier'),'eav_customize_verifier'),
+		);
+		$this->settings = array(
+			
+			//General Settings
+			new eavOption('minimum_age',__('Minimum Age','easyageverifier'),$this->tabs['options_id'],$this),
+			new eavOption('form_type',__('How will visitors will verify their age?','easyageverifier'),$this->tabs['options_id'],$this),
+			new eavOption('form_title',__('Form Title','easyageverifier'),$this->tabs['options_id'],$this),
+			new eavOption('underage_message',__('Underage Message','easyageverifier'),$this->tabs['options_id'],$this),
+			new eavOption('button_value',__('Button Text','easyageverifier'),$this->tabs['options_id'],$this),
+			new eavOption('over_age_value',__('Over age button value<br><h5>Only applies to confirm age form.</h5>','easyageverifier'),$this->tabs['options_id'],$this),
+			new eavOption('under_age_value',__('Under age button value<br><h5>Only applies to confirm age form.</h5>','easyageverifier'),$this->tabs['options_id'],$this),
+			new eavOption('debug',__('Debug Mode<br><h5>Debug Mode may help support solve your issue.</h5>','easyageverifier'),$this->tabs['options_id'],$this),
+			
+			//Customize Verifier
+			new eavOption('wrapper_class',__('Wrapper Class','easyageverifier'),$this->tabs['customize_verifier'],$this,'eav_customize_verifier'),
+			new eavOption('form_class',__('Form Class','easyageverifier'),$this->tabs['customize_verifier'],$this,'eav_customize_verifier'),
+		);
   }
 
   /**
@@ -33,8 +116,8 @@ class eavSettings{
   public function add_plugin_page(){
     // This page will be under "Settings"
     add_options_page(
-      'Settings Admin', 
-      'Easy Age Verifier', 
+      __('Settings Admin','easyageverifier'), 
+      __('Easy Age Verifier','easyageverifier'), 
       'manage_options', 
       'easy-age-verifier-settings', 
       array( $this, 'create_admin_page' )
@@ -48,139 +131,88 @@ class eavSettings{
     // Set class property
     $this->options = get_option( 'eav_options' );
     ?>
-    <h2>Easy Age Verifer</h2>           
+	<div class="wrap">
+    <h2><?php echo __('Easy Age Verifer','easyageverifier'); ?></h2>
+      <h2 class="nav-tab-wrapper">
+				<?php
+					foreach($this->tabs as $tab){
+						echo $tab->tab;
+					}
+				?>
+			</h2>
+     <h1>Easy Age Verifier Settings</h1>        
       <div class="eav-wrapper">
         <form method="post" action="options.php">
         <?php
           // This prints out all hidden setting fields
-          settings_fields( 'eav_options_group' );   
-          do_settings_sections( 'eav-settings-admin' );
-          submit_button(); 
+					settings_fields('eav_options_group');   
+					foreach($this->tabs as $tab){
+						if($tab->is_active()){
+          		do_settings_sections($tab->settingsSection);
+						}
+					}
+          submit_button();
         ?>
         </form>
       <div class="eav-admin-sidebar">
         <?php do_action('eav_settings_sidebar');?>
       </div>
     </div>
+	</div>
     <?php
   }
 
   /**
    * Register and add settings
    */
-  public function page_init(){        
-    register_setting(
-      'eav_options_group', // Option group
-      'eav_options' // Option name
-    );
-
-    add_settings_section(
-      'eav_options_id', // ID
-      'Easy Age Verifier Settings', // Title
-      array( $this, 'print_section_info' ), // Callback
-      'eav-settings-admin' // Page
-    );  
-
-    add_settings_field(
-      'eav_minimum_age', // ID
-      'Minimum Age', // Title 
-      array( $this, 'minimum_age_callback' ), // Callback
-      'eav-settings-admin', // Page
-      'eav_options_id' // Section           
-    );      
- 
-    add_settings_field(
-      'eav_form_title', // ID
-      'Form Title', // Title 
-      array( $this, 'form_title_callback' ), // Callback
-      'eav-settings-admin', // Page
-      'eav_options_id' // Section           
-    );      
-  
-    add_settings_field(
-      'eav_underage_message', // ID
-      'Underage Message', // Title 
-      array( $this, 'underage_message_callback' ), // Callback
-      'eav-settings-admin', // Page
-      'eav_options_id' // Section           
-    );      
-  
-    add_settings_field(
-      'eav_wrapper_class', // ID
-      'Wrapper Class', // Title 
-      array( $this, 'wrapper_class_callback' ), // Callback
-      'eav-settings-admin', // Page
-      'eav_options_id' // Section           
-    );      
-  
-    add_settings_field(
-      'eav_form_class', // ID
-      'Form Class', // Title 
-      array( $this, 'form_class_callback' ), // Callback
-      'eav-settings-admin', // Page
-      'eav_options_id' // Section           
-    );      
-     
-    add_settings_field(
-      'eav_button_value', // ID
-      'Button Text', // Title 
-      array( $this, 'button_value_callback' ), // Callback
-      'eav-settings-admin', // Page
-      'eav_options_id' // Section           
-    );      
-     
-    add_settings_field(
-      'eav_form_type', // ID
-      'How will visitors will verify their age?', // Title 
-      array( $this, 'form_type_callback' ), // Callback
-      'eav-settings-admin', // Page
-      'eav_options_id' // Section           
-    );      
-     
-    add_settings_field(
-      'eav_over_age_value', // ID
-      'Over age button value<br><h5>Only applies to confirm age form.</h5>', // Title 
-      array( $this, 'over_age_value_callback' ), // Callback
-      'eav-settings-admin', // Page
-      'eav_options_id' // Section           
-    );      
-    
-    add_settings_field(
-      'eav_under_age_value', // ID
-      'Under age button value<br><h5>Only applies to confirm age form.</h5>', // Title 
-      array( $this, 'under_age_value_callback' ), // Callback
-      'eav-settings-admin', // Page
-      'eav_options_id' // Section           
-    );      
-    
-    add_settings_field(
-      'eav_debug', // ID
-      'Debug Mode<br><h5>Debug Mode may help support solve your issue.</h5>', // Title 
-      array( $this, 'debug_mode_callback' ), // Callback
-      'eav-settings-admin', // Page
-      'eav_options_id' // Section           
-    );      
- 
+  public function page_init(){
+			register_setting(
+				'eav_options_group', // Option group
+				'eav_options' // Option name
+			);
+			foreach($this->tabs as $tab){
+				add_settings_section(
+					$tab->ID, // ID
+					'', // Title
+					array( $this, 'print_section_info' ), // Callback
+					$tab->settingsSection // Page
+				);
+			}
+		
+		//Loop through and build the options
+		foreach($this->settings as $option){
+			add_settings_field(
+				$option->ID,
+				$option->title,
+				$option->callback,
+				$option->page,
+				$option->section 
+			);      
+		}
   }
 
   /** 
    * Print the Section text
    */
   public function print_section_info(){
-    print 'Enter your settings below:';
+    foreach($this->tabs as $tab){
+			if($tab->is_active()){
+				echo $tab->description;
+			}
+		}
   }
 
   /** 
    * Get the settings option array and print one of its values
    */
-  public function minimum_age_callback(){
+  public function eav_minimum_age_callback(){
     printf(
       '<input type="number" id="eav_minimum_age" name="eav_options[eav_minimum_age]" value="%s" />',
       $this->options['eav_minimum_age'] != '' && $this->options['eav_minimum_age'] != 0 ? esc_attr( $this->options['eav_minimum_age']) : apply_filters('eav_default_age',21)
     );
   }
   
-  public function form_type_callback(){?>
+  public function eav_form_type_callback(){?>
       <select id="eav_form_type" name="eav_options[eav_form_type]">
         <option value="eav_enter_age" <?php selected($this->options['eav_form_type'], 'eav_enter_age');?>>Enter Age Form (Visitors Must Enter Their Date of Birth)</option>
         <option value="eav_confirm_age" <?php selected($this->options['eav_form_type'], 'eav_confirm_age');?>>Confirm Age Form (Visitors Must Confirm They're Of Age)</option>
@@ -188,56 +220,56 @@ class eavSettings{
   <?php
   }
   
-  public function underage_message_callback(){
+  public function eav_underage_message_callback(){
     printf(
       '<input type="text" id="eav_underage_message" name="eav_options[eav_underage_message]" value="%s" />',
       $this->options['eav_underage_message'] != '' ? esc_attr( $this->options['eav_underage_message']) : apply_filters('eav_default_underage_message','Sorry! You must be '.$this->options['eav_minimum_age'].' To visit this website.')
     );
   }
   
-  public function over_age_value_callback(){
+  public function eav_over_age_value_callback(){
     printf(
       '<input type="text" id="eav_over_age_value" name="eav_options[eav_over_age_value]" value="%s" />',
       $this->options['eav_over_age_value'] != '' ? esc_attr( $this->options['eav_over_age_value']) : apply_filters('eav_over_age_value',"I am ".$this->options['eav_minimum_age']." or older.")
     );
   }
   
-  public function under_age_value_callback(){
+  public function eav_under_age_value_callback(){
     printf(
       '<input type="text" id="eav_under_age_value" name="eav_options[eav_under_age_value]" value="%s" />',
       $this->options['eav_under_age_value'] != '' ? esc_attr( $this->options['eav_under_age_value']) : apply_filters('under_age_value',"I am under ".$this->options['eav_minimum_age'])
     );
   }
 
-  public function form_title_callback(){
+  public function eav_form_title_callback(){
     printf(
       '<input type="text" id="eav_form_title" name="eav_options[eav_form_title]" value="%s" />',
       $this->options['eav_form_title'] != '' ? esc_attr( $this->options['eav_form_title']) : apply_filters('eav_default_form_title','Verify Your Age to Continue')
     );
   }
   
-  public function wrapper_class_callback(){
+  public function eav_wrapper_class_callback(){
     printf(
       '<input type="text" id="eav_wrapper_class" name="eav_options[eav_wrapper_class]" value="%s" />',
       $this->options['eav_wrapper_class'] != '' ? esc_attr( $this->options['eav_wrapper_class']) : apply_filters('eav_default_wrapper_class','taseav-age-verify')
     );
   }
   
-  public function form_class_callback(){
+  public function eav_form_class_callback(){
     printf(
       '<input type="text" id="eav_form_class" name="eav_options[eav_form_class]" value="%s" />',
       $this->options['eav_form_class'] != '' ? esc_attr( $this->options['eav_form_class']) : apply_filters('eav_default_wrapper_class','taseav-verify-form')
     );
   }
     
-  public function button_value_callback(){
+  public function eav_button_value_callback(){
     printf(
       '<input type="text" id="eav_form_class" name="eav_options[eav_button_value]" value="%s" />',
       $this->options['eav_button_value'] != '' ? esc_attr( $this->options['eav_button_value']) : apply_filters('eav_default_button_value','Submit')
     );
   }
   
-  public function debug_mode_callback(){
+  public function eav_debug_callback(){
     printf(
       '<input type="checkbox" id="eav_debug" name="eav_options[eav_debug]" value="1" %s/>',
       checked(1, $this->options['eav_debug'], false)
@@ -258,8 +290,8 @@ function eav_settings_sidebar_cta(){?>
 			<p>If you ever have <em>any</em> questions about WordPress, or need customizations to your website don't hesitate to send me a message.  I'll be happy to help you out in any way I can.</p>
 			<ul>
 				<li>Email: <a href="mailto:a@alexstandiford.com">a@alexstandiford.com</a></li>
-				<li><a href="http://www.twitter.com/alexstandiford" target="blank">Follow me on Twitter</a></li>
-				<li><a href="http://www.alexstandiford.com" target="blank">Visit my website</a></li>
+				<li><a href="http://www.twitter.com/fillyourtaproom" target="blank">Follow me on Twitter</a></li>
+				<li><a href="http://www.fillyourtaproom.com" target="blank">Visit my website</a></li>
 			</ul>
 		</div>
 		<div class="signup-form">	
@@ -292,7 +324,6 @@ function eav_settings_sidebar_cta(){?>
 		<div class="mc-field-group input-group hidden">
 				<li><input checked type="checkbox" value="8" name="group[18977][8]" id="mce-group[18977]-18977-3"><label for="mce-group[18977]-18977-3">Easy Age Verifier User</label></li>
 		<li><input checked type="checkbox" value="2" name="group[18977][2]" id="mce-group[18977]-18977-1"><label for="mce-group[18977]-18977-1">Website Efficency Workflow</label></li>
-		</ul>
 		</div>
 			<div id="mce-responses" class="clear">
 				<div class="response" id="mce-error-response" style="display:none"></div>

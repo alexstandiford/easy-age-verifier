@@ -1,14 +1,12 @@
 === Easy Age Verifier ===
 Contributors: tstandiford
-Donate link: http://www.easybeerlister.com/recommends/donate
+Donate link: http://paypal.me/alexstandiford
 Tags: beer, beers, brewery, untappd, age verification, bar, bars, restaurant, brewer, craft beer, craft bar
 Requires at least: 3.0.1
-Tested up to: 4.5
+Tested up to: 4.6.1
 Stable tag: 1.21
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
-Easy Age Verifier makes it easy for taprooms and bars to confirm their website visitors are of legal age.
 
 == Description ==
 
@@ -34,6 +32,10 @@ __Features__
 
 The form will not display if you are logged in, or if you have confirmed your age in the last 24 hours. To force the form to display, open your website in incognito mode (Chrome) or in a new private window (Firefox). That will get around it.
 
+= I don't want my form to show up on a specific page =
+
+Check out the readme for details on how to add custom conditionals to your verifier. https://github.com/alexstandiford/easy-age-verifier#custom-logic-filter
+
 == Screenshots ==
 
 1. Form pops up to confirm age on page load
@@ -57,3 +59,16 @@ The form will not display if you are logged in, or if you have confirmed your ag
 = 1.21 =
 * Fixed a bug that caused the verification to occasionally pop up when it shouldn't. This was especially true for sites that use caching plugins.
 * Tweaked the CSS for the under/over pop up.
+
+= 1.30 =
+* Overhauled the options page for better read-ability
+* Tested plugin on newest version of WordPress
+* Further improved issues where verification would pop up when it shouldn't.
+* Added translation functions to plugin
+* Implemented external extendability on options page.
+* Implemented a system that allows developers to add custom conditionals to override the default age verification behavior
+
+== Upgrade Notice ==
+
+= 1.30 =
+* Fixed most caching issues. If you're having trouble with easy age verifier popping up appropriately, this update should fix that.
