@@ -5,6 +5,9 @@ Description: Verify that your visitors are of age.
 Version:     1.30
 Author:      Alex Standiford
 Author URI:  http://www.alexstandiford.com
+License:     GPL3
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
+Text Domain: easyageverifier
 */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
