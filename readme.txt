@@ -1,14 +1,12 @@
 === Easy Age Verifier ===
 Contributors: tstandiford
-Donate link: http://www.easybeerlister.com/recommends/donate
+Donate link: http://paypal.me/alexstandiford
 Tags: beer, beers, brewery, untappd, age verification, bar, bars, restaurant, brewer, craft beer, craft bar
 Requires at least: 3.0.1
-Tested up to: 4.5
+Tested up to: 4.6.1
 Stable tag: 1.21
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
-Easy Age Verifier makes it easy for taprooms and bars to confirm their website visitors are of legal age.
 
 == Description ==
 
