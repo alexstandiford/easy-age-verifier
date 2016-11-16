@@ -61,3 +61,16 @@ Check out the readme for details on how to add custom conditionals to your verif
 = 1.21 =
 * Fixed a bug that caused the verification to occasionally pop up when it shouldn't. This was especially true for sites that use caching plugins.
 * Tweaked the CSS for the under/over pop up.
+
+= 1.30 =
+* Overhauled the options page for better read-ability
+* Tested plugin on newest version of WordPress
+* Further improved issues where verification would pop up when it shouldn't.
+* Added translation functions to plugin
+* Implemented external extendability on options page.
+* Implemented a system that allows developers to add custom conditionals to override the default age verification behavior
+
+== Upgrade Notice ==
+
+= 1.30 =
+* Fixed most caching issues. If you're having trouble with easy age verifier popping up appropriately, this update should fix that.
