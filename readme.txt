@@ -34,6 +34,10 @@ __Features__
 
 The form will not display if you are logged in, or if you have confirmed your age in the last 24 hours. To force the form to display, open your website in incognito mode (Chrome) or in a new private window (Firefox). That will get around it.
 
+= I don't want my form to show up on a specific page =
+
+Check out the readme for details on how to add custom conditionals to your verifier. https://github.com/alexstandiford/easy-age-verifier#custom-logic-filter
+
 == Screenshots ==
 
 1. Form pops up to confirm age on page load
