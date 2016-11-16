@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Verify Age
-Description: Verify that your visitors are of age.
+Description: Easy Age Verifier makes it easy for websites to confirm their website visitors are of legal age.
 Version:     1.30
 Author:      Alex Standiford
 Author URI:  http://www.alexstandiford.com

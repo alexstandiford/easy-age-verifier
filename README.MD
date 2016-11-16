@@ -30,7 +30,8 @@ Easy Age Verifier has a few filters that allow theme developers to customize def
 
 * **eav_custom_modal_logic**
   * Allows developers to create custom functions to override when Easy Age Verifier attempts to verify a visitor's age
-  * Default: True
+  * Default: `Array('default',true);`
+	* More information on how to use this [here](#custom-logic-filter).
 * **eav_default_age**
   * Sets the default age to check against
   * Default: 21
@@ -89,3 +90,56 @@ Easy Age Verifier has a few filters that allow theme developers to customize def
   * Replaces the default button text
   * Default: Submit
     
+## Custom Logic Filter ##
+
+The `eav_custom_modal_logic` filter can be used to specify custom conditions that prevents the modal from popping up. The filter also allows you to specify a custom action when that specific conditional returns false.
+
+The filter is an associative array, which contains **conditional IDs** as the keys, and booleans (true, or false) as the values. if _any_ of the values in this array return `false`, the modal will not pop-up, and an action will trigger for each boolean that returns false.
+
+By default, the array looks like this:
+
+```PHP
+$checks = array('default',true);
+```
+
+**Important! Do not modify the `default` item in this array. Removing it can cause unexpected behavior!**
+
+### Adding Custom Conditionals ###
+
+To add custom logic to your site, you need to add a **conditional ID** and a **boolean** to this array. Let's say, for example, you wanted to only display your age verifier on the home page. You would add something like this to your `functions.php` file (or plugin file, if you're fancy like that).
+
+```PHP
+//The function that adds the check. Be sure to pass the $checks variable
+
+function home_page_disable_verifier($checks){
+	//Check if the current page is the home page
+	if(is_home()){
+		//If it is, add the check ID key, and set it to true.
+		$checks["is_home_page"] = true; // is_home_page can be whatever you want it to be. Make sure it's unique!
+	}
+	else{
+		//If not, add the check ID key, and set it to false.
+		$checks["is_home_page"] = false;
+	}
+	//Returns the array with the newly added boolean
+	return $checks;
+}
+add_filter('eav_custom_modal_logic','home_page_disable_verifier');
+```
+### Doing Actions If Those Conditionals Return false ###
+
+When a custom conditional returns `false`, an [action hook](https://developer.wordpress.org/reference/functions/add_action/) tied to that conditional runs. This allows you to do a specified action, based on which conditional returns false.
+
+The action to tie your function is equal to whatever your check ID is inside of the array, with `_custom_is_false` added to the end. In the case of the example above, that action would be `is_home_page_custom_is_false`.
+
+Let's say you wanted to display a warning instead of the age verifier when the home page is loaded. To do this, you would add the filter shown above, and then after that add something like this:
+
+```PHP
+//The function that adds the content if you're on the home page.
+
+function load_home_page_warning(){
+	echo "Warning! Content on this site is not suitable for visitors under the age of 18.";
+}
+//Ties the action to when the home page returns false.
+add_action('is_home_page_custom_is_false','load_home_page_warning');
+```
