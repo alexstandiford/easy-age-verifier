@@ -27,26 +27,34 @@ function taseavGetCookie(cname) {
     return false;
 }
 
+//Stores the date of birth into the taseavAge object
+function taseavStoreDOB(){
+	taseavAge.month = jQuery('#taseav-age-verify input[name="month"]').val();
+	taseavAge.day = jQuery('#taseav-age-verify input[name="day"]').val();
+	taseavAge.year = jQuery('#taseav-age-verify input[name="year"]').val();
+	if(taseavData.formType == 'eav_enter_age'){
+		if(taseavAge.month < 10){
+			taseavAge.month = "0" + taseavAge.month;
+		}
+		if(taseavAge.day < 10){
+			taseavAge.day = "0" + taseavAge.day;
+		}
+		
+	}
+}
+
+//Gets the date of birth
+function taseavGetDOB(){
+	var result = taseavAge.year + "-" + taseavAge.month + "-" + taseavAge.day;
+	if(taseavData.formType == 'eav_confirm_age'){
+		taseavAge.confirmAge = jQuery('#taseav-age-verify input[selected="selected"]').attr('name');
+		var result = taseavAge.confirmAge;
+	}
+	return result;
+}
+
 //Stores the age into a cookie
 function taseavStoreAge(){
-  if(taseavData.formType == 'eav_enter_age'){
-    var month = jQuery('#taseav-age-verify input[name="month"]').val();
-    var day = jQuery('#taseav-age-verify input[name="day"]').val();
-    var year = jQuery('#taseav-age-verify input[name="year"]').val();
-    if(month < 10){
-      month = "0" + month;
-    }
-    if(day < 10){
-      day = "0" + day;
-    }
-    var result = "taseavdob=" + year + "-" + month + "-" + day;
-  }
-  if(taseavData.formType == 'eav_confirm_age'){
-    var age = jQuery('#taseav-age-verify input[selected="selected"]').attr('name');
-    var result = "taseavdob=" + age;
-  }
-    document.cookie = result;
-    taseavDebug('Age stored as a cookie. Value = ' + result);
 }
 
 function taseavGetAge() {
