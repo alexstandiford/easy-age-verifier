@@ -55,6 +55,9 @@ function taseavGetDOB(){
 
 //Stores the age into a cookie
 function taseavStoreAge(){
+	var result = taseavGetDOB();
+	document.cookie = "taseavdob=" + result;
+	taseavDebug('Age stored as a cookie. Value = ' + result);
 }
 
 function taseavGetAge() {
