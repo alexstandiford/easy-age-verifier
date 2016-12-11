@@ -182,12 +182,18 @@ function taseav_init(){
 
       //Adds PHP Variables to the script as an object
       wp_localize_script('verify-age.js','taseavData',$pass_data->get());
+			
+			//Your big opportunity to inject additional CSS/JS into the form. Eat your heart out, kid.
+			do_action('eav_before_enqueued_scripts');
 
       //Calls Age Verification Script
       wp_enqueue_script('verify-age.js',array(),time());
 
       //Age Verification Style
       wp_enqueue_style('verify-age.css',plugin_dir_url(__FILE__).'verify-age.css',array(),'1.30');
+			
+			//Your big opportunity to inject additional CSS/JS into the form. Eat your heart out, kid.
+			do_action('eav_after_enqueued_scripts');
     }
 		else{
 			if(is_array($custom_is_true)){
