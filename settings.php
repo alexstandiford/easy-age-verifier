@@ -14,17 +14,18 @@ function eav_admin_styles_init(){
 add_action('admin_enqueue_scripts','eav_admin_styles_init');
 
 class eavOption{
-	public function __construct($ID,$title,$tab,$object = null,$page = null,$prefix='eav_'){
+	public function __construct($ID,$title,$tab,$object = null,$page = null,$prefix='eav_',$hidden = false){
 		$this->ID = $prefix.$ID;
 		$this->title = __($title,'easyageverifier');
 		if($object == null){
-			$this->callback = ($callback == null) ? $this->ID.'_callback' : $callback;
+			$this->callback = $this->ID.'_callback';
 		}
 		else{
-			$this->callback = ($callback == null) ? array($object,$this->ID.'_callback') : array($object,$callback);
+			$this->callback = array($object,$this->ID.'_callback');
 		}
 		$this->page = ($page == null) ? 'eav-settings-admin' : $page;
 		$this->section = $tab->ID;
+		$this->hidden = $hidden;
 	}
 }
 
@@ -76,39 +77,46 @@ class eavSettings{
   /**
    * Holds the values to be used in the fields callbacks
    */
-  private $options;
+  protected $options;
 
   /**
    * Start up
    */
   public function __construct(){
-    add_action('admin_menu', array($this, 'add_plugin_page'));
-    add_action('admin_init', array($this, 'page_init'));
-		$this->tabs = array(
+
+		$this->tabs = apply_filters('eav_tabs',array(
 			
 			//General Settings
 			'options_id' => new eavOptionTab('options_id',__('General Settings','easyageverifier'),__('General Age Verifier Options','easyageverifier'),'eav_options_group','eav-settings-admin'),
 			
 			//Customize Verifier
 			'customize_verifier' => new eavOptionTab('customize_verifier',__('Verifier Display Settings','easyageverifier'),__('<h2>Warning! If you change these classes, your form may not work properly. This is intended for advanced users only.</h2>','easyageverifier'),'eav_customize_verifier'),
-		);
-		$this->settings = array(
+		));
+		$this->settings = apply_filters('eav_options',array(
 			
 			//General Settings
-			new eavOption('minimum_age',__('Minimum Age','easyageverifier'),$this->tabs['options_id'],$this),
-			new eavOption('form_type',__('How will visitors will verify their age?','easyageverifier'),$this->tabs['options_id'],$this),
-			new eavOption('form_title',__('Form Title','easyageverifier'),$this->tabs['options_id'],$this),
-			new eavOption('underage_message',__('Underage Message','easyageverifier'),$this->tabs['options_id'],$this),
-			new eavOption('button_value',__('Button Text','easyageverifier'),$this->tabs['options_id'],$this),
-			new eavOption('over_age_value',__('Over age button value<br><h5>Only applies to confirm age form.</h5>','easyageverifier'),$this->tabs['options_id'],$this),
-			new eavOption('under_age_value',__('Under age button value<br><h5>Only applies to confirm age form.</h5>','easyageverifier'),$this->tabs['options_id'],$this),
-			new eavOption('debug',__('Debug Mode<br><h5>Debug Mode may help support solve your issue.</h5>','easyageverifier'),$this->tabs['options_id'],$this),
+			'minimum_age' => new eavOption('minimum_age',__('Minimum Age','easyageverifier'),$this->tabs['options_id'],$this),
+			'form_type' => new eavOption('form_type',__('How will visitors will verify their age?','easyageverifier'),$this->tabs['options_id'],$this),
+			'form_title' => new eavOption('form_title',__('Form Title','easyageverifier'),$this->tabs['options_id'],$this),
+			'underage_message' => new eavOption('underage_message',__('Underage Message','easyageverifier'),$this->tabs['options_id'],$this),
+			'button_value' => new eavOption('button_value',__('Button Text','easyageverifier'),$this->tabs['options_id'],$this),
+			'over_age_value' => new eavOption('over_age_value',__('Over age button value<br><h5>Only applies to confirm age form.</h5>','easyageverifier'),$this->tabs['options_id'],$this),
+			'under_age_value' => new eavOption('under_age_value',__('Under age button value<br><h5>Only applies to confirm age form.</h5>','easyageverifier'),$this->tabs['options_id'],$this),
+			'debug' => new eavOption('debug',__('Debug Mode<br><h5>Debug Mode may help support solve your issue.</h5>','easyageverifier'),$this->tabs['options_id'],$this),
 			
 			//Customize Verifier
-			new eavOption('wrapper_class',__('Wrapper Class','easyageverifier'),$this->tabs['customize_verifier'],$this,'eav_customize_verifier'),
-			new eavOption('form_class',__('Form Class','easyageverifier'),$this->tabs['customize_verifier'],$this,'eav_customize_verifier'),
-		);
+			'wrapper_class' => new eavOption('wrapper_class',__('Wrapper Class','easyageverifier'),$this->tabs['customize_verifier'],$this,'eav_customize_verifier'),
+			'form_class' => new eavOption('form_class',__('Form Class','easyageverifier'),$this->tabs['customize_verifier'],$this,'eav_customize_verifier'),
+		));
+    // Set class property
+    $this->options = get_option('eav_options');
   }
+	
+	public function init(){
+		do_action('eav_modify_settings');
+    add_action('admin_menu', array($this, 'add_plugin_page'));
+    add_action('admin_init', array($this, 'page_init'));
+	}
 
   /**
    * Add options page
@@ -128,8 +136,6 @@ class eavSettings{
    * Options page callback
    */
   public function create_admin_page(){
-    // Set class property
-    $this->options = get_option( 'eav_options' );
     ?>
 	<div class="wrap">
     <h2><?php echo __('Easy Age Verifer','easyageverifier'); ?></h2>
@@ -181,13 +187,15 @@ class eavSettings{
 		
 		//Loop through and build the options
 		foreach($this->settings as $option){
-			add_settings_field(
-				$option->ID,
-				$option->title,
-				$option->callback,
-				$option->page,
-				$option->section 
-			);      
+			if($option->hidden != true){
+				add_settings_field(
+					$option->ID,
+					$option->title,
+					$option->callback,
+					$option->page,
+					$option->section 
+				);
+			}
 		}
   }
 
@@ -278,9 +286,11 @@ class eavSettings{
 
 }
 
-if(is_admin()){
+function eav_settings_init(){
   $eav_settings = new eavSettings();
+	$eav_settings->init();
 }
+add_action('init','eav_settings_init');
 
 /*------ SETTINGS SIDEBAR ACTIONS ------*/
 function eav_settings_sidebar_cta(){?>
