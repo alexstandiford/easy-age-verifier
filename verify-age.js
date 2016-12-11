@@ -12,6 +12,9 @@ function taseavDebug(log){
   return
 }
 
+//Initializes the age data object. This allows this data to pass into the pro plugin
+var taseavAge = {};
+
 //Gets the cookie that was just stored
 function taseavGetCookie(cname) {
     var name = cname + "=";
