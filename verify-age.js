@@ -125,6 +125,7 @@ jQuery(document).ready(function(){
     });
   }
     jQuery('#taseav-age-verify').submit(function(){
+			taseavStoreDOB();
       taseavStoreAge();
       confirmAge();
       taseavDebug(taseavData);
