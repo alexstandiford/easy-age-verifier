@@ -40,7 +40,7 @@ function taseavStoreAge(){
   }
   if(taseavData.formType == 'eav_confirm_age'){
     var age = jQuery('#taseav-age-verify input[selected="selected"]').attr('name');
-    var result = "taseavdob=" + age;
+    var result = "taseavdob=" + age + ";path=/";
   }
     document.cookie = result;
     taseavDebug('Age stored as a cookie. Value = ' + result);
