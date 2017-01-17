@@ -21,7 +21,7 @@ class upgrade{
       self::$legacy_options = get_option('eav_options');
     }
 
-    return EAV_PREFIX.'_'.self::$legacy_options[$legacy_key];
+    return self::$legacy_options[EAV_PREFIX.'_'.$legacy_key];
   }
 
   private function addLegacyValues(){
