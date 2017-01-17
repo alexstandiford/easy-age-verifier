@@ -10,7 +10,7 @@ $verifier = $_POST;
 <div id='taseav-age-verify' class='<?php echo $verifier['wrapperClass']; ?>'>
   <?php echo $verifier['beforeForm']; ?>
   <form class='<?php echo $verifier['formClass']; ?>'>
-    <h2><?php echo $verifier['formTitle']?></h2>
+    <h2><?php echo $verifier['formTitle'] ?></h2>
     <?php
     //If the settings call to enter the age, do this
     if($verifier['formType'] == 'eav_enter_age'): ?>
@@ -27,10 +27,15 @@ $verifier = $_POST;
       <?php echo $verifier['beforeYear']; ?>
       <div class='<?php echo $verifier['yearClass']; ?>'>
         <label for="year">Year</label>
-        <input tabindex="3" title="year" name='year' type='number' min='<?php echo $verifier['minYear']; ?>' max='<?php echo date("Y"); ?>' required>
+        <input tabindex="3" title="year" name='year' type='number' min='<?php echo $verifier['minYear']; ?>'
+               max='<?php echo date("Y"); ?>' required>
       </div>
       <?php echo $verifier['beforeButton']; ?>
       <input tabindex="4" type='submit' value='<?php echo $verifier['buttonValue']; ?>'>
+    <?php endif; ?>
+    <?php if($verifier['formType'] == 'eav_confirm_age'): ?>
+      <input name='overAge' type='submit' value='<?php echo $verifier['overAge']; ?>'>
+      <input name='underAge' type='submit' value='<?php echo $verifier['underAge']; ?>'>
     <?php endif; ?>
   </form>
   <?php $verifier['afterForm']; ?>

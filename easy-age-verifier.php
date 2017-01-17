@@ -13,6 +13,7 @@ Text Domain: easyageverifier
 namespace eav;
 
 use eav\app\verifier;
+use eav\config\customizer;
 
 if(!defined('ABSPATH')) exit;
 
@@ -71,10 +72,25 @@ if(!class_exists('eav')){
 
 eav::getInstance();
 
+/**
+ * Initializes the Form
+ *
+ * @return void
+ */
 function init(){
   if(!is_admin()){
     verifier::doFormActions();
   }
 }
-
 add_action('get_header', __NAMESPACE__.'\\init');
+
+/**
+ * Initializes the customizer on the admin
+ *
+ * @return void
+ *
+ */
+function admin_init(){
+    customizer::register();
+}
+add_action('customize_register',__NAMESPACE__.'\\admin_init');

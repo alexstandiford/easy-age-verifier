@@ -16,7 +16,7 @@ class verification{
   public $isOfAge = null;
 
   public function __construct($dob = null){
-    $this->minimum_age = option::getWithFilter('minimum_age', 21, 'eav_default_age');
+    $this->minimum_age = option::get('minimum_age');
     $this->visitor_age = age::getFromDob($dob);
   }
 
@@ -74,6 +74,7 @@ class verification{
     $checks = array(
       $this->isOfAge() == false,
       !is_user_logged_in(),
+      is_customize_preview(),
     );
 
     if(in_array(true,$checks)){
