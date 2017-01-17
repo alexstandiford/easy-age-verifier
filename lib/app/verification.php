@@ -31,7 +31,7 @@ class verification{
     $checks = array(
       $this->visitor_age >= $this->minimum_age,
       $this->visitor_age != false,
-      $this->visitor_age != 'underAge',
+      $this->visitor_age == 'overAge',
     );
 
     if(in_array(true, $checks)){
