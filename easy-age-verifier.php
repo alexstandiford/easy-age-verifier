@@ -14,6 +14,7 @@ namespace eav;
 
 use eav\app\verifier;
 use eav\config\customizer;
+use eav\config\upgrade;
 
 if(!defined('ABSPATH')) exit;
 
@@ -55,6 +56,7 @@ if(!class_exists('eav')){
         //configuration classes
         'config/customizer.php',
         'config/option.php',
+        'config/upgrade.php',
 
         //App classes
         'app/age.php',
@@ -73,7 +75,7 @@ if(!class_exists('eav')){
 eav::getInstance();
 
 /**
- * Initializes the Form
+ * Initializes the verifier form
  *
  * @return void
  */
@@ -94,3 +96,9 @@ function admin_init(){
     customizer::register();
 }
 add_action('customize_register',__NAMESPACE__.'\\admin_init');
+
+function upgrade_legacy_data(){
+  upgrade::legacyDatabase();
+}
+add_action('admin_init',__NAMESPACE__.'\\upgrade_legacy_data');
+//register_activation_hook(__FILE__,__NAMESPACE__.'\\upgrade_legacy_data');
