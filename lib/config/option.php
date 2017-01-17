@@ -45,7 +45,7 @@ class option{
    * @return mixed
    */
   public static function getWithFilter($value, $default, $filter = null){
-    if(self::get($value) !== ''){
+    if(self::get($value) !== null){
       $result = self::get($value);
     }
     else{

@@ -10,7 +10,7 @@ $verifier = $_POST;
 <div id='taseav-age-verify' class='<?php echo $verifier['wrapperClass']; ?>'>
   <?php echo $verifier['beforeForm']; ?>
   <form class='<?php echo $verifier['formClass']; ?>'>
-    <h2><?php echo $verifier['formTitle ']?></h2>
+    <h2><?php echo $verifier['formTitle']?></h2>
     <?php
     //If the settings call to enter the age, do this
     if($verifier['formType'] == 'eav_enter_age'): ?>
