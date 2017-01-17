@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Easy Age Verifier
+Plugin Name: Verify Age
 Description: Easy Age Verifier makes it easy for websites to confirm their website visitors are of legal age.
 Version:     1.31
 Author:      Alex Standiford
@@ -100,5 +100,4 @@ add_action('customize_register',__NAMESPACE__.'\\admin_init');
 function upgrade_legacy_data(){
   upgrade::legacyDatabase();
 }
-add_action('admin_init',__NAMESPACE__.'\\upgrade_legacy_data');
-//register_activation_hook(__FILE__,__NAMESPACE__.'\\upgrade_legacy_data');
+register_activation_hook(__FILE__,__NAMESPACE__.'\\upgrade_legacy_data');
