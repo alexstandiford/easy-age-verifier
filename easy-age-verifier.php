@@ -14,6 +14,8 @@ namespace eav;
 use eav\app\verifier;
 if(!class_exists('eav')){
 
+//TODO: Improve the doc blocks across the board
+
   class eav{
 
     private static $instance = null;
