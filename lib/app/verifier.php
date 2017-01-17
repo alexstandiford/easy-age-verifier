@@ -83,6 +83,7 @@ class verifier{
    *
    * @return null|string|bool
    */
+  //TODO: add a filter to the default template_path value
   public function templatePath($template_path){
     if(isset($template_path)){
       $path = $template_path;
