@@ -19,7 +19,6 @@ class customizer{
   public static function register(){
     if(!isset(self::$instance)){
       self::$instance = new self;
-      self::$prefix = 'eav';
       self::$instance->getSections();
       self::$instance->getSimpleFields();
     }
