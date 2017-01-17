@@ -83,7 +83,6 @@ class verifier{
    *
    * @return null|string|bool
    */
-  //TODO: add a filter to the default template_path value
   public function templatePath($template_path){
     if(isset($template_path)){
       $path = $template_path;
@@ -162,8 +161,7 @@ class verifier{
     foreach($this as $var => $value){
       $result = array_merge($result, [$var => $value]);
     }
-    $result['isOfAge'] = false;
-    $result['isOfAge'] = $this->verification->isOfAge();
+    $result['verificationFailed'] = $this->verification->failed();
     return $result;
   }
 }
