@@ -16,8 +16,8 @@ class verification{
   public $isOfAge = null;
 
   public function __construct($dob = null){
-    $this->minimum_age = option::get('minimum_age');
-    $this->visitor_age = age::getFromDob($dob);
+    $this->minAge = option::get('minimum_age');
+    $this->visitorAge = age::getFromDob($dob);
   }
 
   /**
@@ -30,9 +30,9 @@ class verification{
     }
 
     $checks = array(
-      $this->visitor_age >= $this->minimum_age,
-      $this->visitor_age != false,
-      $this->visitor_age == 'overAge',
+      $this->visitorAge >= $this->minAge,
+      $this->visitorAge != false,
+      $this->visitorAge == 'overAge',
     );
 
     if(in_array(true, $checks)){
