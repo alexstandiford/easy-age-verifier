@@ -6,6 +6,7 @@
  */
 
 namespace eav\config;
+if(!defined('ABSPATH')) exit;
 
 
 class option{

@@ -6,6 +6,7 @@
  */
 
 namespace eav\app;
+if(!defined('ABSPATH')) exit;
 
 
 class age{

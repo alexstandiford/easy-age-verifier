@@ -11,15 +11,22 @@ Text Domain: easyageverifier
 */
 
 namespace eav;
+
 use eav\app\verifier;
+
+if(!defined('ABSPATH')) exit;
+
 if(!class_exists('eav')){
 
 //TODO: Improve the doc blocks across the board
+//TODO: Ensure no WP_DEBUG issues occur with the plugin
 
   class eav{
 
     private static $instance = null;
-    private function __construct(){}
+
+    private function __construct(){
+    }
 
     public static function getInstance(){
       if(!isset(self::$instance)){
@@ -32,8 +39,8 @@ if(!class_exists('eav')){
     }
 
     private function _defineConstants(){
-      define('EAV_URL',plugin_dir_url(__FILE__));
-      define('EAV_PATH',plugin_dir_path(__FILE__));
+      define('EAV_URL', plugin_dir_url(__FILE__));
+      define('EAV_PATH', plugin_dir_path(__FILE__));
       define('EAV_ASSETS_URL', EAV_URL.'lib/assets/');
       define('EAV_ASSETS_PATH', EAV_PATH.'lib/assets/');
       define('EAV_TEMPLATES_PATH', EAV_ASSETS_URL.'templates/');
@@ -43,7 +50,6 @@ if(!class_exists('eav')){
       $includes = array(
 
         //configuration classes
-        'config/cleanup.php',
         'config/customizer.php',
         'config/option.php',
 
@@ -54,7 +60,7 @@ if(!class_exists('eav')){
 
       );
 
-      foreach ($includes as $include){
+      foreach($includes as $include){
         require_once(EAV_PATH.'lib/'.$include);
       }
     }
@@ -68,4 +74,5 @@ function init(){
     verifier::doFormActions();
   }
 }
-add_action('get_header',__NAMESPACE__.'\\init');
+
+add_action('get_header', __NAMESPACE__.'\\init');

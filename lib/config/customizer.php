@@ -6,8 +6,9 @@
  */
 
 namespace eav\config;
+if(!defined('ABSPATH')) exit;
 
-
+//TODO: Move most settings to the customizer instead of the default WordPress settings API
 class customizer{
 
 }

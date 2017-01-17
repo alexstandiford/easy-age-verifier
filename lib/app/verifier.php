@@ -7,6 +7,7 @@
  */
 
 namespace eav\app;
+if(!defined('ABSPATH')) exit;
 
 use eav\config\option;
 
