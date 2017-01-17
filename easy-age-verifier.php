@@ -44,6 +44,8 @@ if(!class_exists('eav')){
       define('EAV_ASSETS_URL', EAV_URL.'lib/assets/');
       define('EAV_ASSETS_PATH', EAV_PATH.'lib/assets/');
       define('EAV_TEMPLATES_PATH', EAV_ASSETS_URL.'templates/');
+      define('EAV_TEXT_DOMAIN','easyageverifier');
+      define('EAV_PREFIX','eav');
     }
 
     private function _includeFiles(){
