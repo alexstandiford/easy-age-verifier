@@ -49,7 +49,7 @@ class verifier{
 
     $this->overAge = option::getWithFilter(
       'over_age_value',
-      'I am'.$this->verification->minimum_age.'or older.',
+      'I am '.$this->verification->minimum_age.' or older.',
       'eav_over_age_value'
     );
 
@@ -163,8 +163,7 @@ class verifier{
       $result = array_merge($result, [$var => $value]);
     }
     $result['isOfAge'] = false;
-//    $result['isOfAge'] = $this->verification->isOfAge();
-    $result['verification_failed'] = $this->verification->failed();
+    $result['isOfAge'] = $this->verification->isOfAge();
     return $result;
   }
 }
