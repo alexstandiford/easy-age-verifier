@@ -2,8 +2,20 @@
 if(!defined('WP_UNINSTALL_PLUGIN')){
   die;
 }
-
-$option_name = 'eav_options';
-delete_option($option_name);
-// for site options in Multisite
-delete_site_option($option_name);
+$options = array(
+  'eav_options',
+  "minimum_age",
+  "form_type",
+  "form_title",
+  "underage_message",
+  "button_value",
+  "over_age_value",
+  "under_age_value",
+);
+$is_multisite = is_multisite();
+foreach($options as $option){
+  delete_option($option);
+  if($is_multisite){
+    delete_site_option($option);
+  }
+}
