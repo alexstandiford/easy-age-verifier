@@ -69,7 +69,7 @@ class verification{
   public function customizerIsActive(){
     $result = false;
     $active_in_customizer = get_option(EAV_PREFIX."_active_in_customizer");
-    if(!isset($active_in_customizer)){
+    if(!isset($active_in_customizer) || $active_in_customizer == ""){
       $active_in_customizer = false;
     }
     if(is_customize_preview() && $active_in_customizer){
