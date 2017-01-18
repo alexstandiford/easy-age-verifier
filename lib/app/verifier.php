@@ -40,6 +40,7 @@ class verifier{
     $this->beforeDay = apply_filters('eav_before_day', '');
     $this->beforeMonth = apply_filters('eav_before_month', '');
     $this->beforeButton = apply_filters('eav_before_button', '');
+    $this->cookieParameters = apply_filters('eav_cookie_parameters','path=/');
 
     $this->formType = option::get('form_type');
     $this->isCustomizer = is_customize_preview();
