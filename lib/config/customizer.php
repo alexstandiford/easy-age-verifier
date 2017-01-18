@@ -103,7 +103,7 @@ class customizer{
         'type'        => 'text',
       ),
     );
-
+    $settings = apply_filters('eav_customizer_settings',$settings);
     foreach($settings as $setting => $value){
       $wp_customize->add_setting(EAV_PREFIX.'_'.$setting, array(
         'type'    => 'option',
