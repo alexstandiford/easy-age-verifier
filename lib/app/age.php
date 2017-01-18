@@ -76,7 +76,12 @@ class age{
 
     //Sets default value when a dob isn't specified
     if(!isset($dob)){
-      $dob = $_COOKIE['taseavdob'];
+      if(isset($_COOKIE['taseavdob'])){
+        $dob = $_COOKIE['taseavdob'];
+      }
+      else{
+        $dob = null;
+      }
     }
 
     //If the cookie value is set, get the age from the date of birth. Otherwise, return false.
