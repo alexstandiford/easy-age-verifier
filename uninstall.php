@@ -11,6 +11,7 @@ $options = array(
   "button_value",
   "over_age_value",
   "under_age_value",
+  'active_in_customizer',
 );
 $is_multisite = is_multisite();
 foreach($options as $option){
