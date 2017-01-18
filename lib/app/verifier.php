@@ -42,6 +42,7 @@ class verifier{
     $this->beforeButton = apply_filters('eav_before_button', '');
 
     $this->formType = option::get('form_type');
+    $this->isCustomizer = is_customize_preview();
   }
 
   /**

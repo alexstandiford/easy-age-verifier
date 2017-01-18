@@ -68,7 +68,11 @@ class verification{
 
   public function customizerIsActive(){
     $result = false;
-    if(is_customize_preview() && get_option(EAV_PREFIX."_active_in_customizer")){
+    $active_in_customizer = get_option(EAV_PREFIX."_active_in_customizer");
+    if(!isset($active_in_customizer)){
+      $active_in_customizer = false;
+    }
+    if(is_customize_preview() && $active_in_customizer){
       $result = true;
     }
     return $result;
@@ -80,11 +84,9 @@ class verification{
    */
   public function failed(){
     $checks = array(
-      $this->isOfAge() == false,
-      !is_user_logged_in(),
+      $this->isOfAge() == false && !is_user_logged_in(),
       $this->customizerIsActive(),
     );
-
     if(in_array(true,$checks)){
       $failed = true;
     }

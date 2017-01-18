@@ -105,7 +105,7 @@ class customizer{
     );
 
     foreach($settings as $setting => $value){
-      $wp_customize->add_setting(self::prefix($setting), array(
+      $wp_customize->add_setting(EAV_PREFIX.'_'.$setting, array(
         'type'    => 'option',
         'default' => $value['default'],
       ));
@@ -114,15 +114,15 @@ class customizer{
         'label'       => $value['label'],
         'type'        => $value['type'],
         'description' => $value['description'],
-        'section'     => self::prefix('section'),
-        'settings'    => self::prefix($setting),
+        'section'     => EAV_PREFIX.'_section',
+        'settings'    => EAV_PREFIX.'_'.$setting,
       );
 
       if($value['type'] == 'select'){
         $control_args['choices'] = $value['choices'];
       }
 
-      $wp_customize->add_control(self::prefix($setting), $control_args);
+      $wp_customize->add_control(EAV_PREFIX.'_'.$setting, $control_args);
     }
   }
 }
