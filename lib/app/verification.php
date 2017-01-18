@@ -66,6 +66,14 @@ class verification{
     return $checks;
   }
 
+  public function customizerIsActive(){
+    $result = false;
+    if(is_customize_preview() && get_option(EAV_PREFIX."_active_in_customizer")){
+      $result = true;
+    }
+    return $result;
+  }
+
   /**
    * Checks if verification has failed or passed
    * @return bool
@@ -74,7 +82,7 @@ class verification{
     $checks = array(
       $this->isOfAge() == false,
       !is_user_logged_in(),
-      is_customize_preview(),
+      $this->customizerIsActive(),
     );
 
     if(in_array(true,$checks)){
