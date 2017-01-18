@@ -1,4 +1,8 @@
 <?php
+/**
+ * Uninstallation script file. Runs when Easy Age Verifier is deleted
+ */
+
 if(!defined('WP_UNINSTALL_PLUGIN')){
   die;
 }

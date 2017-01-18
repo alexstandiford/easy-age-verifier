@@ -7,10 +7,16 @@
  */
 
 namespace eav\app;
+
 if(!defined('ABSPATH')) exit;
 
 use eav\config\option;
 
+/**
+ * Class verifier
+ * Gathers the data needed to pass to the verifier, and runs the script if the validation failed
+ * @package eav\app
+ */
 class verifier{
 
 
@@ -28,8 +34,8 @@ class verifier{
     $this->templatePath = $this->templatePath($template_path);
     $this->template = apply_filters('eav_modal_template', '');
 
-    $this->formClass = apply_filters('eav_form_class','taseav-verify-form');
-    $this->wrapperClass = apply_filters('eav_wrapper_class','taseav-age-verify');
+    $this->formClass = apply_filters('eav_form_class', 'taseav-verify-form');
+    $this->wrapperClass = apply_filters('eav_wrapper_class', 'taseav-age-verify');
     $this->beforeForm = apply_filters('eav_before_form', '');
     $this->afterForm = apply_filters('eav_after_form', '');
     $this->monthClass = apply_filters('eav_month_class', 'taseav-month');
@@ -40,31 +46,29 @@ class verifier{
     $this->beforeDay = apply_filters('eav_before_day', '');
     $this->beforeMonth = apply_filters('eav_before_month', '');
     $this->beforeButton = apply_filters('eav_before_button', '');
-    $this->cookieParameters = apply_filters('eav_cookie_parameters','path=/');
+    $this->cookieParameters = apply_filters('eav_cookie_parameters', 'path=/');
 
     $this->formType = option::get('form_type');
     $this->isCustomizer = is_customize_preview();
   }
 
+  //TODO: Test override directory in themes file
   /**
-   * Gets the template path from the constructor Uses a default value if a path isn't given
-   *
-   * @param null $template_path
-   *
+   * Gets the template path from the constructor.
+   * Template path can be over-written via the `eav_modal_template_file` filter, or by creating a new file `default.php` inside a new directory `eav` in your theme root
    * @return null|string|bool
    */
-  public function templatePath($template_path){
-    if(isset($template_path)){
-      $path = $template_path;
+  public function templatePath(){
+    $override_directory = get_stylesheet_directory().'/eav/default.php';
+    // Support for legacy method of building custom verifier templates
+    if(file_exists($override_directory)){
+      $path = $override_directory;
+    }
+    elseif($this->hasLegacyOverride()){
+      $path = false;
     }
     else{
-      // Support for legacy method of building custom verifier templates
-      if($this->hasLegacyOverride()){
-        $path = false;
-      }
-      else{
-        $path = apply_filters('eav_modal_template_file', EAV_TEMPLATES_PATH.'default.php');
-      }
+      $path = apply_filters('eav_modal_template_file', EAV_TEMPLATES_PATH.'default.php');
     }
 
     return $path;
@@ -83,6 +87,7 @@ class verifier{
     }
   }
 
+  //TODO: Test custom actions when false
   /**
    * Gets the form if the verification failed. Does custom actions when the result is false
    * $return void
@@ -93,9 +98,9 @@ class verifier{
       add_action('wp_enqueue_scripts', array($verifier, 'enqueueVerifierScripts'));
     }
     else{
-      $custom_is_true = $verifier->verification->customIsTrue();
-      if(is_array($custom_is_true)){
-        foreach($custom_is_true as $check_id => $boolean){
+      $checks = $verifier->verification->checks;
+      if(is_array($checks)){
+        foreach($checks as $check_id => $boolean){
           do_action($check_id.'_custom_is_false');
         }
       }
@@ -103,7 +108,7 @@ class verifier{
   }
 
   /**
-   * Enqueues the verifier scripts
+   * Enqueues the verifier scripts, passing the data object in the process
    * @return void
    */
   public function enqueueVerifierScripts(){
@@ -119,15 +124,17 @@ class verifier{
     wp_enqueue_style('verify-age.css', EAV_ASSETS_URL.'/css/verifier.css', array(), '1.30');
   }
 
+  //TODO: Test the pass data filter
   /**
    * Grabs all of the object data to pass into the Javascript
-   * @return array
+   * @return array All object variables in self, as well as any extra variables passed via `eav_pass_data`
    */
   public function passData(){
     $result = array();
     foreach($this as $var => $value){
       $result = array_merge($result, [$var => $value]);
     }
+    $result = apply_filters('eav_pass_data', $result);
     $result['verificationFailed'] = $this->verification->failed();
 
     return $result;

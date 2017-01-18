@@ -9,6 +9,11 @@ namespace eav\config;
 
 if(!defined('ABSPATH')) exit;
 
+/**
+ * Class customizer
+ * Builds the settings fields on the customizer form
+ * @package eav\config
+ */
 class customizer{
 
   private static $instance = null;
@@ -16,6 +21,10 @@ class customizer{
   private function __construct(){
   }
 
+  /**
+   * Generates the customizer singleton instance
+   * @return void
+   */
   public static function register(){
     if(!isset(self::$instance)){
       self::$instance = new self;
@@ -24,13 +33,20 @@ class customizer{
     }
   }
 
+  /**
+   * Adds the prefix to an option value. This improves code read-ability
+   *
+   * @param string $value the setting value without the prefix
+   *
+   * @return string
+   */
   private static function prefix($value){
     return EAV_PREFIX.'_'.$value;
   }
 
   /**
    * Gets the customizer sections
-   * return void
+   * @return void
    */
   private function getSections(){
     global $wp_customize;
@@ -44,7 +60,8 @@ class customizer{
 
   /**
    * Gets the basic fields for the customizer
-   * return void
+   * Extra basic fields can be added via `eav_customizer_settings`, but support is limited to basic fields that require no controller
+   * @return void
    */
   private function getSimpleFields(){
     global $wp_customize;
@@ -83,7 +100,7 @@ class customizer{
           'eav_enter_age'   => "Ask for visitor's date of birth",
           'eav_confirm_age' => "Don't ask for visitor's date of birth",
         ),
-      ),    //If the form is set to confirm age instead of verify age, show these options
+      ),
       'over_age_value'       => array(
         'default'     => __('I am '.$minimum_age.' or older.', EAV_TEXT_DOMAIN),
         'label'       => __('Over Age Button Value', EAV_TEXT_DOMAIN),
@@ -103,7 +120,7 @@ class customizer{
         'type'        => 'text',
       ),
     );
-    $settings = apply_filters('eav_customizer_settings',$settings);
+    $settings = apply_filters('eav_customizer_settings', $settings);
     foreach($settings as $setting => $value){
       $wp_customize->add_setting(EAV_PREFIX.'_'.$setting, array(
         'type'    => 'option',

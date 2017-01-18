@@ -8,7 +8,7 @@
 namespace eav\config;
 if(!defined('ABSPATH')) exit;
 
-
+//TODO: Add Easy Age Verifier Menu Item
 class sidebar{
 
 }

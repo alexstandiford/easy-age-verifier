@@ -2,7 +2,7 @@
 /*
 Plugin Name: Verify Age
 Description: Easy Age Verifier makes it easy for websites to confirm their website visitors are of legal age.
-Version:     1.31
+Version:     2.00
 Author:      Alex Standiford
 Author URI:  http://www.fillyourtaproom.com
 License:     GPL3
@@ -29,6 +29,11 @@ if(!class_exists('eav')){
     private function __construct(){
     }
 
+    /**
+     * Fires up the plugin.
+     *
+     * @return self
+     */
     public static function getInstance(){
       if(!isset(self::$instance)){
         self::$instance = new self;
@@ -39,6 +44,11 @@ if(!class_exists('eav')){
       return self::$instance;
     }
 
+    /**
+     * Defines the constants related to Easy Age Verifier
+     *
+     * @return void
+     */
     private function _defineConstants(){
       define('EAV_URL', plugin_dir_url(__FILE__));
       define('EAV_PATH', plugin_dir_path(__FILE__));
@@ -49,6 +59,11 @@ if(!class_exists('eav')){
       define('EAV_PREFIX','eav');
     }
 
+    /**
+     * Grabs the files to include, and requires them
+     *
+     * @return void
+     */
     private function _includeFiles(){
       $includes = array(
 
@@ -71,6 +86,7 @@ if(!class_exists('eav')){
   }
 }
 
+//Let's rock 'n roll
 eav::getInstance();
 
 /**
@@ -96,6 +112,12 @@ function admin_init(){
 }
 add_action('customize_register',__NAMESPACE__.'\\admin_init');
 
+
+/**
+ * Upgrades the legacy database to the new database format on plugin activation
+ *
+ * @return void
+ */
 function upgrade_legacy_data(){
   upgrade::legacyDatabase();
 }

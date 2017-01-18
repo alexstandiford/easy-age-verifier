@@ -7,21 +7,29 @@
  */
 
 namespace eav\app;
+
 if(!defined('ABSPATH')) exit;
 
 use eav\config\option;
 
+/**
+ * Class verification
+ * Handles verifications that determine if the verifier will display on this page
+ * @package eav\app
+ */
 class verification{
 
   public $isOfAge = null;
+  public $checks = null;
 
   public function __construct($dob = null){
     $this->minAge = option::get('minimum_age');
-    $this->visitorAge = age::getFromDob($dob);
+    $this->visitorAge = age::get();
   }
 
   /**
-   * Checks if the visitor is of-age. Stores the result into a value, so it doesn't need to be re-ran
+   * Checks if the visitor is of-age.
+   * Stores the result into a value, so it doesn't need to be re-ran.
    * @return bool
    */
   public function isOfAge(){
@@ -48,24 +56,9 @@ class verification{
   }
 
   /**
-   * Allows developers to add custom logic for the modal popup
-   * @return array|mixed
+   * Checks if the WordPress customizer is active
+   * @return bool
    */
-  public function customIsTrue(){
-    $checks = array('result' => true);
-    $checks = apply_filters('eav_custom_modal_logic', $checks);
-    if(is_array($checks)){
-      foreach($checks as $check){
-        if($check == false){
-          $checks['result'] = false;
-          break;
-        }
-      }
-    }
-
-    return $checks;
-  }
-
   public function customizerIsActive(){
     $result = false;
     $active_in_customizer = get_option(EAV_PREFIX."_active_in_customizer");
@@ -75,29 +68,29 @@ class verification{
     if(is_customize_preview() && $active_in_customizer){
       $result = true;
     }
+
     return $result;
   }
 
+  //TODO: Test the customIsTrue filter
   /**
    * Checks if verification has failed or passed
    * @return bool
    */
   public function failed(){
     $checks = array(
-      $this->isOfAge() == false && !is_user_logged_in(),
-      $this->customizerIsActive(),
+      'of_age_and_logged_in' => $this->isOfAge() == false && !is_user_logged_in(),
+      'customizer_is_active' => $this->customizerIsActive(),
     );
-    if(in_array(true,$checks)){
+    $checks = apply_filters('eav_custom_modal_logic', $checks);
+    $this->checks = $checks;
+    if(in_array(true, $checks)){
       $failed = true;
     }
     else{
-      if($this->customIsTrue()['result']){
-        $failed = false;
-      }
-      else{
-        $failed = true;
-      }
+      $failed = false;
     }
+
     return $failed;
   }
 }
