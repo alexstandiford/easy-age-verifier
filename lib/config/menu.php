@@ -8,7 +8,7 @@
 namespace eav\config;
 
 if(!defined('ABSPATH')) exit;
-
+//TODO: add doc blocks to this file
 class menu{
 
   private static $instance;
@@ -36,8 +36,7 @@ class menu{
   }
 
   public function redirectToCustomizer(){
-    wp_redirect(admin_url().'customize.php?autofocus[section]=eav_section');
-    wp_die();
+    echo '<h1>Sorry, an error occured. Try editing your form by going to <a href="http://localhost/16002/wp-admin/customize.php?autofocus[section]=eav_section">appearance>>>customizer</a></h1>';
   }
 
   private function buildSubMenu(){

@@ -1,7 +1,7 @@
 === Easy Age Verifier ===
 Contributors: tstandiford
 Donate link: http://paypal.me/alexstandiford
-Tags: beer, beers, brewery, untappd, age verification, bar, bars, restaurant, brewer, craft beer, craft bar
+Tags: beer, brewery, age verification, bar, restaurant, brewer, craft beer, craft bar, weed, marijuana, cannabis
 Requires at least: 3.0.1
 Tested up to: 4.7.1
 Stable tag: 2.00
