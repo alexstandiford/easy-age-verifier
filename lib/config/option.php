@@ -29,4 +29,16 @@ class option{
     return $option;
   }
 
+  public static function getCheckbox($value){
+    $option = option::get($value);
+    if(!isset($option) || $option == ""){
+      $option = false;
+    }
+    else{
+      $option = true;
+    }
+
+    return $option;
+  }
+
 }
