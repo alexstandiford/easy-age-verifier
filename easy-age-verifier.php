@@ -20,8 +20,6 @@ if(!defined('ABSPATH')) exit;
 
 if(!class_exists('eav')){
 
-//TODO: Improve the doc blocks across the board
-
   class eav{
 
     private static $instance = null;

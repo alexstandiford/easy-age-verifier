@@ -72,25 +72,67 @@ class verification{
     return $result;
   }
 
-  //TODO: Test the customIsTrue filter
   /**
-   * Checks if verification has failed or passed
+   * Determines if the logged-in user should see the verifier
+   * @return bool
+   */
+  public function userChecksPassed(){
+    if(is_user_logged_in() && option::get('show_verifier_to_logged_in_users') && !$this->customizerIsActive()){
+      $passed = true;
+    }
+    else{
+      $passed = false;
+    }
+
+    return $passed;
+  }
+
+  /**
+   * Checks if all custom logic tests passed
+   * @return bool
+   */
+  public function customChecksPassed(){
+    $custom_checks = array();
+    $custom_checks = apply_filters('eav_custom_modal_logic', $custom_checks);
+    if(in_array(false, $custom_checks)){
+      $passed = false;
+    }
+    else{
+      $passed = true;
+    }
+
+    return $passed;
+  }
+
+  /**
+   * Checks if verification has passed. Verifier will not pop up if verification passed
+   * @return bool
+   */
+  public function passed(){
+    $checks = array(
+      'is_of_age'            => $this->isOfAge(),
+      'user_checks_passed'   => $this->userChecksPassed(),
+    );
+    if(in_array(false, $checks)){
+      if($this->customChecksPassed()){
+        $passed = false;
+      }
+      else{
+        $passed = true;
+      }
+    }
+    else{
+      $passed = true;
+    }
+
+    return $passed;
+  }
+
+  /**
+   * The inverse of the passed function. Simply exists for better code read-ability
    * @return bool
    */
   public function failed(){
-    $checks = array(
-      'of_age_and_logged_in' => $this->isOfAge() == false && !is_user_logged_in(),
-      'customizer_is_active' => $this->customizerIsActive(),
-    );
-    $checks = apply_filters('eav_custom_modal_logic', $checks);
-    $this->checks = $checks;
-    if(in_array(true, $checks)){
-      $failed = true;
-    }
-    else{
-      $failed = false;
-    }
-
-    return $failed;
+    return !$this->passed();
   }
 }
