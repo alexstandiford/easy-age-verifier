@@ -52,17 +52,15 @@ class verifier{
     $this->isCustomizer = is_customize_preview();
   }
 
-  //TODO: Test override directory in themes file
   /**
    * Gets the template path from the constructor.
    * Template path can be over-written via the `eav_modal_template_file` filter, or by creating a new file `default.php` inside a new directory `eav` in your theme root
    * @return null|string|bool
    */
   public function templatePath(){
-    $override_directory = get_stylesheet_directory().'/eav/default.php';
     // Support for legacy method of building custom verifier templates
-    if(file_exists($override_directory)){
-      $path = $override_directory;
+    if(file_exists(get_stylesheet_directory().'/eav/default.php')){
+      $path = get_stylesheet_directory_uri().'/eav/default.php';
     }
     elseif($this->hasLegacyOverride()){
       $path = false;
