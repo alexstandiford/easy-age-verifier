@@ -73,6 +73,12 @@ class customizer{
         'description' => __('activates the age verifier in the customizer', EAV_TEXT_DOMAIN),
         'type'        => 'checkbox',
       ),
+      'show_verifier_to_logged_in_users' => array(
+        'default'     => false,
+        'label'       => __('Show Verifier When Logged In', EAV_TEXT_DOMAIN),
+        'description' => __('activates the age verifier even if a user is logged-in', EAV_TEXT_DOMAIN),
+        'type'        => 'checkbox',
+      ),
       'minimum_age'          => array(
         'default'     => 21,
         'label'       => __('Minimum Age', EAV_TEXT_DOMAIN),
