@@ -14,7 +14,7 @@ use eav\config\option;
 
 /**
  * Class verifier
- * Gathers the data needed to pass to the verifier, and runs the script if the validation failed
+ * Gathers the data needed to pass to the verifier, and runs the script if the validation passed
  * @package eav\app
  */
 class verifier{
@@ -31,7 +31,7 @@ class verifier{
     $this->overAge = option::get('over_age_value');
     $this->underAge = option::get('under_age_value');
 
-    $this->templatePath = $this->templatePath($template_path);
+    $this->templatePath = $this->templatePath();
     $this->template = apply_filters('eav_modal_template', '');
 
     $this->formClass = apply_filters('eav_form_class', 'taseav-verify-form');
@@ -87,7 +87,6 @@ class verifier{
     }
   }
 
-  //TODO: Test custom actions when false
   /**
    * Gets the form if the verification failed. Does custom actions when the result is false
    * $return void
@@ -124,7 +123,6 @@ class verifier{
     wp_enqueue_style('verify-age.css', EAV_ASSETS_URL.'/css/verifier.css', array(), '1.30');
   }
 
-  //TODO: Test the pass data filter
   /**
    * Grabs all of the object data to pass into the Javascript
    * @return array All object variables in self, as well as any extra variables passed via `eav_pass_data`
@@ -132,10 +130,10 @@ class verifier{
   public function passData(){
     $result = array();
     foreach($this as $var => $value){
-      $result = array_merge($result, [$var => $value]);
+      $result[$var] = $value;
     }
-    $result = apply_filters('eav_pass_data', $result);
     $result['verificationFailed'] = $this->verification->failed();
+    $result = apply_filters('eav_pass_data', $result);
 
     return $result;
   }
