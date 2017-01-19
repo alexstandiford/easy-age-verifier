@@ -61,10 +61,7 @@ class verification{
    */
   public function customizerIsActive(){
     $result = false;
-    $active_in_customizer = get_option(EAV_PREFIX."_active_in_customizer");
-    if(!isset($active_in_customizer) || $active_in_customizer == ""){
-      $active_in_customizer = false;
-    }
+    $active_in_customizer = option::getCheckbox("active_in_customizer");
     if(is_customize_preview() && $active_in_customizer){
       $result = true;
     }
@@ -77,12 +74,11 @@ class verification{
    * @return bool
    */
   public function userChecksPassed(){
-    if(is_user_logged_in() && option::get('show_verifier_to_logged_in_users') && !$this->customizerIsActive()){
-      $passed = true;
-    }
-    else{
-      $passed = false;
-    }
+    $checks = array(
+      is_user_logged_in(),
+      option::getCheckbox('show_verifier_to_logged_in_users'),
+    );
+    $passed = $this->verifyChecks($checks);
 
     return $passed;
   }
@@ -91,14 +87,36 @@ class verification{
    * Checks if all custom logic tests passed
    * @return bool
    */
-  public function customChecksPassed(){
+  public function verify(){
     $custom_checks = array();
     $custom_checks = apply_filters('eav_custom_modal_logic', $custom_checks);
-    if(in_array(false, $custom_checks)){
-      $passed = false;
+    $passed = $this->verifyChecks($custom_checks);
+    return $passed || $this->isOfAge();
+  }
+
+  /**
+   * Runs an if statement loop on an array of checks
+   * Think of this as an if statement where everything is checked with an OR (||)
+   *
+   * @param array $checks A collection of boolean operations, in the order they need to be checked
+   *
+   * @return bool
+   */
+  public static function verifyChecks($checks){
+    //Guilty until proven innocent
+    $passed = true;
+    if(!empty($checks)){
+      if(is_array($checks)){
+        foreach($checks as $check){
+          if(!$check){
+            $passed = false;
+            break;
+          }
+        }
+      }
     }
     else{
-      $passed = true;
+      $passed = false;
     }
 
     return $passed;
@@ -109,20 +127,31 @@ class verification{
    * @return bool
    */
   public function passed(){
-    $checks = array(
-      'is_of_age'            => $this->isOfAge(),
-      'user_checks_passed'   => $this->userChecksPassed(),
-    );
-    if(in_array(false, $checks)){
-      if($this->customChecksPassed()){
-        $passed = false;
+    // Before we get started - is this the customizer?
+    if(!is_customize_preview()){
+      // Alright, so we're not in the customizer. In that case, are you logged in?
+      if(is_user_logged_in()){
+        // Cool! You're logged in. Is the verifier configured to display to logged in users?
+        if(option::getCheckbox('show_verifier_to_logged_in_users')){
+          //Then in that case, run the custom checks, and make sure you're also of-age
+          $passed = $this->verify();
+        }
+        else{
+          // Oh, well if the verifier shouldn't display to logged in users, then this check passes
+          $passed = true;
+        }
       }
+      // Alright stranger, it seems you're not logged in. Let's run the custom checks, and make sure you're also of-age
       else{
-        $passed = true;
+        $passed = $this->verify();
       }
     }
+    // Oh, this is the customizer? That's a special case. I'm going to need to know a little more before we go on
+    // Tell me, is the customizer active? In other words, are you on the customizer screen right now?
+    // If so, is the verifier configured to display in the customizer?
     else{
-      $passed = true;
+      // If so, the check passes
+      $passed = !$this->customizerIsActive();
     }
 
     return $passed;
