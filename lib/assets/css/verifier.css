@@ -1,20 +1,20 @@
-.taseav-age-verify {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    background: rgba(0,0,0,0.9);
-    top: 0;
-    left: 0;
-    z-index:9999;
+.taseav-age-verify{
+  width:100%;
+  height:100%;
+  position:fixed;
+  background:rgba(0, 0, 0, 0.9);
+  top:0;
+  left:0;
+  z-index:9999;
 }
 
-.taseav-age-verify form {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    max-width:600px;
-    width:90%;
+.taseav-age-verify form{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  max-width:600px;
+  width:90%;
 }
 
 .taseav-age-verify input{
@@ -30,38 +30,38 @@
 }
 
 .taseav-age-verify .taseav-month{
-    width:24%;
+  width:24%;
 }
 
 .taseav-age-verify .taseav-day{
-    width:24%;
+  width:24%;
 }
 
 .taseav-age-verify .taseav-year{
-    width:50%;
+  width:50%;
 }
 
 .taseav-age-verify div:nth-of-type(2){
-    margin-left:1%;
-    margin-right:1%;
+  margin-left:1%;
+  margin-right:1%;
 }
 
 .taseav-age-verify input[type="submit"]{
-    clear:both;
-    width:100%;
+  clear:both;
+  width:100%;
 }
 
 .taseav-age-verify input[name="overAge"],
 .taseav-age-verify input[name="underAge"]{
-    width:45%;
+  width:45%;
 }
 
 .taseav-age-verify input[name="overAge"]{
-    margin-right: 2.5%;
+  margin-right:2.5%;
 }
 
 .taseav-age-verify input[name="underAge"]{
-    margin-left:2.5%;
+  margin-left:2.5%;
 }
 
 .taseav-age-verify{
