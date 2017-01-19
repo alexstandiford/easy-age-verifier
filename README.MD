@@ -90,6 +90,15 @@ Easy Age Verifier has a few filters that allow theme developers to customize def
   * Replaces the default button text
   * Default: Submit
     
+## Custom Verifier Template ##
+
+To override the default verifier template, follow these steps:
+
+1. Locate the default template file located at `{plugin-directory}/assets/templates/default.php`
+1. In your current theme directory, create an `assets` folder, and put a folder called `templates` inside `assets`. You should have an identical folder structure to the plugin.
+1. Copy `default.php` into your newly created `assets` directory
+1. Edit the file as you see fit
+    
 ## Custom Logic Filter ##
 
 The `eav_custom_modal_logic` filter can be used to specify custom conditions that prevents the modal from popping up. The filter also allows you to specify a custom action when that specific conditional returns false.
