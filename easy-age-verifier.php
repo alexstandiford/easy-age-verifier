@@ -129,7 +129,6 @@ add_action('admin_menu', __NAMESPACE__.'\\menu_init');
 function upgrade_legacy_data(){
   upgrade::legacyDatabase();
 }
-
 register_activation_hook(__FILE__, __NAMESPACE__.'\\upgrade_legacy_data');
 
 function eav_admin_styles_init(){
@@ -148,3 +147,17 @@ function eav_admin_styles_init(){
 }
 
 add_action('admin_enqueue_scripts', __NAMESPACE__.'\\eav_admin_styles_init');
+
+/**
+ * Redirects to the customizer page when the eav-options page is opened
+ *
+ * @return void
+ */
+function redirect_to_customizer(){
+  global $_GET;
+  if($_GET['page'] == 'eav-options'){
+    wp_redirect(admin_url().'customize.php?autofocus[section]=eav_section');
+    die;
+  }
+}
+add_action('admin_init',__NAMESPACE__.'\\redirect_to_customizer');

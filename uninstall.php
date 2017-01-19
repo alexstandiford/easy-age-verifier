@@ -7,8 +7,6 @@ if(!defined('WP_UNINSTALL_PLUGIN')){
   die;
 }
 
-//TODO: Test the uninstall script
-
 $options = array(
   'eav_options',
   "minimum_age",
