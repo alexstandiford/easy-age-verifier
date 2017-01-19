@@ -129,7 +129,6 @@ add_action('admin_menu', __NAMESPACE__.'\\menu_init');
 function upgrade_legacy_data(){
   upgrade::legacyDatabase();
 }
-
 register_activation_hook(__FILE__, __NAMESPACE__.'\\upgrade_legacy_data');
 
 function eav_admin_styles_init(){

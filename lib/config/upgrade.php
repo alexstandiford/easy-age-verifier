@@ -73,12 +73,14 @@ class upgrade{
    * @return bool
    */
   public static function legacyDatabase(){
-    $legacy_values_added = self::addLegacyValues();
+    if(isset(self::$legacy_options)){
+      $legacy_values_added = self::addLegacyValues();
 
-    if($legacy_values_added){
-      self::removeLegacyValues();
+      if($legacy_values_added){
+        self::removeLegacyValues();
+      }
+
+      return $legacy_values_added;
     }
-
-    return $legacy_values_added;
   }
 }
