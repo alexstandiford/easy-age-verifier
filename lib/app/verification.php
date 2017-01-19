@@ -61,11 +61,10 @@ class verification{
    */
   public function customizerIsActive(){
     $result = false;
-    $active_in_customizer = option::getCheckbox("active_in_customizer");
+    $active_in_customizer = option::get('active_in_customizer');
     if(is_customize_preview() && $active_in_customizer){
       $result = true;
     }
-
     return $result;
   }
 
