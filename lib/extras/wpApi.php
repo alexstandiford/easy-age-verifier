@@ -16,6 +16,16 @@ class wpApiQuery{
   public $permalink;
   public $excerpt;
 
+  /**
+   * wpApiQuery constructor. This is super simple right now, and I hope to add more arguments to it as I use it.
+   *
+   * @param $query
+   *
+   * Accepted fields (currently)
+   * version: The version of the API you wish to use
+   * posts_per_page: The number of posts you want to display per API call.
+   * domain: The domain name of the WordPress website you wish to connect to
+   */
   public function __construct($query){
     $defaults = array(
       'version'        => 'v2',
@@ -34,6 +44,11 @@ class wpApiQuery{
     return $json;
   }
 
+  /**
+   * Gets the posts from the specified URL
+   *
+   * @return array|mixed|object
+   */
   public function getPosts(){
     if($this->posts){
       return $this->posts;
@@ -44,6 +59,11 @@ class wpApiQuery{
     return $posts;
   }
 
+  /*
+   * Just like WordPress' the_post() function. This grabs the next post's data, and shifts the last post off of the query array
+   *
+   * @return void
+   */
   public function thePost(){
     $current_post = $this->posts[0];
     $this->title = $current_post->title->rendered;
@@ -53,6 +73,11 @@ class wpApiQuery{
     array_shift($this->posts);
   }
 
+  /*
+   * Just like WordPress' have_posts() function. This checks to see if there are any more posts to get.
+   *
+   * @return bool
+   */
   public function havePosts(){
     if($this->posts === null){
       $this->getPosts();
@@ -66,6 +91,13 @@ class wpApiQuery{
     }
   }
 
+  /**
+   * Grabs the featured image of the current post. Can work in the loop, or outside of the loop if you specify a post ID
+   *
+   * @param null $id
+   *
+   * @return array|bool
+   */
   private function getFeaturedImage($id = null){
     $images = array();
     if($id == null){
