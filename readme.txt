@@ -76,5 +76,5 @@ Check out the readme for details on how to add custom conditionals to your verif
 
 == Upgrade Notice ==
 
-= 2.01 =
-* Fixed issues with admin menu interactions, and database upgrade stability. Upgrade immediately.
+= 2.02 =
+* Fixed issue that caused verifier to not display for some users
