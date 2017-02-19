@@ -86,6 +86,24 @@ class verifier{
   }
 
   /**
+   * Determines which template should be passed to the verifier script
+   * @return string
+   */
+  private function getTemplate(){
+    if($this->templatePath()){
+      ob_start();
+      include($this->templatePath());
+      $html = ob_get_clean();
+
+    }
+    else{
+      $html = apply_filters('eav_modal_template', '');
+    }
+
+    return $html;
+  }
+
+  /**
    * Gets the form if the verification failed. Does custom actions when the result is false
    * $return void
    */
