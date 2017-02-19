@@ -24,31 +24,32 @@ class verifier{
     if(!isset($verification)){
       $this->verification = new verification();
     }
+    if($this->verification->failed()){
+      $this->underageMessage = option::get('underage_message');
+      $this->formTitle = option::get('form_title');
+      $this->buttonValue = option::get('button_value');
+      $this->overAge = option::get('over_age_value');
+      $this->underAge = option::get('under_age_value');
 
-    $this->underageMessage = option::get('underage_message');
-    $this->formTitle = option::get('form_title');
-    $this->buttonValue = option::get('button_value');
-    $this->overAge = option::get('over_age_value');
-    $this->underAge = option::get('under_age_value');
+      $this->formClass = apply_filters('eav_form_class', 'taseav-verify-form');
+      $this->wrapperClass = apply_filters('eav_wrapper_class', 'taseav-age-verify');
+      $this->beforeForm = apply_filters('eav_before_form', '');
+      $this->afterForm = apply_filters('eav_after_form', '');
+      $this->monthClass = apply_filters('eav_month_class', 'taseav-month');
+      $this->dayClass = apply_filters('eav_day_class', 'taseav-day');
+      $this->yearClass = apply_filters('eav_year_class', 'taseav-year');
+      $this->minYear = apply_filters('eav_min_year', '1900');
+      $this->beforeYear = apply_filters('eav_before_year', '');
+      $this->beforeDay = apply_filters('eav_before_day', '');
+      $this->beforeMonth = apply_filters('eav_before_month', '');
+      $this->beforeButton = apply_filters('eav_before_button', '');
+      $this->cookieParameters = apply_filters('eav_cookie_parameters', 'path=/');
 
-    $this->formClass = apply_filters('eav_form_class', 'taseav-verify-form');
-    $this->wrapperClass = apply_filters('eav_wrapper_class', 'taseav-age-verify');
-    $this->beforeForm = apply_filters('eav_before_form', '');
-    $this->afterForm = apply_filters('eav_after_form', '');
-    $this->monthClass = apply_filters('eav_month_class', 'taseav-month');
-    $this->dayClass = apply_filters('eav_day_class', 'taseav-day');
-    $this->yearClass = apply_filters('eav_year_class', 'taseav-year');
-    $this->minYear = apply_filters('eav_min_year', '1900');
-    $this->beforeYear = apply_filters('eav_before_year', '');
-    $this->beforeDay = apply_filters('eav_before_day', '');
-    $this->beforeMonth = apply_filters('eav_before_month', '');
-    $this->beforeButton = apply_filters('eav_before_button', '');
-    $this->cookieParameters = apply_filters('eav_cookie_parameters', 'path=/');
+      $this->formType = option::get('form_type');
+      $this->isCustomizer = is_customize_preview();
 
-    $this->formType = option::get('form_type');
-    $this->isCustomizer = is_customize_preview();
-
-    $this->template = $this->getTemplate();
+      $this->template = $this->getTemplate();
+    }
 
   }
 
