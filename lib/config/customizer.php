@@ -71,7 +71,7 @@ function getSimpleFields(){
     'active_in_customizer'             => array(
       'default'     => false,
       'label'       => __('Display the age verifier in the customizer', EAV_TEXT_DOMAIN),
-      'description' => __('activates the age verifier in the customizer', EAV_TEXT_DOMAIN),
+      'description' => __('<strong>NOTE:</strong>You must click "Save & Publish" and refresh the page for this change to take effect', EAV_TEXT_DOMAIN),
       'type'        => 'checkbox',
     ),
     'show_verifier_to_logged_in_users' => array(
