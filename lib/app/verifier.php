@@ -31,9 +31,6 @@ class verifier{
     $this->overAge = option::get('over_age_value');
     $this->underAge = option::get('under_age_value');
 
-    $this->templatePath = $this->templatePath();
-    $this->template = apply_filters('eav_modal_template', '');
-
     $this->formClass = apply_filters('eav_form_class', 'taseav-verify-form');
     $this->wrapperClass = apply_filters('eav_wrapper_class', 'taseav-age-verify');
     $this->beforeForm = apply_filters('eav_before_form', '');
@@ -50,6 +47,9 @@ class verifier{
 
     $this->formType = option::get('form_type');
     $this->isCustomizer = is_customize_preview();
+
+    $this->template = $this->getTemplate();
+
   }
 
   /**
