@@ -60,7 +60,7 @@ class verifier{
   public function templatePath(){
     // Support for legacy method of building custom verifier templates
     if(file_exists(get_stylesheet_directory().'/eav/default.php')){
-      $path = get_stylesheet_directory_uri().'/eav/default.php';
+      $path = get_stylesheet_directory().'/eav/default.php';
     }
     elseif($this->hasLegacyOverride()){
       $path = false;
