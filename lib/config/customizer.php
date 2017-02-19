@@ -27,7 +27,6 @@ class customizer{
    */
   public static function register(){
     self::$instance = new self;
-    update_option(self::prefix('active_in_customizer'), false);
     self::$instance->getSections();
     self::$instance->getSimpleFields();
   }
