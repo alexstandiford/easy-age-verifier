@@ -124,6 +124,29 @@ class verification{
   }
 
   /**
+   * Displays the verification results of both the user checks and the custom checks
+   * @return array
+   */
+  public function getVerifications(){
+    $verifications = array(
+      'verify_check_passed'    => $this->verify(),
+      'is_of_age_check_passed' => $this->isOfAge(),
+      'user_checks'            => array(),
+      'custom_checks'          => array(),
+    );
+    $user_checks = $this->userChecks;
+    $custom_checks = $this->customChecks;
+    foreach($user_checks as $key => $user_check){
+      $verifications['user_checks'][$key] = $user_check;
+    }
+    foreach($custom_checks as $key => $custom_check){
+      $verifications['custom_checks'][$key] = $custom_check;
+    }
+
+    return $verifications;
+  }
+
+  /**
    * Checks if verification has passed. Verifier will not pop up if verification passed
    * @return bool
    */
