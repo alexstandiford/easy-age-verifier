@@ -22,9 +22,10 @@ class verification{
   public $isOfAge = null;
   public $checks = null;
 
-  public function __construct($dob = null){
+  public function __construct($debug = false){
     $this->minAge = option::get('minimum_age');
     $this->visitorAge = age::get();
+    $this->isDebug = $debug;
   }
 
   /**
@@ -151,6 +152,11 @@ class verification{
     else{
       // If so, the check passes
       $passed = !$this->customizerIsActive();
+    }
+
+    //And last but not least, if this is a debug instance, return false anyway.
+    if($this->isDebug){
+      $passed = false;
     }
 
     return $passed;
