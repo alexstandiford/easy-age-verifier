@@ -22,9 +22,15 @@ class verification{
   public $isOfAge = null;
   public $checks = null;
 
-  public function __construct($dob = null){
+  public function __construct($debug = false){
     $this->minAge = option::get('minimum_age');
     $this->visitorAge = age::get();
+    $this->isDebug = $debug;
+    $this->userChecks = array(
+      'is_user_logged_in'                => is_user_logged_in(),
+      'show_verifier_to_logged_in_users' => option::getCheckbox('show_verifier_to_logged_in_users'),
+    );
+    $this->customChecks = apply_filters('eav_custom_modal_logic', array());
   }
 
   /**
@@ -65,6 +71,7 @@ class verification{
     if(is_customize_preview() && $active_in_customizer){
       $result = true;
     }
+
     return $result;
   }
 
@@ -73,11 +80,7 @@ class verification{
    * @return bool
    */
   public function userChecksPassed(){
-    $checks = array(
-      is_user_logged_in(),
-      option::getCheckbox('show_verifier_to_logged_in_users'),
-    );
-    $passed = $this->verifyChecks($checks);
+    $passed = $this->verifyChecks($this->checks);
 
     return $passed;
   }
@@ -87,9 +90,8 @@ class verification{
    * @return bool
    */
   public function verify(){
-    $custom_checks = array();
-    $custom_checks = apply_filters('eav_custom_modal_logic', $custom_checks);
-    $passed = $this->verifyChecks($custom_checks);
+    $passed = $this->verifyChecks($this->customChecks);
+
     return $passed || $this->isOfAge();
   }
 
@@ -106,7 +108,7 @@ class verification{
     $passed = true;
     if(!empty($checks)){
       if(is_array($checks)){
-        foreach($checks as $check){
+        foreach($checks as $key => $check){
           if(!$check){
             $passed = false;
             break;
@@ -119,6 +121,29 @@ class verification{
     }
 
     return $passed;
+  }
+
+  /**
+   * Displays the verification results of both the user checks and the custom checks
+   * @return array
+   */
+  public function getVerifications(){
+    $verifications = array(
+      'verify_check_passed'    => $this->verify(),
+      'is_of_age_check_passed' => $this->isOfAge(),
+      'user_checks'            => array(),
+      'custom_checks'          => array(),
+    );
+    $user_checks = $this->userChecks;
+    $custom_checks = $this->customChecks;
+    foreach($user_checks as $key => $user_check){
+      $verifications['user_checks'][$key] = $user_check;
+    }
+    foreach($custom_checks as $key => $custom_check){
+      $verifications['custom_checks'][$key] = $custom_check;
+    }
+
+    return $verifications;
   }
 
   /**
@@ -151,6 +176,11 @@ class verification{
     else{
       // If so, the check passes
       $passed = !$this->customizerIsActive();
+    }
+
+    //And last but not least, if this is a debug instance, return false anyway.
+    if($this->isDebug){
+      $passed = false;
     }
 
     return $passed;

@@ -20,9 +20,12 @@ use eav\config\option;
 class verifier{
 
 
-  public function __construct($verification = null, $template_path = null){
+  public function __construct($verification = null){
     if(!isset($verification)){
       $this->verification = new verification();
+    }
+    else{
+      $this->verification = $verification;
     }
     if($this->verification->failed()){
       $this->underageMessage = option::get('underage_message');

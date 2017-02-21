@@ -1,0 +1,9 @@
+#js-ticket-info{
+  background:#333;
+  color:white;
+  padding:20px;
+  width:50%;
+  height:400px;
+  overflow:scroll;
+  font-family:monospace;
+}
