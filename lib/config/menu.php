@@ -41,6 +41,11 @@ class menu{
 
   private function buildSubMenu(){
     $menu_items = array(
+      'debug' => array(
+        'menu_title' => 'Debug Verifier',
+        'menu_slug' => 'eav-debugger',
+        'callback' => array(self::$instance, 'getDebugger')
+      ),
       'cta' => array(
         'menu_title' => '<hr>Free Resources: <br>Spend Less Time Updating Your Website',
         'menu_slug'  => 'eav-resource',
@@ -63,6 +68,13 @@ class menu{
 
   public function getSidebar(){
     require_once(EAV_PATH.'lib/assets/templates/admin/sidebar.php');
+  }
+
+  public function getDebugger(){
+    wp_enqueue_style('admin',EAV_ASSETS_URL.'css/admin.css');
+    wp_enqueue_script('admin',EAV_ASSETS_URL.'js/admin.js');
+    require_once(EAV_PATH.'lib/app/debugger.php');
+    require_once(EAV_PATH.'lib/assets/templates/admin/debug.php');
   }
 
 }

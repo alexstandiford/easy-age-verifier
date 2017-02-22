@@ -20,36 +20,40 @@ use eav\config\option;
 class verifier{
 
 
-  public function __construct($verification = null, $template_path = null){
+  public function __construct($verification = null){
     if(!isset($verification)){
       $this->verification = new verification();
     }
+    else{
+      $this->verification = $verification;
+    }
+    if($this->verification->failed()){
+      $this->underageMessage = option::get('underage_message');
+      $this->formTitle = option::get('form_title');
+      $this->buttonValue = option::get('button_value');
+      $this->overAge = option::get('over_age_value');
+      $this->underAge = option::get('under_age_value');
 
-    $this->underageMessage = option::get('underage_message');
-    $this->formTitle = option::get('form_title');
-    $this->buttonValue = option::get('button_value');
-    $this->overAge = option::get('over_age_value');
-    $this->underAge = option::get('under_age_value');
+      $this->formClass = apply_filters('eav_form_class', 'taseav-verify-form');
+      $this->wrapperClass = apply_filters('eav_wrapper_class', 'taseav-age-verify');
+      $this->beforeForm = apply_filters('eav_before_form', '');
+      $this->afterForm = apply_filters('eav_after_form', '');
+      $this->monthClass = apply_filters('eav_month_class', 'taseav-month');
+      $this->dayClass = apply_filters('eav_day_class', 'taseav-day');
+      $this->yearClass = apply_filters('eav_year_class', 'taseav-year');
+      $this->minYear = apply_filters('eav_min_year', '1900');
+      $this->beforeYear = apply_filters('eav_before_year', '');
+      $this->beforeDay = apply_filters('eav_before_day', '');
+      $this->beforeMonth = apply_filters('eav_before_month', '');
+      $this->beforeButton = apply_filters('eav_before_button', '');
+      $this->cookieParameters = apply_filters('eav_cookie_parameters', 'path=/');
 
-    $this->templatePath = $this->templatePath();
-    $this->template = apply_filters('eav_modal_template', '');
+      $this->formType = option::get('form_type');
+      $this->isCustomizer = is_customize_preview();
 
-    $this->formClass = apply_filters('eav_form_class', 'taseav-verify-form');
-    $this->wrapperClass = apply_filters('eav_wrapper_class', 'taseav-age-verify');
-    $this->beforeForm = apply_filters('eav_before_form', '');
-    $this->afterForm = apply_filters('eav_after_form', '');
-    $this->monthClass = apply_filters('eav_month_class', 'taseav-month');
-    $this->dayClass = apply_filters('eav_day_class', 'taseav-day');
-    $this->yearClass = apply_filters('eav_year_class', 'taseav-year');
-    $this->minYear = apply_filters('eav_min_year', '1900');
-    $this->beforeYear = apply_filters('eav_before_year', '');
-    $this->beforeDay = apply_filters('eav_before_day', '');
-    $this->beforeMonth = apply_filters('eav_before_month', '');
-    $this->beforeButton = apply_filters('eav_before_button', '');
-    $this->cookieParameters = apply_filters('eav_cookie_parameters', 'path=/');
+      $this->template = $this->getTemplate();
+    }
 
-    $this->formType = option::get('form_type');
-    $this->isCustomizer = is_customize_preview();
   }
 
   /**
@@ -60,7 +64,7 @@ class verifier{
   public function templatePath(){
     // Support for legacy method of building custom verifier templates
     if(file_exists(get_stylesheet_directory().'/eav/default.php')){
-      $path = get_stylesheet_directory_uri().'/eav/default.php';
+      $path = get_stylesheet_directory().'/eav/default.php';
     }
     elseif($this->hasLegacyOverride()){
       $path = false;
@@ -83,6 +87,24 @@ class verifier{
     else{
       return false;
     }
+  }
+
+  /**
+   * Determines which template should be passed to the verifier script
+   * @return string
+   */
+  private function getTemplate(){
+    if($this->templatePath()){
+      ob_start();
+      include($this->templatePath());
+      $html = ob_get_clean();
+
+    }
+    else{
+      $html = apply_filters('eav_modal_template', '');
+    }
+
+    return $html;
   }
 
   /**

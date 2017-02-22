@@ -2,7 +2,7 @@
 /*
 Plugin Name: Verify Age
 Description: Easy Age Verifier makes it easy for websites to confirm their website visitors are of legal age.
-Version:     2.02
+Version:     2.03
 Author:      Alex Standiford
 Author URI:  http://www.fillyourtaproom.com
 License:     GPL3
@@ -51,7 +51,7 @@ if(!class_exists('eav')){
       define('EAV_PATH', plugin_dir_path(__FILE__));
       define('EAV_ASSETS_URL', EAV_URL.'lib/assets/');
       define('EAV_ASSETS_PATH', EAV_PATH.'lib/assets/');
-      define('EAV_TEMPLATES_PATH', EAV_ASSETS_URL.'templates/');
+      define('EAV_TEMPLATES_PATH', EAV_ASSETS_PATH.'templates/');
       define('EAV_TEXT_DOMAIN', 'easyageverifier');
       define('EAV_PREFIX', 'eav');
     }
