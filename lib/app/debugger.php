@@ -34,7 +34,7 @@ class debugger{
 
   public function generateInfo(){
     ob_start();
-    include(EAV_TEMPLATES_PATH.'admin\debugInfo.php');
+    include(EAV_TEMPLATES_PATH.'admin/debugInfo.php');
     $debug_info = ob_get_clean();
 
     return htmlspecialchars($debug_info);
