@@ -95,9 +95,9 @@ Easy Age Verifier has a few filters that allow theme developers to customize def
 To override the default verifier template, follow these steps:
 
 1. Locate the default template file located at `{plugin-directory}/assets/templates/default.php`
-1. In your current theme directory, create an `assets` folder, and put a folder called `templates` inside `assets`. You should have an identical folder structure to the plugin.
-1. Copy `default.php` into your newly created `assets` directory
-1. Edit the file as you see fit
+1. In the root of your current theme directory, create a folder called `eav`.
+1. Copy `default.php` into your newly created `eav` directory
+1. Edit the file as you see fit.
     
 ## Custom Logic Filter ##
 
