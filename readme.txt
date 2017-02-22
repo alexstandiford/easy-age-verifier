@@ -8,14 +8,19 @@ Stable tag: 2.01
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
+Easy Age Verifier makes it easy for taprooms and bars to confirm their website visitors are of legal age. The plugin was designed to work out of the box, but can be easily customized in the settings page, as well as a series of hooks and filters.
+
 == Description ==
 
+A quick overview:
+https://vimeo.com/202638210
 Easy Age Verifier makes it easy for taprooms and bars to confirm their website visitors are of legal age. The plugin was designed to work out of the box, but can be easily customized in the settings page, as well as a series of hooks and filters.
 
 __Features__
 
 * Ask users to verify their age on page load. If the user is less than the age you specify (default is 21), then they will be removed from the website
 * Easy customization directly in the WordPress Customizer
+* SEO Friendly (Google can still crawl the website, even with the verifier installed)
 * Ask users to verify that they're above age by clicking a button, instead of forcing the user to enter their age.
 * Customize all items on the form, including the question asked, the message stated when they're underage, and the class each form item has.
 * Remembers if a visitor has verified their age in the past, and won't ask again until they close their web browser.
@@ -93,6 +98,11 @@ Check out the readme for details on how to add custom conditionals to your verif
 * Overhauled the plugin from the ground up. The code is much cleaner, and more organized
 * Moved the settings page in its entirety to the WordPress customizer. This makes tweaking the form a lot nicer.
 * Improved overall plugin extend-ability
+
+= 2.03 =
+* Improved the speed and stability of the verifier by reducing server calls (yay!).
+* Improved readme documentation
+* Implemented a debug logger, which generates some debug info to make supporting the plugin easier in the future.
 
 == Upgrade Notice ==
 
