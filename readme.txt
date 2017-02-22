@@ -33,6 +33,26 @@ __Features__
 
 The form will not display if you are logged in, or if you have confirmed your age in the last 24 hours. This option can be configured in the settings, but you can also force the form to display by opening your website in incognito mode (Chrome) or in a new private window (Firefox). That will get around it.
 
+= I'm in incognito mode and my form is still not showing up! =
+
+This generally is caused by one of these things:
+
+1. Your theme's CSS has somehow prevented the verifier from displaying properly.
+2. You're logged in
+3. You verified your age in your current session
+4. Some kind of custom verifier logic is interfering with the verifier
+5. Something prevented the javascript from loading properly
+
+To troubleshoot, follow these steps:
+
+1. Close all incognito windows, and open a new incognito window. This will force any active cookies to clear and might fix the issue right away.
+2. If the page loads, and you still see no verifier, right-click on your webpage and click "inspect". If you see `<div id="taseav-age-verify" class="taseav-age-verify">` just below the `<body>` tag, then the verifier has loaded properly. If you don't see this, then something stopped the verifier from loading.
+3. If you see `<div id="taseav-age-verify" class="taseav-age-verify">`, Take a look at the styles that are applying to the verificaiton form. It's possible something is overriding the CSS in a detrimental way.
+4. If you see `<div id="taseav-age-verify" class="taseav-age-verify">`, Check the javascript console for any errors. It's possible that something went wrong with the script.
+5. If you don't see `<div id="taseav-age-verify" class="taseav-age-verify">`, Make sure you're not logged in, no custom logic is running, and you're running a new session.
+
+If all else fails, you can always submit a support request. I'll help you out.
+
 = I don't want my form to show up on a specific page =
 
 Check out the readme for details on how to add custom conditionals to your verifier. https://github.com/alexstandiford/easy-age-verifier#custom-logic-filter
