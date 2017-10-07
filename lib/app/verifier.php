@@ -114,7 +114,7 @@ class verifier{
   public static function doFormActions(){
     $verifier = new self();
     if($verifier->verification->failed()){
-      do_action('easy_age_verifier_verification_failed', $verifier);
+      do_action('eav_verification_failed', $verifier);
       add_action('wp_enqueue_scripts', array($verifier, 'enqueueVerifierScripts'));
     }
     else{
