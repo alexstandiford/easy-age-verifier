@@ -1,15 +1,3 @@
-body.taseav-verify-failed > *{
-  -webkit-filter:none;
-          filter:none;
-  -webkit-transform:none;
-          transform:none;
-}
-#taseav-age-verify {
-  -webkit-filter:none;
-          filter:none;
-  -webkit-transform:none;
-          transform:none;
-}
 .taseav-age-verify{
   width:100%;
   height:100%;

@@ -22,7 +22,7 @@ class verifier{
 
   public function __construct($verification = null){
 
-    $this->body_class = 'taseav-verify-success';
+    $this->bodyClass = 'taseav-verify-success';
 
     if(!isset($verification)){
       $this->verification = new verification();
@@ -172,7 +172,7 @@ class verifier{
    * @return array $classes
    */
   public static function setBodyClass($classes){
-    $classes[] = $this->bodyClass;
+    $classes[] = apply_filters('eav_body_class',$this->bodyClass);
     return $classes;
   }
 
