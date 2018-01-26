@@ -21,13 +21,18 @@ class verifier{
 
 
   public function __construct($verification = null){
+
+    $this->bodyClass = 'taseav-verify-success';
+
     if(!isset($verification)){
       $this->verification = new verification();
     }
     else{
       $this->verification = $verification;
     }
+
     if($this->verification->failed()){
+
       $this->underageMessage = option::get('underage_message');
       $this->formTitle = option::get('form_title');
       $this->buttonValue = option::get('button_value');
@@ -52,8 +57,11 @@ class verifier{
       $this->isCustomizer = is_customize_preview();
 
       $this->template = $this->getTemplate();
+      $this->bodyClass = 'taseav-verify-failed';
+
     }
 
+    add_filter('body_class',array($this,'setBodyClass'),5,1);
   }
 
   /**
@@ -157,4 +165,15 @@ class verifier{
 
     return $result;
   }
+
+  /**
+   * Sets the body class
+   * @param array $classes
+   * @return array $classes
+   */
+  public static function setBodyClass($classes){
+    $classes[] = apply_filters('eav_body_class',$this->bodyClass);
+    return $classes;
+  }
+
 }
