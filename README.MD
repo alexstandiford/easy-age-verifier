@@ -89,6 +89,11 @@ Easy Age Verifier has a few filters that allow theme developers to customize def
 * **eav_button_value**
   * Replaces the default button text
   * Default: Submit
+
+## Actions ##
+
+* **eav_verification_failed**
+  * An action before the javascript fires allowing redirects or other usages
     
 ## Custom Verifier Template ##
 
