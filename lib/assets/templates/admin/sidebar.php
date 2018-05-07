@@ -21,16 +21,17 @@ $fyt = new wpApiQuery(['domain' => 'fillyourtaproom.com', 'posts_per_page' => 5]
   </div>
   <div class="eav-sidebar">
     <div class="eav-heading">
-      <h2>Easy Age Verifier was proudly made by Alex Standiford</h2>
-      <p>I am here to help breweries manage their online presence faster. I do that by providing breweries with tools,
+      <h2>Easy Age Verifier was proudly made by Fill Your Taproom</h2>
+      <p>We are here to help breweries manage their online presence faster. We do that by providing breweries with tools,
         tips, and tricks that make their lives easier.</p>
       <p>If you ever have <em>any</em> questions about WordPress, or need customizations to your website don't hesitate
         to
-        send me a message. I'll be happy to help you out in any way I can.</p>
+        send us a message. We'll be happy to help you out in any way we can.</p>
       <ul>
-        <li><strong>Email:</strong> <a href="mailto:a@alexstandiford.com">a@alexstandiford.com</a></li>
-        <li><strong>Twitter:</strong> <a href="http://www.twitter.com/fillyourtaproom" target="blank">Follow me on Twitter</a></li>
-        <li><strong>Website:</strong> <a href="http://www.fillyourtaproom.com" target="blank">Visit my website</a></li>
+        <li><strong>Email:</strong> <a href="mailto:hello@fillyourtaproom.com">hello@fillyourtaproom.com</a></li>
+        <li><strong>Twitter:</strong> <a href="http://www.twitter.com/fillyourtaproom" target="blank">Follow us on Twitter</a></li>
+        <li><strong>Website:</strong> <a href="http://www.fillyourtaproom.com" target="blank">Visit our website</a></li>
+        <li><strong>Brewio:</strong> Check out <a href="http://www.brewio.beer">Brewio</a>, our craft-beer website building and hosting solution.</li>
       </ul>
     </div>
     <div id="mc_embed_signup">
