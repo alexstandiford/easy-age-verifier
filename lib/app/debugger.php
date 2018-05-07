@@ -22,7 +22,7 @@ class debugger{
   }
 
   public function getWpInfo(){
-    $info_to_get = array('url', 'version', 'stylesheet_url', 'text_direction');
+    $info_to_get = array('url', 'version', 'stylesheet_url');
     $blog_info = array();
 
     foreach($info_to_get as $info){

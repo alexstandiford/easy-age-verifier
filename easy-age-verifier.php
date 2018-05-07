@@ -156,7 +156,7 @@ add_action('admin_enqueue_scripts', __NAMESPACE__.'\\eav_admin_styles_init');
  */
 function redirect_to_customizer(){
   global $_GET;
-  if($_GET['page'] == 'eav-options'){
+  if(isset($_GET['page']) && $_GET['page'] == 'eav-options'){
     wp_redirect(admin_url().'customize.php?autofocus[section]=eav_section');
     die;
   }
