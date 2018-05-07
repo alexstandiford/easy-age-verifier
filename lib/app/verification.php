@@ -43,11 +43,10 @@ class verification{
       return $this->isOfAge;
     }
 
-    $checks = array(
-      $this->visitorAge >= $this->minAge,
-      $this->visitorAge != false,
+    $checks = apply_filters('eav_is_of_age_checks',array(
+      absint($this->visitorAge) >= $this->minAge,
       $this->visitorAge == 'overAge',
-    );
+    ));
 
     if(in_array(true, $checks)){
       $this->isOfAge = true;

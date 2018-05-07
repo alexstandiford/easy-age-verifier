@@ -8,15 +8,15 @@ if(!defined('WP_UNINSTALL_PLUGIN')){
 }
 
 $options = array(
-  'eav_options',
-  "minimum_age",
-  "form_type",
-  "form_title",
-  "underage_message",
-  "button_value",
-  "over_age_value",
-  "under_age_value",
-  'active_in_customizer',
+  'eav_minimum_age',
+  'eav_form_type',
+  'eav_form_title',
+  'eav_underage_message',
+  'eav_button_value',
+  'eav_over_age_value',
+  'eav_under_age_value',
+  'eav_show_verifier_to_logged_in_users',
+  'eav_active_in_customizer',
 );
 $is_multisite = is_multisite();
 foreach($options as $option){

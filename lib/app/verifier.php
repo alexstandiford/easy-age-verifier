@@ -52,13 +52,31 @@ class verifier{
       $this->isCustomizer = is_customize_preview();
 
       $this->template = $this->getTemplate();
+      $this->bodyClass = 'taseav-verify-failed';
     }
+    else{
+      $this->bodyClass = 'taseav-verify-success';
+    }
+    add_filter('body_class', array($this, 'setBodyClass'));
+  }
 
+  /**
+   * Sets the body class
+   *
+   * @param array $classes
+   *
+   * @return array $classes
+   */
+  public function setBodyClass($classes){
+    $classes[] = apply_filters('eav_body_class', $this->bodyClass);
+
+    return $classes;
   }
 
   /**
    * Gets the template path from the constructor.
-   * Template path can be over-written via the `eav_modal_template_file` filter, or by creating a new file `default.php` inside a new directory `eav` in your theme root
+   * Template path can be over-written via the `eav_modal_template_file` filter, or by creating a new file
+   * `default.php` inside a new directory `eav` in your theme root
    * @return null|string|bool
    */
   public function templatePath(){
@@ -113,10 +131,8 @@ class verifier{
    */
   public static function doFormActions(){
     $verifier = new self();
-    if($verifier->verification->failed()){
-      add_action('wp_enqueue_scripts', array($verifier, 'enqueueVerifierScripts'));
-    }
-    else{
+    add_action('wp_enqueue_scripts', array($verifier, 'enqueueVerifierScripts'));
+    if($verifier->verification->passed()){
       $checks = $verifier->verification->checks;
       if(is_array($checks)){
         foreach($checks as $check_id => $boolean){
@@ -134,11 +150,11 @@ class verifier{
     //Calls jQuery beforehand as verify-age depends on it
     wp_enqueue_script('jquery');
     //Registers the Age Verification Script
-    wp_register_script('verify-age.js', EAV_ASSETS_URL.'js/verifier.js', array(), time());
+    wp_register_script('verify-age.js', EAV_ASSETS_URL.'js/verifier.js', array());
     //Adds PHP Variables to the script as an object
     wp_localize_script('verify-age.js', 'eav', $this->passData());
     //Calls Age Verification Script
-    wp_enqueue_script('verify-age.js', array(), time());
+    wp_enqueue_script('verify-age.js', array());
     //Age Verification Style
     wp_enqueue_style('verify-age.css', EAV_ASSETS_URL.'/css/verifier.css', array(), '1.30');
   }

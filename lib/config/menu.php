@@ -43,11 +43,13 @@ class menu{
     $menu_items = array(
       'debug' => array(
         'menu_title' => 'Debug Verifier',
+        'page_title' => '',
         'menu_slug' => 'eav-debugger',
         'callback' => array(self::$instance, 'getDebugger')
       ),
       'cta' => array(
-        'menu_title' => '<hr>Free Resources: <br>Spend Less Time Updating Your Website',
+        'menu_title' => '<hr>Free Resources for Breweries',
+        'page_title' => '',
         'menu_slug'  => 'eav-resource',
         'callback'   => array(self::$instance, 'getSidebar'),
       ),
