@@ -52,13 +52,31 @@ class verifier{
       $this->isCustomizer = is_customize_preview();
 
       $this->template = $this->getTemplate();
+      $this->bodyClass = 'taseav-verify-failed';
     }
+    else{
+      $this->bodyClass = 'taseav-verify-success';
+    }
+    add_filter('body_class', array($this, 'setBodyClass'));
+  }
 
+  /**
+   * Sets the body class
+   *
+   * @param array $classes
+   *
+   * @return array $classes
+   */
+  public function setBodyClass($classes){
+    $classes[] = apply_filters('eav_body_class', $this->bodyClass);
+
+    return $classes;
   }
 
   /**
    * Gets the template path from the constructor.
-   * Template path can be over-written via the `eav_modal_template_file` filter, or by creating a new file `default.php` inside a new directory `eav` in your theme root
+   * Template path can be over-written via the `eav_modal_template_file` filter, or by creating a new file
+   * `default.php` inside a new directory `eav` in your theme root
    * @return null|string|bool
    */
   public function templatePath(){
