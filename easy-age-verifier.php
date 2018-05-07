@@ -38,6 +38,7 @@ if(!class_exists('eav')){
         self::$instance = new self;
         self::$instance->_defineConstants();
         self::$instance->_includeFiles();
+
       }
 
       return self::$instance;
@@ -198,7 +199,7 @@ function fyt_content_widget_function(){
  * Sets default values when plugin is loaded for the first time
  */
 function set_default_values(){
-  if(get_option('eav_is_activated') !== true){
+  if(get_option('eav_is_activated') != true){
     $options = array(
       'eav_minimum_age'                      => 21,
       'eav_form_type'                        => __('eav_enter_age', EAV_TEXT_DOMAIN),
@@ -212,7 +213,7 @@ function set_default_values(){
       'eav_is_activated'                     => true,
     );
     foreach($options as $option => $value){
-      update_option($option, $value);
+      if(get_option($option) == false) update_option($option, $value);
     }
   }
 }
