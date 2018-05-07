@@ -113,11 +113,8 @@ class verifier{
    */
   public static function doFormActions(){
     $verifier = new self();
-    if($verifier->verification->failed()){
-      do_action('eav_verification_failed', $verifier);
-      add_action('wp_enqueue_scripts', array($verifier, 'enqueueVerifierScripts'));
-    }
-    else{
+    add_action('wp_enqueue_scripts', array($verifier, 'enqueueVerifierScripts'));
+    if($verifier->verification->passed()){
       $checks = $verifier->verification->checks;
       if(is_array($checks)){
         foreach($checks as $check_id => $boolean){
