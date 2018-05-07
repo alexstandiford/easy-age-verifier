@@ -14,6 +14,7 @@ namespace eav;
 
 use eav\app\verifier;
 use eav\config\customizer;
+use eav\config\option;
 use eav\config\upgrade;
 use eav\config\menu;
 
@@ -192,3 +193,28 @@ add_action('wp_dashboard_setup', __NAMESPACE__.'\\fyt_content_widget');
 function fyt_content_widget_function(){
   include_once(EAV_TEMPLATES_PATH.'admin/dashboard-widget.php');
 }
+
+/**
+ * Sets default values when plugin is loaded for the first time
+ */
+function set_default_values(){
+  if(get_option('eav_is_activated') !== true){
+    $options = array(
+      'eav_minimum_age'                      => 21,
+      'eav_form_type'                        => __('eav_enter_age', EAV_TEXT_DOMAIN),
+      'eav_form_title'                       => __('Verify Your Age to Continue.', EAV_TEXT_DOMAIN),
+      'eav_underage_message'                 => __('Sorry! You must be 21 to visit this website.', EAV_TEXT_DOMAIN),
+      'eav_button_value'                     => __('Submit', EAV_TEXT_DOMAIN),
+      'eav_over_age_value'                   => __('I am 21 or older.', EAV_TEXT_DOMAIN),
+      'eav_under_age_value'                  => __('I am under 21', EAV_TEXT_DOMAIN),
+      'eav_show_verifier_to_logged_in_users' => false,
+      'eav_active_in_customizer'             => false,
+      'eav_is_activated'                     => true,
+    );
+    foreach($options as $option => $value){
+      update_option($option, $value);
+    }
+  }
+}
+
+register_activation_hook(__FILE__, __NAMESPACE__.'\\set_default_values');
