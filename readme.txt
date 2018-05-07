@@ -104,7 +104,14 @@ Check out the readme for details on how to add custom conditionals to your verif
 * Improved readme documentation
 * Implemented a debug logger, which generates some debug info to make supporting the plugin easier in the future.
 
+= 2.05 =
+* Added a fix that prevented the Age Verifier form from displaying properly in some caching situations
+* Implemented support for custom form actions on verification failure and success
+* Added a body class based on the verification status. This allows developers to change how the site looks when the verifier is popped up.
+* Fixed a bug that caused the verifier to not work on a fresh install
+* Removed all WP_DEBUG warnings (sorry about that, fellow devs!)
+
 == Upgrade Notice ==
 
-= 2.02 =
+= 2.05 =
 * Fixed issue that caused verifier to not display for some users
