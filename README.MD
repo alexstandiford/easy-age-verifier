@@ -89,12 +89,53 @@ Easy Age Verifier has a few filters that allow theme developers to customize def
 * **eav_button_value**
   * Replaces the default button text
   * Default: Submit
+* **eav_body_class**
+  * Replaces the body class that's loaded in by Easy Age Verifier
+  * Default: `taseav-verify-success` on success, `taseav-verify-failed` on failed
 
 ## Actions ##
 
 * **eav_verification_failed**
   * An action before the javascript fires allowing redirects or other usages
-    
+
+## Form Actions ##
+
+Easy Age Verifier also has built-in support for overriding how the Javascript behaves when the verification passes or fails on-submit. This allows you to override the default behavior when verification fails/passes.
+
+To do this, you need to enqueue the Javascript file that contains the overriding actions. Be sure to set `verify-age.js` as a dependency, as this ensures that your overrides will work as expected.
+
+### Example ###
+
+Enqueue the script with a WordPress action:
+
+```php
+<?php
+
+/**
+ * Enqueues the script that overrides the Javascript behavior of Easy Age Verifier
+ */
+function modify_eav_verifier_failed_action(){
+  $url_to_js_file = get_stylesheet_directory_uri().'/eav-override.js'; //Change this to your own path
+  wp_enqueue_script('verifier-override',$url_to_js_file,['verify-age.js']); //Set verify-age.js as a dependency
+}
+
+add_action('wp_enqueue_scripts','modify_eav_verifier_failed_action');
+?>
+```
+
+In your Javascript file:
+```javascript
+
+verifier.doFailedAction = function(){
+  //Add actions to override what happens when the submitted form fails here
+};
+
+verifier.doPassedAction = function(){
+  //Add actions to override what happens when the submitted form passes here
+};
+
+```
+
 ## Custom Verifier Template ##
 
 To override the default verifier template, follow these steps:
