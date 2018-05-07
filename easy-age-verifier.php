@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: Verify Age
+Plugin Name: Easy Age Verifier
 Description: Easy Age Verifier makes it easy for websites to confirm their website visitors are of legal age.
-Version:     2.04
-Author:      Alex Standiford
+Version:     2.05
+Author:      Alex Standiford (Fill Your Taproom)
 Author URI:  http://www.fillyourtaproom.com
 License:     GPL3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
