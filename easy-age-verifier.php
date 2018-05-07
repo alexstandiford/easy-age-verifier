@@ -165,6 +165,35 @@ function redirect_to_customizer(){
 
 add_action('admin_init', __NAMESPACE__.'\\redirect_to_customizer');
 
+function fyt_content_widget(){
+  // Globalize the metaboxes array, this holds all the widgets for wp-admin
+  global $wp_meta_boxes;
+
+  // Only load this widget once. This prevents EBL and EAV from unintentionally loading the widget twice.
+  if(!isset($wp_meta_boxes['dashboard']['normal']['core']['fyt_content_widget'])){
+    wp_add_dashboard_widget('fyt_content_widget', 'Fill Your Taproom Articles', __NAMESPACE__.'\\fyt_content_widget_function');
+    // Get the regular dashboard widgets array
+    // (which has our new widget already but at the end)
+    $normal_dashboard = $wp_meta_boxes['dashboard']['normal']['core'];
+
+    // Backup and delete our new dashboard widget from the end of the array
+    $fyt_widget_backup = array('fyt_content_widget' => $normal_dashboard['fyt_content_widget']);
+    unset($normal_dashboard['fyt_content_widget']);
+
+    // Merge the two arrays together so our widget is at the beginning
+    $sorted_dashboard = array_merge($fyt_widget_backup, $normal_dashboard);
+
+    // Save the sorted array back into the original metaboxes
+    $wp_meta_boxes['dashboard']['normal']['core'] = $sorted_dashboard;
+  }
+}
+
+add_action('wp_dashboard_setup', __NAMESPACE__.'\\fyt_content_widget');
+
+function fyt_content_widget_function(){
+  include_once(EAV_TEMPLATES_PATH.'admin/dashboard-widget.php');
+}
+
 /**
  * Sets default values when plugin is loaded for the first time
  */
