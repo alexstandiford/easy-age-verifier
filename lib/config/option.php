@@ -48,4 +48,31 @@ class option{
     return $option;
   }
 
+  /**
+   * RESTful API callback to toggle debug mode
+   *
+   * @param \WP_REST_Request $req
+   *
+   * @return bool|\WP_Error
+   */
+  public static function toggleDebugMode(\WP_REST_Request $req){
+    if(check_ajax_referer('wp_rest','nonce',false)){
+      $toggle = self::get('debug_mode_enabled') ? false : true;
+      update_option(EAV_PREFIX.'_debug_mode_enabled', $toggle);
+
+      return self::get('debug_mode_enabled');
+    }
+    else{
+      return new \WP_Error('INVALID_NONCE', 'Invalid nonce. Reload the page and try again.', ['nonce' => $req->get_param('nonce')]);
+    }
+  }
+
+  /**
+   * Checks to see if the debugger is active
+   * @return mixed
+   */
+  public static function debuggerIsActive(){
+    $debug_mode_enabled = option::get('debug_mode_enabled');
+    return $debug_mode_enabled ? true : false;
+  }
 }
