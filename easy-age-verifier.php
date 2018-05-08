@@ -38,7 +38,12 @@ if(!class_exists('eav')){
         self::$instance = new self;
         self::$instance->_defineConstants();
         self::$instance->_includeFiles();
-
+        add_action('rest_api_init', function(){
+          register_rest_route('easy-age-verifier/v1', '/toggle-debug-mode', [
+            'methods'  => 'POST',
+            'callback' => 'eav\\config\\option::toggleDebugMode',
+          ]);
+        });
       }
 
       return self::$instance;
