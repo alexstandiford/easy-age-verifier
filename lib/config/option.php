@@ -29,6 +29,13 @@ class option{
     return $option;
   }
 
+  /**
+   * Gets the value of a checkbox
+   *
+   * @param $value
+   *
+   * @return bool|mixed
+   */
   public static function getCheckbox($value){
     $option = option::get($value);
     if(!isset($option) || $option == ""){
