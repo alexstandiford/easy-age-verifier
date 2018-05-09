@@ -62,7 +62,7 @@ if(!class_exists('eav')){
       define('EAV_TEXT_DOMAIN', 'easyageverifier');
       define('EAV_PREFIX', 'eav');
 
-      $version = get_plugin_data(__FILE__,false,false);
+      $version = \get_file_data(__FILE__,['Version' => 'Version']);
       $version = $version['Version'];
       define('EAV_VERSION', $version);
     }
