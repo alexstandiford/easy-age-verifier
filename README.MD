@@ -206,5 +206,3 @@ Sometimes, the verifier will display incorrectly on your site. To temporarily di
 To turn on Debug mode, visit the WordPress dashboard>>Age Verifier>>Debug Verifier, and click "Enable Debug Mode".
 
 When Debug Mode is activated, the verifier script will not run until you run `verifier.getForm()` command from the console.
-
-Note that the verifier script will run exactly like it would run if debug mode is disabled. In other words, the same rules that determine if the verifier should pop up apply when you enter the function.
