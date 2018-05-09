@@ -152,13 +152,13 @@ class verifier{
     //Calls jQuery beforehand as verify-age depends on it
     wp_enqueue_script('jquery');
     //Registers the Age Verification Script
-    wp_register_script('verify-age.js', EAV_ASSETS_URL.'js/verifier.js', array(), '2.10');
+    wp_register_script('verify-age.js', EAV_ASSETS_URL.'js/verifier.js', array(), EAV_VERSION);
     //Adds PHP Variables to the script as an object
     wp_localize_script('verify-age.js', 'eav', $this->passData());
     //Calls Age Verification Script
     wp_enqueue_script('verify-age.js', array());
     //Age Verification Style
-    wp_enqueue_style('verify-age.css', EAV_ASSETS_URL.'/css/verifier.css', array(), '2.10');
+    wp_enqueue_style('verify-age.css', EAV_ASSETS_URL.'/css/verifier.css', array(), EAV_VERSION);
   }
 
   /**
