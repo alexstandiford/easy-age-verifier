@@ -3,6 +3,7 @@
   <?php foreach($this->wpInfo as $info_type => $info): ?>
     <li><strong><?php echo $info_type; ?>:</strong> <?php echo $info; ?></li>
   <?php endforeach; ?>
+  <li><strong>Browser Info: </strong> <?php echo $this->browserAgent; ?></li>
 </ul>
 
 

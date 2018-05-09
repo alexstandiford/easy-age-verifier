@@ -21,6 +21,7 @@ class debugger{
     $this->plugins = get_plugins();
     $this->scriptIsLoadable = is_readable(EAV_ASSETS_PATH.'js/verifier.js');
     $this->cssIsLoadable = is_readable(EAV_ASSETS_PATH.'css/verifier.css');
+    $this->browserAgent = $_SERVER['HTTP_USER_AGENT'];
   }
 
   public function getWpInfo(){
