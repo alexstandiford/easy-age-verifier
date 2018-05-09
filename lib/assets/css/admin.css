@@ -7,3 +7,7 @@
   overflow:scroll;
   font-family:monospace;
 }
+
+#js-debug-mode-error-message{
+  color:#D54E21;
+}

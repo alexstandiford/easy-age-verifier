@@ -7,6 +7,8 @@
 
 namespace eav\app;
 
+use eav\config\option;
+
 class debugger{
 
   public function __construct(){
@@ -40,4 +42,11 @@ class debugger{
     return htmlspecialchars($debug_info);
   }
 
+  public function toggleButtonText(){
+    return option::debuggerIsActive() ? "Disable" : "Enable";
+  }
+
+  public function debugModeStatus(){
+    return option::debuggerIsActive() ? "Enabled" : "Disabled";
+  }
 }

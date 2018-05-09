@@ -68,7 +68,9 @@ class verifier{
    * @return array $classes
    */
   public function setBodyClass($classes){
-    $classes[] = apply_filters('eav_body_class', $this->bodyClass);
+    if(!option::debuggerIsActive()){
+      $classes[] = apply_filters('eav_body_class', $this->bodyClass);
+    }
 
     return $classes;
   }
@@ -150,7 +152,7 @@ class verifier{
     //Calls jQuery beforehand as verify-age depends on it
     wp_enqueue_script('jquery');
     //Registers the Age Verification Script
-    wp_register_script('verify-age.js', EAV_ASSETS_URL.'js/verifier.js', array(),'1.50');
+    wp_register_script('verify-age.js', EAV_ASSETS_URL.'js/verifier.js', array(), '1.50');
     //Adds PHP Variables to the script as an object
     wp_localize_script('verify-age.js', 'eav', $this->passData());
     //Calls Age Verification Script
@@ -169,6 +171,7 @@ class verifier{
       $result[$var] = $value;
     }
     $result['verificationFailed'] = $this->verification->failed();
+    $result['debugModeEnabled'] = option::debuggerIsActive();
     $result = apply_filters('eav_pass_data', $result);
 
     return $result;
