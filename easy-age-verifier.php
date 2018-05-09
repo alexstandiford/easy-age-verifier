@@ -61,6 +61,10 @@ if(!class_exists('eav')){
       define('EAV_TEMPLATES_PATH', EAV_ASSETS_PATH.'templates/');
       define('EAV_TEXT_DOMAIN', 'easyageverifier');
       define('EAV_PREFIX', 'eav');
+
+      $version = get_plugin_data(__FILE__,false,false);
+      $version = $version['Version'];
+      define('EAV_VERSION', $version);
     }
 
     /**
