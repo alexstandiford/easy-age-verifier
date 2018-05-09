@@ -1,10 +1,10 @@
 === Easy Age Verifier ===
-Contributors: tstandiford
+Contributors: alexstandiford
 Donate link: http://paypal.me/alexstandiford
 Tags: beer, brewery, age verification, bar, restaurant, brewer, craft beer, craft bar, weed, marijuana, cannabis
 Requires at least: 3.0.1
 Tested up to: 4.9.5
-Stable tag: 2.05
+Stable tag: 2.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,14 +47,16 @@ This generally is caused by one of these things:
 3. You verified your age in your current session
 4. Some kind of custom verifier logic is interfering with the verifier
 5. Something prevented the javascript from loading properly
+6. Debug Mode is enabled
 
 To troubleshoot, follow these steps:
 
-1. Close all incognito windows, and open a new incognito window. This will force any active cookies to clear and might fix the issue right away.
-2. If the page loads, and you still see no verifier, right-click on your webpage and click "inspect". If you see `<div id="taseav-age-verify" class="taseav-age-verify">` just below the `<body>` tag, then the verifier has loaded properly. If you don't see this, then something stopped the verifier from loading.
-3. If you see `<div id="taseav-age-verify" class="taseav-age-verify">`, Take a look at the styles that are applying to the verificaiton form. It's possible something is overriding the CSS in a detrimental way.
-4. If you see `<div id="taseav-age-verify" class="taseav-age-verify">`, Check the javascript console for any errors. It's possible that something went wrong with the script.
-5. If you don't see `<div id="taseav-age-verify" class="taseav-age-verify">`, Make sure you're not logged in, no custom logic is running, and you're running a new session.
+1. Open your WordPress dashboard, and click Age Verifier>>Debug Verifier. Confirm debug mode is disabled.
+2. Close all incognito windows, and open a new incognito window. This will force any active cookies to clear and might fix the issue right away.
+3. If the page loads, and you still see no verifier, right-click on your webpage and click "inspect". If you see `<div id="taseav-age-verify" class="taseav-age-verify">` just below the `<body>` tag, then the verifier has loaded properly. If you don't see this, then something stopped the verifier from loading.
+4. If you see `<div id="taseav-age-verify" class="taseav-age-verify">`, Take a look at the styles that are applying to the verificaiton form. It's possible something is overriding the CSS in a detrimental way.
+5. If you see `<div id="taseav-age-verify" class="taseav-age-verify">`, Check the javascript console for any errors. It's possible that something went wrong with the script.
+6. If you don't see `<div id="taseav-age-verify" class="taseav-age-verify">`, Make sure you're not logged in, no custom logic is running, and you're running a new session.
 
 If all else fails, you can always submit a support request. I'll help you out.
 
@@ -110,6 +112,9 @@ Check out the readme for details on how to add custom conditionals to your verif
 * Added a body class based on the verification status. This allows developers to change how the site looks when the verifier is popped up.
 * Fixed a bug that caused the verifier to not work on a fresh install
 * Removed all WP_DEBUG warnings (sorry about that, fellow devs!)
+
+= 2.10 =
+* Added a debug mode, which disables the verification form, but enqueues the script so the verifier can be activated with a console command.
 
 == Upgrade Notice ==
 
