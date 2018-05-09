@@ -4,7 +4,7 @@ Donate link: http://paypal.me/alexstandiford
 Tags: beer, brewery, age verification, bar, restaurant, brewer, craft beer, craft bar, weed, marijuana, cannabis
 Requires at least: 3.0.1
 Tested up to: 4.9.5
-Stable tag: 2.10
+Stable tag: 2.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,7 +116,12 @@ Check out the readme for details on how to add custom conditionals to your verif
 = 2.10 =
 * Added a debug mode, which disables the verification form, but enqueues the script so the verifier can be activated with a console command.
 
+= 2.1.1 =
+* Added better debug information, including current browser
+* Improved the verifier cookie regex to match Moz standards, thus vastly improving cross-browser support
+* Improved script and style version tagging to prevent future caching issues
+
 == Upgrade Notice ==
 
-= 2.05 =
-* Fixed issue that caused verifier to not display for some users
+= 2.1.1 =
+* Fixed issue that caused verifier to not display on some browsers
