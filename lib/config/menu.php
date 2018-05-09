@@ -73,11 +73,11 @@ class menu{
   }
 
   public function getDebugger(){
-    wp_enqueue_style('eav-admin',EAV_ASSETS_URL.'css/admin.css');
+    wp_enqueue_style('eav-admin',EAV_ASSETS_URL.'css/admin.css','2.10');
 
-    wp_register_script('eav-admin',EAV_ASSETS_URL.'js/admin.js',['jquery']);
+    wp_register_script('eav-admin',EAV_ASSETS_URL.'js/admin.js',['jquery'],'2.10');
     wp_localize_script('eav-admin','eavAdmin',['nonce' => wp_create_nonce('wp_rest'),'debugModeUrl' => get_rest_url(null,'/easy-age-verifier/v1/toggle-debug-mode')]);
-    wp_enqueue_script('eav-admin',EAV_ASSETS_URL.'js/admin.js',['jquery']);
+    wp_enqueue_script('eav-admin');
 
     require_once(EAV_PATH.'lib/app/debugger.php');
     require_once(EAV_PATH.'lib/assets/templates/admin/debug.php');
