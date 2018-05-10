@@ -68,6 +68,8 @@ class verifier{
    * @return array $classes
    */
   public function setBodyClass($classes){
+    if(!is_array($classes)) return $classes; //bail early if we don't get an array like we expect
+
     if(!option::debuggerIsActive()){
       $classes[] = apply_filters('eav_body_class', $this->bodyClass);
     }
@@ -113,7 +115,7 @@ class verifier{
    * Determines which template should be passed to the verifier script
    * @return string
    */
-  private function getTemplate(){
+  public function getTemplate(){
     if($this->templatePath()){
       ob_start();
       include($this->templatePath());
@@ -134,14 +136,15 @@ class verifier{
   public static function doFormActions(){
     $verifier = new self();
     add_action('wp_enqueue_scripts', array($verifier, 'enqueueVerifierScripts'));
-    if($verifier->verification->passed()){
-      $checks = $verifier->verification->checks;
-      if(is_array($checks)){
-        foreach($checks as $check_id => $boolean){
-          do_action($check_id.'_custom_is_false');
-        }
+    $checks = $verifier->verification->customChecks;
+    if(is_array($checks)){
+      foreach($checks as $check_id => $boolean){
+        if($boolean === true) do_action($check_id.'_custom_is_true', $verifier);
+        if($boolean === false) do_action($check_id.'_custom_is_false', $verifier);
       }
     }
+
+    return $verifier;
   }
 
   /**
