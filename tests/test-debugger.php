@@ -46,7 +46,7 @@ class DebuggerTest extends WP_UnitTestCase{
   function test_toggle_debug_mode_status_when_value_is_string(){
     update_option('eav_debug_mode_enabled', "this is a string");
     $debugger = new debugger();
-    $this->assertEquals($debugger->debugModeStatus(), "Disabled");
+    $this->assertEquals($debugger->debugModeStatus(), "Enabled");
   }
 
   /**
@@ -55,7 +55,7 @@ class DebuggerTest extends WP_UnitTestCase{
   function test_toggle_debug_mode_status_when_value_is_int(){
     update_option('eav_debug_mode_enabled', 1);
     $debugger = new debugger();
-    $this->assertEquals($debugger->debugModeStatus(), "Disabled");
+    $this->assertEquals($debugger->debugModeStatus(), "Enabled");
   }
 
   /**
@@ -64,7 +64,7 @@ class DebuggerTest extends WP_UnitTestCase{
   function test_toggle_debug_mode_status_when_value_is_negative_int(){
     update_option('eav_debug_mode_enabled', - 1);
     $debugger = new debugger();
-    $this->assertEquals($debugger->debugModeStatus(), "Disabled");
+    $this->assertEquals($debugger->debugModeStatus(), "Enabled");
   }
 
   /**
@@ -100,7 +100,7 @@ class DebuggerTest extends WP_UnitTestCase{
   function test_toggle_button_text_when_value_is_string(){
     update_option('eav_debug_mode_enabled', "this is a string");
     $debugger = new debugger();
-    $this->assertEquals($debugger->toggleButtonText(), "Enable");
+    $this->assertEquals($debugger->toggleButtonText(), "Disable");
   }
 
   /**
@@ -109,7 +109,7 @@ class DebuggerTest extends WP_UnitTestCase{
   function test_toggle_button_text_when_value_is_int(){
     update_option('eav_debug_mode_enabled', 1);
     $debugger = new debugger();
-    $this->assertEquals($debugger->toggleButtonText(), "Enable");
+    $this->assertEquals($debugger->toggleButtonText(), "Disable");
   }
 
   /**
@@ -118,7 +118,7 @@ class DebuggerTest extends WP_UnitTestCase{
   function test_toggle_button_text_when_value_is_negative_int(){
     update_option('eav_debug_mode_enabled', - 1);
     $debugger = new debugger();
-    $this->assertEquals($debugger->toggleButtonText(), "Enable");
+    $this->assertEquals($debugger->toggleButtonText(), "Disable");
   }
 
 }

@@ -149,7 +149,7 @@ class OptionTest extends WP_UnitTestCase{
     update_option('eav_debug_mode_enabled',1);
     $this->assertThat(option::debuggerIsActive(), $this->logicalAnd(
       $this->isType('bool'),
-      $this->equalTo(false)
+      $this->equalTo(true)
     ));
   }
 
@@ -160,7 +160,7 @@ class OptionTest extends WP_UnitTestCase{
     update_option('eav_debug_mode_enabled',-1);
     $this->assertThat(option::debuggerIsActive(), $this->logicalAnd(
       $this->isType('bool'),
-      $this->equalTo(false)
+      $this->equalTo(true)
     ));
   }
 

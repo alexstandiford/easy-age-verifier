@@ -68,10 +68,9 @@ class option{
    */
   public static function toggleDebugMode(\WP_REST_Request $req){
     if(check_ajax_referer('wp_rest', 'nonce', false)){
-      $toggle = self::get('debug_mode_enabled') ? false : true;
-      update_option(EAV_PREFIX.'_debug_mode_enabled', $toggle);
+      update_option(EAV_PREFIX.'_debug_mode_enabled', !self::debuggerIsActive());
 
-      return self::get('debug_mode_enabled');
+      return self::debuggerIsActive();
     }
     else{
       return new \WP_Error('INVALID_NONCE', 'Invalid nonce. Reload the page and try again.', ['nonce' => $req->get_param('nonce')]);
@@ -85,6 +84,6 @@ class option{
   public static function debuggerIsActive(){
     $debug_mode_enabled = option::get('debug_mode_enabled');
 
-    return $debug_mode_enabled === true ? true : false;
+    return $debug_mode_enabled == true ? true : false;
   }
 }
