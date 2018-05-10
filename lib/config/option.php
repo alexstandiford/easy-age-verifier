@@ -30,6 +30,17 @@ class option{
   }
 
   /**
+   * Gets the minimum age
+   *
+   * @return int
+   */
+  public static function getMinimumAge(){
+    $age = option::get('minimum_age');
+
+    return is_int($age) && $age > 0 ? $age : 21;
+  }
+
+  /**
    * Gets the value of a checkbox
    *
    * @param $value
@@ -38,7 +49,7 @@ class option{
    */
   public static function getCheckbox($value){
     $option = option::get($value);
-    if(!isset($option) || $option == ""){
+    if(!isset($option) || $option == "" || $option === false){
       $option = false;
     }
     else{
@@ -56,7 +67,7 @@ class option{
    * @return bool|\WP_Error
    */
   public static function toggleDebugMode(\WP_REST_Request $req){
-    if(check_ajax_referer('wp_rest','nonce',false)){
+    if(check_ajax_referer('wp_rest', 'nonce', false)){
       $toggle = self::get('debug_mode_enabled') ? false : true;
       update_option(EAV_PREFIX.'_debug_mode_enabled', $toggle);
 
@@ -73,6 +84,7 @@ class option{
    */
   public static function debuggerIsActive(){
     $debug_mode_enabled = option::get('debug_mode_enabled');
-    return $debug_mode_enabled ? true : false;
+
+    return $debug_mode_enabled === true ? true : false;
   }
 }
