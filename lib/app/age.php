@@ -19,18 +19,18 @@ class age{
   /**
    * Parses the age from the date of birth
    * @see self::getAgeFrom();
-   * @return bool|false|null|string
+   * @return int
    */
   public static function get(){
 
     //Sets default value when a dob isn't specified
-    if(isset($_COOKIE['eav_age'])){
+    if(isset($_COOKIE['eav_age']) && is_int($_COOKIE['eav_age']) && $_COOKIE['eav_age'] >= 0){
       $age = $_COOKIE['eav_age'];
     }
     else{
-      $age = null;
+      $age = 0;
     }
 
-    return $age;
+    return absint($age);
   }
 }
