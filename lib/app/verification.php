@@ -19,13 +19,13 @@ use eav\config\option;
  */
 class verification{
 
-  public $isOfAge = null;
+  private $isOfAge = null;
   public $checks = null;
 
   public function __construct($debug = false){
-    $this->minAge = option::get('minimum_age');
+    $this->minAge = option::getMinimumAge();
     $this->visitorAge = age::get();
-    $this->isDebug = $debug;
+    $this->isDebug = $debug === true ? true : false;
     $this->userChecks = array(
       'is_user_logged_in'                => is_user_logged_in(),
       'show_verifier_to_logged_in_users' => option::getCheckbox('show_verifier_to_logged_in_users'),
@@ -44,8 +44,8 @@ class verification{
     }
 
     $checks = apply_filters('eav_is_of_age_checks',array(
-      absint($this->visitorAge) >= $this->minAge,
-      $this->visitorAge == 'overAge',
+      is_int($this->minAge) && is_int($this->visitorAge) && $this->visitorAge >= $this->minAge,
+      $this->visitorAge === 'overAge',
     ));
 
     if(in_array(true, $checks)){
@@ -75,16 +75,6 @@ class verification{
   }
 
   /**
-   * Determines if the logged-in user should see the verifier
-   * @return bool
-   */
-  public function userChecksPassed(){
-    $passed = $this->verifyChecks($this->checks);
-
-    return $passed;
-  }
-
-  /**
    * Checks if all custom logic tests passed
    * @return bool
    */
@@ -103,7 +93,7 @@ class verification{
    * @return bool
    */
   public static function verifyChecks($checks){
-    //Guilty until proven innocent
+    //Innocent until proven guilty
     $passed = true;
     if(!empty($checks)){
       if(is_array($checks)){
@@ -120,29 +110,6 @@ class verification{
     }
 
     return $passed;
-  }
-
-  /**
-   * Displays the verification results of both the user checks and the custom checks
-   * @return array
-   */
-  public function getVerifications(){
-    $verifications = array(
-      'verify_check_passed'    => $this->verify(),
-      'is_of_age_check_passed' => $this->isOfAge(),
-      'user_checks'            => array(),
-      'custom_checks'          => array(),
-    );
-    $user_checks = $this->userChecks;
-    $custom_checks = $this->customChecks;
-    foreach($user_checks as $key => $user_check){
-      $verifications['user_checks'][$key] = $user_check;
-    }
-    foreach($custom_checks as $key => $custom_check){
-      $verifications['custom_checks'][$key] = $custom_check;
-    }
-
-    return $verifications;
   }
 
   /**

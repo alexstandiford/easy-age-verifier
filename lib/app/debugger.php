@@ -16,12 +16,12 @@ class debugger{
     $this->verifier = new verifier($this->verification);
     $this->verifier->templatePath = $this->verifier->templatePath();
     $this->verifier->hasLegacyOverride = $this->verifier->hasLegacyOverride();
-    $this->eavVersion = get_plugin_data(EAV_PATH.'easy-age-verifier.php', false)['Version'];
+    $this->eavVersion = EAV_VERSION;
     $this->wpInfo = $this->getWpInfo();
     $this->plugins = get_plugins();
     $this->scriptIsLoadable = is_readable(EAV_ASSETS_PATH.'js/verifier.js');
     $this->cssIsLoadable = is_readable(EAV_ASSETS_PATH.'css/verifier.css');
-    $this->browserAgent = $_SERVER['HTTP_USER_AGENT'];
+    $this->browserAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : "Unknown";
   }
 
   public function getWpInfo(){
