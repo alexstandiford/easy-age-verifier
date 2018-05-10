@@ -181,7 +181,7 @@ function home_page_disable_verifier($checks){
 }
 add_filter('eav_custom_modal_logic','home_page_disable_verifier');
 ```
-### Doing Actions If Those Conditionals Return false ###
+### Doing Actions Based on Those Conditionals ###
 
 When a custom conditional returns `false`, an [action hook](https://developer.wordpress.org/reference/functions/add_action/) tied to that conditional runs. This allows you to do a specified action, based on which conditional returns false.
 
@@ -194,6 +194,22 @@ Let's say you wanted to display a warning instead of the age verifier when the h
 
 function load_home_page_warning(){
 	echo "Warning! Content on this site is not suitable for visitors under the age of 18.";
+}
+//Ties the action to when the home page returns false.
+add_action('is_home_page_custom_is_false','load_home_page_warning');
+```
+
+When a custom conditional returns `true`, an [action hook](https://developer.wordpress.org/reference/functions/add_action/) tied to that conditional runs. This allows you to do a specified action, based on which conditional returns false.
+
+The action to tie your function is equal to whatever your check ID is inside of the array, with `_custom_is_tue` added to the end. In the case of the example above, that action would be `is_home_page_custom_is_true`.
+
+Let's say you wanted to display a warning instead of the age verifier when the home page is loaded. To do this, you would add the filter shown above, and then after that add something like this:
+
+```PHP
+//The function that adds the content if you're on the home page.
+
+function load_home_page_warning(){
+	echo "Welcome. Glad to see you're above the age of 18.";
 }
 //Ties the action to when the home page returns false.
 add_action('is_home_page_custom_is_false','load_home_page_warning');
