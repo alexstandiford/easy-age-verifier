@@ -21,7 +21,16 @@ class menu{
       self::$instance = new self;
       self::$instance->buildMenuPage();
       self::$instance->buildSubMenu();
+      add_action('admin_enqueue_scripts',[self::$instance,'enqueueScripts']);
     }
+  }
+
+  public function enqueueScripts(){
+    wp_enqueue_style('eav-admin',EAV_ASSETS_URL.'css/admin.css',EAV_VERSION);
+
+    wp_register_script('eav-admin',EAV_ASSETS_URL.'js/admin.js',['jquery'],EAV_VERSION);
+    wp_localize_script('eav-admin','eavAdmin',['nonce' => wp_create_nonce('wp_rest'),'debugModeUrl' => get_rest_url(null,'/easy-age-verifier/v1/toggle-debug-mode')]);
+    wp_enqueue_script('eav-admin');
   }
 
   private function buildMenuPage(){
@@ -73,12 +82,6 @@ class menu{
   }
 
   public function getDebugger(){
-    wp_enqueue_style('eav-admin',EAV_ASSETS_URL.'css/admin.css',EAV_VERSION);
-
-    wp_register_script('eav-admin',EAV_ASSETS_URL.'js/admin.js',['jquery'],EAV_VERSION);
-    wp_localize_script('eav-admin','eavAdmin',['nonce' => wp_create_nonce('wp_rest'),'debugModeUrl' => get_rest_url(null,'/easy-age-verifier/v1/toggle-debug-mode')]);
-    wp_enqueue_script('eav-admin');
-
     require_once(EAV_PATH.'lib/app/debugger.php');
     require_once(EAV_PATH.'lib/assets/templates/admin/debug.php');
   }
