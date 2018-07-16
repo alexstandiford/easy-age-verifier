@@ -17,6 +17,7 @@ $options = array(
   'eav_under_age_value',
   'eav_show_verifier_to_logged_in_users',
   'eav_active_in_customizer',
+  'fyt_posts_cache'
 );
 $is_multisite = is_multisite();
 foreach($options as $option){
