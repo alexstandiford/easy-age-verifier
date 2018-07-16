@@ -247,7 +247,7 @@ function fyt_deregister_content_cache_event(){
   wp_clear_scheduled_hook('fyt_enqueue_content_cache_hook');
 }
 
-register_deactivation_hook(__FILE__, 'fyt_deregister_content_cache_event');
+register_deactivation_hook(__FILE__, __NAMESPACE__.'\\fyt_deregister_content_cache_event');
 
 //Cache FYT articles on a cron
 function fyt_cron_cache_articles(){
