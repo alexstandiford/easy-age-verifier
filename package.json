@@ -1,0 +1,38 @@
+{
+  "name": "easy-age-verifier",
+  "version": "1.0.0",
+  "description": "Easy Age Verifier makes it easy for taprooms and bars to confirm their website visitors are of legal age. The plugin was designed to work out of the box, but can be easily customized in the settings page, as well as a series of hooks and filters.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexstandiford/easy-age-verifier.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexstandiford/easy-age-verifier/issues"
+  },
+  "homepage": "https://github.com/alexstandiford/easy-age-verifier#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.1",
+    "gulp-pug": "^4.0.1",
+    "gulp-rename": "^1.3.0",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.0",
+    "pump": "^3.0.0"
+  },
+  "dependencies": {
+    "pug": "^2.0.3"
+  }
+}
