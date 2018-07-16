@@ -15,6 +15,7 @@ class wpApiQuery{
   public $featuredImage;
   public $permalink;
   public $excerpt;
+  public $isCaching;
 
   /**
    * wpApiQuery constructor. This is super simple right now, and I hope to add more arguments to it as I use it.
@@ -37,11 +38,33 @@ class wpApiQuery{
     $this->apiUrl = 'http://www.'.$query['domain'].'/wp-json/wp/'.$query['version'].'/';
   }
 
-  public function get($url){
-    $file = file_get_contents($url);
-    $json = json_decode($file);
+  public function get(){
+    if(!get_option('fyt_posts_cache')) $this->cachePosts();
 
-    return $json;
+    return get_option('fyt_posts_cache');
+  }
+
+  public function cachePosts(){
+    $file = file_get_contents($this->apiUrl.'posts?per_page='.$this->query['posts_per_page']);
+    $this->posts = json_decode($file);
+    $cache = array();
+    $this->isCaching = true;
+    while($this->havePosts()){
+      $this->thePost();
+      $current_post = new \stdClass();
+      $current_post->title = $this->title;
+      $current_post->permalink = $this->permalink;
+      $current_post->excerpt = $this->excerpt;
+      $current_post->featuredImage = $this->featuredImage;
+      $cache[] = $current_post;
+    }
+    $this->isCaching = false;
+    update_option('fyt_posts_cache', $cache);
+  }
+
+  public static function saveToCache($query){
+    $self = new self($query);
+    $self->cachePosts();
   }
 
   /**
@@ -53,7 +76,7 @@ class wpApiQuery{
     if($this->posts){
       return $this->posts;
     }
-    $posts = $this->get($this->apiUrl.'posts?per_page='.$this->query['posts_per_page']);
+    $posts = $this->get();
     $this->posts = $posts;
 
     return $posts;
@@ -65,11 +88,20 @@ class wpApiQuery{
    * @return void
    */
   public function thePost(){
-    $current_post = $this->posts[0];
-    $this->title = $current_post->title->rendered;
-    $this->permalink = $current_post->guid->rendered;
-    $this->excerpt = $current_post->excerpt->rendered;
-    $this->featuredImage = $this->getFeaturedImage($current_post->featured_media);
+    if($this->isCaching){
+      $current_post = $this->posts[0];
+      $this->title = $current_post->title->rendered;
+      $this->permalink = $current_post->guid->rendered;
+      $this->excerpt = $current_post->excerpt->rendered;
+      $this->featuredImage = $this->getFeaturedImage($current_post->featured_media);
+    }
+    else{
+      $current_post = $this->posts[0];
+      $this->title = $current_post->title;
+      $this->permalink = $current_post->permalink;
+      $this->excerpt = $current_post->excerpt;
+      $this->featuredImage = $current_post->featuredImage;
+    }
     array_shift($this->posts);
   }
 
@@ -107,7 +139,8 @@ class wpApiQuery{
       $featured_image_id = $id;
     }
     $image_url = $this->apiUrl.'media/'.$featured_image_id;
-    $image_json = $this->get($image_url);
+    $image_json = file_get_contents($image_url);
+    $image_json = json_decode($image_json);
     $sizes = $image_json->media_details->sizes;
     foreach($sizes as $size => $object){
       $images[$size] = $object->source_url;
@@ -115,5 +148,4 @@ class wpApiQuery{
 
     return $images;
   }
-
 }
