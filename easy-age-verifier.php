@@ -2,7 +2,7 @@
 /*
 Plugin Name: Easy Age Verifier
 Description: Easy Age Verifier makes it easy for websites to confirm their website visitors are of legal age.
-Version:     2.1.2
+Version:     2.1.3
 Author:      Alex Standiford (Fill Your Taproom)
 Author URI:  http://www.fillyourtaproom.com
 License:     GPL3
@@ -12,9 +12,10 @@ Text Domain: easyageverifier
 
 namespace eav;
 
+use eav\extras\wpApiQuery;
+
 use eav\app\verifier;
 use eav\config\customizer;
-use eav\config\option;
 use eav\config\upgrade;
 use eav\config\menu;
 
@@ -62,7 +63,7 @@ if(!class_exists('eav')){
       define('EAV_TEXT_DOMAIN', 'easyageverifier');
       define('EAV_PREFIX', 'eav');
 
-      $version = \get_file_data(__FILE__,['Version' => 'Version']);
+      $version = \get_file_data(__FILE__, ['Version' => 'Version']);
       $version = $version['Version'];
       define('EAV_VERSION', $version);
     }
@@ -175,6 +176,9 @@ function redirect_to_customizer(){
 
 add_action('admin_init', __NAMESPACE__.'\\redirect_to_customizer');
 
+/**
+ * Loads in the content widget
+ */
 function fyt_content_widget(){
   // Globalize the metaboxes array, this holds all the widgets for wp-admin
   global $wp_meta_boxes;
@@ -200,8 +204,11 @@ function fyt_content_widget(){
 
 add_action('wp_dashboard_setup', __NAMESPACE__.'\\fyt_content_widget');
 
+/**
+ * Renders the content widget
+ */
 function fyt_content_widget_function(){
-  include_once(EAV_TEMPLATES_PATH.'admin/dashboard-widget.php');
+  include(EAV_TEMPLATES_PATH.'admin/dashboard-widget.php');
 }
 
 /**
@@ -228,3 +235,23 @@ function set_default_values(){
 }
 
 register_activation_hook(__FILE__, __NAMESPACE__.'\\set_default_values');
+
+//FYT CONTENT CACHE
+
+if(!wp_next_scheduled('fyt_enqueue_content_cache_hook')){
+  wp_schedule_event(time(), 'daily', 'fyt_enqueue_content_cache_hook');
+}
+
+//Kill the content cache registration if someone deactivates the plugin
+function fyt_deregister_content_cache_event(){
+  wp_clear_scheduled_hook('fyt_enqueue_content_cache_hook');
+}
+
+register_deactivation_hook(__FILE__, __NAMESPACE__.'\\fyt_deregister_content_cache_event');
+
+//Cache FYT articles on a cron
+function fyt_cron_cache_articles(){
+  wpApiQuery::saveToCache(['domain' => 'fillyourtaproom.com', 'posts_per_page' => 10]);
+
+}
+add_action('fyt_enqueue_content_cache_hook', __NAMESPACE__.'\\fyt_cron_cache_articles');

@@ -155,7 +155,7 @@ class verifier{
     //Calls jQuery beforehand as verify-age depends on it
     wp_enqueue_script('jquery');
     //Registers the Age Verification Script
-    wp_register_script('verify-age.js', EAV_ASSETS_URL.'js/verifier.js', array(), EAV_VERSION);
+    wp_register_script('verify-age.js', EAV_ASSETS_URL.'js/dist/verifier.js', array(), EAV_VERSION);
     //Adds PHP Variables to the script as an object
     wp_localize_script('verify-age.js', 'eav', $this->passData());
     //Calls Age Verification Script
