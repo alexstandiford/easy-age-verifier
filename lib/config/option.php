@@ -35,7 +35,7 @@ class option{
    * @return int
    */
   public static function getMinimumAge(){
-    $age = option::get('minimum_age');
+    $age = (int) option::get('minimum_age');
 
     return is_int($age) && $age > 0 ? $age : 21;
   }
