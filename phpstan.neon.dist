@@ -1,0 +1,22 @@
+# Packages:  composer require --dev phpstan/phpstan-shim szepeviktor/phpstan-wordpress
+# Start command:  vendor/bin/phpstan analyze
+
+includes:
+    - phar://phpstan.phar/conf/bleedingEdge.neon
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+parameters:
+    level: max
+    inferPrivatePropertyTypeFromConstructor: true
+    paths:
+        - %currentWorkingDirectory%/easy-age-verifier.php
+        - %currentWorkingDirectory%/lib/app/
+        - %currentWorkingDirectory%/lib/config/
+        - %currentWorkingDirectory%/lib/extras/
+    autoload_files:
+        - %currentWorkingDirectory%/easy-age-verifier.php
+    autoload_directories:
+        - %currentWorkingDirectory%/lib/app/
+        - %currentWorkingDirectory%/lib/config/
+        - %currentWorkingDirectory%/lib/extras/
+    ignoreErrors:
+        - '#^Access to an undefined property eav\\\S+::\$\S+\.$#'

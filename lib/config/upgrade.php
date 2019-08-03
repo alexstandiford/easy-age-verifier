@@ -20,11 +20,11 @@ class upgrade{
    * Gets the value of a single legacy option
    * The former version of Easy Age Verifier put all of the options into a single Database entry. This function can extract a single option from that database entry
    *
-   * @param $legacy_key
+   * @param string $legacy_key
    *
    * @return mixed
    */
-  private function getLegacy($legacy_key){
+  private static function getLegacy($legacy_key){
     if(!isset(self::$legacy_options)){
       self::$legacy_options = get_option('eav_options');
     }
@@ -37,7 +37,7 @@ class upgrade{
    * Converts the legacy database values to the modern database values. Returns false if it failed to complete
    * @return bool
    */
-  private function addLegacyValues(){
+  private static function addLegacyValues(){
     $result = true;
     $updated_keys = array(
       "minimum_age",
@@ -63,14 +63,14 @@ class upgrade{
    * Removes the legacy values from the database
    * @return bool
    */
-  private function removeLegacyValues(){
+  private static function removeLegacyValues(){
     return delete_option('eav_options');
   }
 
   /**
    * Upgrades the database
-   * Converts all old database values to the new version, and removes the old database value. Returns `true` when the conversion is successful.
-   * @return bool
+   * Converts all old database values to the new version, and removes the old database value.
+   * @return bool Returns `true` when the conversion is successful.
    */
   public static function legacyDatabase(){
     if(isset(self::$legacy_options)){
@@ -82,5 +82,6 @@ class upgrade{
 
       return $legacy_values_added;
     }
+    return false;
   }
 }

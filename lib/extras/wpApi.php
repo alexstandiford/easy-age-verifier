@@ -20,12 +20,11 @@ class wpApiQuery{
   /**
    * wpApiQuery constructor. This is super simple right now, and I hope to add more arguments to it as I use it.
    *
-   * @param $query
-   *
-   * Accepted fields (currently)
-   * version: The version of the API you wish to use
-   * posts_per_page: The number of posts you want to display per API call.
-   * domain: The domain name of the WordPress website you wish to connect to
+   * @param array $query {
+   *     @type string $version The version of the API you wish to use
+   *     @type int $posts_per_page The number of posts you want to display per API call.
+   *     @type string $domain The domain name of the WordPress website you wish to connect to.
+   * }
    */
   public function __construct($query){
     $defaults = array(
