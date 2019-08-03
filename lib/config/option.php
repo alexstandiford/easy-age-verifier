@@ -19,7 +19,7 @@ class option{
   /**
    * Gets an option value for Easy Age Verifier
    *
-   * @param $value
+   * @param string $value
    *
    * @return mixed
    */
@@ -43,9 +43,9 @@ class option{
   /**
    * Gets the value of a checkbox
    *
-   * @param $value
+   * @param string $value
    *
-   * @return bool|mixed
+   * @return mixed
    */
   public static function getCheckbox($value){
     $option = option::get($value);

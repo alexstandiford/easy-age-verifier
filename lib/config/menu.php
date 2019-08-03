@@ -26,10 +26,10 @@ class menu{
   }
 
   public function enqueueScripts(){
-    wp_enqueue_style('eav-admin',EAV_ASSETS_URL.'css/admin.css',EAV_VERSION);
+    wp_enqueue_style('eav-admin', EAV_ASSETS_URL.'css/admin.css', [], EAV_VERSION);
 
-    wp_register_script('eav-admin',EAV_ASSETS_URL.'js/dist/admin.js',['jquery'],EAV_VERSION);
-    wp_localize_script('eav-admin','eavAdmin',['nonce' => wp_create_nonce('wp_rest'),'debugModeUrl' => get_rest_url(null,'/easy-age-verifier/v1/toggle-debug-mode')]);
+    wp_register_script('eav-admin', EAV_ASSETS_URL.'js/dist/admin.js', ['jquery'], EAV_VERSION);
+    wp_localize_script('eav-admin', 'eavAdmin', ['nonce' => wp_create_nonce('wp_rest'), 'debugModeUrl' => get_rest_url(null, '/easy-age-verifier/v1/toggle-debug-mode')]);
     wp_enqueue_script('eav-admin');
   }
 

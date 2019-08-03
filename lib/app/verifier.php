@@ -159,7 +159,7 @@ class verifier{
     //Adds PHP Variables to the script as an object
     wp_localize_script('verify-age.js', 'eav', $this->passData());
     //Calls Age Verification Script
-    wp_enqueue_script('verify-age.js', array());
+    wp_enqueue_script('verify-age.js');
     //Age Verification Style
     wp_enqueue_style('verify-age.css', EAV_ASSETS_URL.'/css/verifier.css', array(), EAV_VERSION);
   }
@@ -170,8 +170,8 @@ class verifier{
    */
   public function passData(){
     $result = array();
-    foreach($this as $var => $value){
-      $result[$var] = $value;
+    foreach(get_object_vars($this) as $property => $value){
+      $result[$property] = $value;
     }
     $result['verificationFailed'] = $this->verification->failed();
     $result['debugModeEnabled'] = option::debuggerIsActive();
